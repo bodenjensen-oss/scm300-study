@@ -398,6 +398,23 @@ button.d-play:disabled{opacity:.5;cursor:default}
 .pq-revs{display:flex;gap:.5rem;flex-wrap:wrap}
 .pq-btns{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
 .ico{width:18px;height:18px;flex:0 0 auto}
+/* acronyms */
+dl.abbr{margin:0;display:flex;flex-direction:column}
+dl.abbr>div{display:grid;grid-template-columns:minmax(4.5rem,auto) minmax(0,1fr);gap:.25rem 1rem;padding:.55rem 0;border-bottom:var(--row)}
+dl.abbr dt{font-weight:700;color:var(--cue);overflow-wrap:anywhere}
+dl.abbr dd{margin:0;display:flex;flex-direction:column}
+dl.abbr dd span{color:var(--ink-2);font-size:.92em}
+.abbr-box{border:var(--border);padding:.25rem 1.1rem .75rem;margin-bottom:1.5rem}
+.abbr-box summary{cursor:pointer;font-weight:800;min-height:var(--tap);display:flex;align-items:center;gap:.4rem}
+.fcard dl.abbr{font-size:.95rem}
+/* quizzes page */
+.hub-sec{display:flex;flex-direction:column;gap:.75rem;padding:1.5rem 0;border-top:var(--border)}
+.hub-sec p{margin:0}
+.hub-list{list-style:none;margin:0;padding:0}
+.hub-row{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;padding:.8rem 0;border-bottom:var(--row)}
+.hub-row .num{width:2.25rem;font-size:1.3rem;font-weight:700;color:var(--cue)}
+.hub-row .tt{flex:999 1 14rem;min-width:0;display:flex;flex-direction:column}
+.hub-btns{display:flex;flex-wrap:wrap;gap:.4rem}
 /* shared bits */
 .lab{font-size:.9rem;font-weight:800;color:var(--ink-2);margin:0}
 .pq-fb{display:flex;flex-direction:column;gap:1rem}
@@ -455,7 +472,7 @@ button.d-play:disabled{opacity:.5;cursor:default}
     <nav id="tabs" aria-label="Main">
       <button data-t="plan">Plan</button>
       <button data-t="lesson">Lessons</button>
-      <button data-t="final">Final quiz</button>
+      <button data-t="final">Quizzes</button>
       <button data-t="tools">Tools</button>
       <button data-t="game">Port Rush</button>
       <button data-t="drop">Name That Drop</button>
@@ -633,6 +650,7 @@ button.d-play:disabled{opacity:.5;cursor:default}
       <div class="side-box">
         <h2>Built for your brain</h2>
         <ul>
+          <li><b>Quizzes page:</b> every lesson's Math quiz and Concept quiz, your missed + guessed pile, and the final quiz.</li>
           <li><b>5 questions at a time.</b> Pick Math, Concepts or Combo. Every answer explains itself, step by step.</li>
           <li><b>Hint</b> is a nudge. <b>I'm stuck</b> explains the idea in plain English, plus a festival version.</li>
           <li><b>Stuck on a question?</b> Help pops up on its own. <b>2 misses in a row?</b> You get a quick refresher.</li>
@@ -653,6 +671,7 @@ button.d-play:disabled{opacity:.5;cursor:default}
           <button class="lnk" data-tool="t-fin"><span>Finance calculator</span><span aria-hidden="true">→</span></button>
           <button class="lnk" data-tool="t-ops"><span>Shrinkage · reliability · currency</span><span aria-hidden="true">→</span></button>
           <button class="lnk" data-tool="t-form"><span>All formulas</span><span aria-hidden="true">→</span></button>
+          <button class="lnk" data-tool="t-abbr"><span>All acronyms</span><span aria-hidden="true">→</span></button>
         </div>
       </div>
       <div class="dark">
@@ -699,9 +718,8 @@ button.d-play:disabled{opacity:.5;cursor:default}
 <!-- FINAL -->
 <section id="final" class="panel" hidden>
   <div class="main" style="margin:0 auto">
-    <div class="lhead"><div><p class="mute">All 8 lessons · Modules 5–8</p><h1>Final quiz</h1></div><div class="rc" data-rc="1"></div></div>
-    <p class="mute" style="margin:0">Questions from every lesson. Pick a type and a length. Every miss tells you which lesson to redo.</p>
-    <div id="fq-pick" class="pq-head"></div>
+    <div class="lhead"><div><p class="mute">Every lesson · Math, Concepts or Combo</p><h1>Quizzes</h1></div><div class="rc" data-rc="1"></div></div>
+    <div id="qhub"></div>
     <div id="fq-root" class="content"></div>
   </div>
 </section>
@@ -716,6 +734,7 @@ button.d-play:disabled{opacity:.5;cursor:default}
       <button data-tool="t-fin"><span class="t">Finance calculator</span></button>
       <button data-tool="t-ops"><span class="t">Shrinkage · reliability · currency</span></button>
       <button data-tool="t-form"><span class="t">All formulas</span></button>
+      <button data-tool="t-abbr"><span class="t">All acronyms</span></button>
       <p class="note"><b>Exam day:</b> these are for studying. On the exam it's your TI-84 and the formula sheet.</p>
     </nav>
     <div class="main" style="max-width:none;gap:2.5rem">
@@ -800,9 +819,13 @@ button.d-play:disabled{opacity:.5;cursor:default}
         </div>
       </section>
 
-      <section class="tool-sec" id="t-form" style="border-bottom:0">
+      <section class="tool-sec" id="t-form">
         <h2>All formulas</h2>
         <div class="grid2" id="formlist"></div>
+      </section>
+      <section class="tool-sec" id="t-abbr" style="border-bottom:0">
+        <h2>All acronyms + symbols</h2>
+        <div id="abbrlist" class="grid2"></div>
       </section>
     </div>
   </div>
@@ -1111,7 +1134,7 @@ const tsize=()=>{const v=store.get('tsize',null);return v==null?(store.get('big'
 function rcHTML(lesson){const ts=tsize(),tint=store.get('tint','#F6F4EE'),fo=!!store.get('focus',false);
  return `<div class="segc" role="group" aria-label="Text size">${['A','A+','A++'].map((x,i)=>`<button data-size="${i}" aria-pressed="${ts===i}" style="font-size:${[.85,1.05,1.25][i]}rem">${x}</button>`).join('')}</div>
  <div class="tints" role="group" aria-label="Page tint">${TINTS.map(([c,n])=>`<button data-tint="${c}" aria-label="${n}" aria-pressed="${tint===c}" style="background:${c}"></button>`).join('')}</div>
- ${lesson?`<button class="btn-s" id="readstep">${SPK}<span class="lbl">Read aloud</span></button><button class="btn-s" id="focusbtn" aria-pressed="${fo}">${fo?'Show setlist':'Focus'}</button>`:''}`}
+ ${lesson?`<button class="btn-s" id="abbrbtn">Acronyms</button><button class="btn-s" id="readstep">${SPK}<span class="lbl">Read aloud</span></button><button class="btn-s" id="focusbtn" aria-pressed="${fo}">${fo?'Show setlist':'Focus'}</button>`:''}`}
 function applyReading(){const ts=tsize(),tint=store.get('tint','#F6F4EE');
  document.body.classList.toggle('ts1',ts===1);document.body.classList.toggle('ts2',ts===2);document.body.classList.toggle('focus',!!store.get('focus',false));
  document.documentElement.style.setProperty('--paper',tint);
@@ -1162,10 +1185,11 @@ function renderLesson(){
  const l=L[cur.l],s=cur.s,last=cur.l===L.length-1&&s===3;
  renderRail();$('#lview').dataset.step=s;
  let body='';
- if(s===0)body=`<div>${l.learn.map((x,i)=>{const key=KEYPT[l.id]===i,fx=(FXROW[l.id]||[]).includes(i);return `<div class="lrow${key?' key':''}${fx?' fx':''}"><span class="n">${pad2(i+1)}</span><div class="tx">${key?`<span class="lab">${KEYLAB[l.id]||'Key point'}</span>`:''}${x}</div></div>`}).join('')}</div>`;
+ const AB=ABBR[l.id]||[];
+ if(s===0)body=`${AB.length?`<details class="abbr-box" open><summary>Acronyms + symbols in this lesson <span class="m">(${AB.length})</span></summary>${abbrRows(AB)}</details>`:''}<div>${l.learn.map((x,i)=>{const key=KEYPT[l.id]===i,fx=(FXROW[l.id]||[]).includes(i);return `<div class="lrow${key?' key':''}${fx?' fx':''}"><span class="n">${pad2(i+1)}</span><div class="tx">${key?`<span class="lab">${KEYLAB[l.id]||'Key point'}</span>`:''}${x}</div></div>`}).join('')}</div>`;
  if(s===1)body=l.example;
  if(s===2)body=`<div id="lp-head" class="pq-head"></div><div id="lp-root"></div>`;
- if(s===3)body=`<p class="mute">Say the answer out loud first. Then flip the card.</p><div class="recall">${l.cards.map((c,i)=>`<button data-c="${i}" aria-pressed="false"><span class="h">Tap to flip</span><span class="fc">${c[0]}</span></button>`).join('')}</div>`;
+ if(s===3)body=`<p class="mute">Say the answer out loud first. Then flip the card.</p><div class="recall">${l.cards.map((c,i)=>`<button data-c="${i}" aria-pressed="false"><span class="h">Tap to flip</span><span class="fc">${c[0]}</span></button>`).join('')}</div>${AB.length?`<h3 style="margin:2rem 0 .75rem">Acronym cards</h3><p class="mute">Say what it stands for, then flip.</p><div class="recall">${AB.map((c,i)=>`<button data-ab="${i}" aria-pressed="false"><span class="h">Tap to flip</span><span class="fc m">${c[0]}</span></button>`).join('')}</div>`:''}`;
  const prevLab=s>0?SECS[s-1]:cur.l>0?`Lesson ${cur.l}`:'';
  const nextLab=last?'Final quiz':s===3?`Lesson ${cur.l+2}`:SECS[s+1];
  $('#lview').innerHTML=`<div class="lhead"><div><p class="mute">Lesson ${cur.l+1} of ${L.length} · ${l.tag?l.tag:'Module '+l.m} · ${l.mins} min</p><h1>${l.title}</h1></div><div class="rc" role="group" aria-label="Reading controls">${rcHTML(true)}</div></div>
@@ -1174,9 +1198,11 @@ function renderLesson(){
   <div class="pager">${prevLab?`<button class="btn-s" id="prev">← ${prevLab}</button>`:'<span></span>'}<button class="btn-p" id="next">${nextLab} →</button></div>`;
  document.querySelectorAll('#lview .steps button').forEach(b=>b.onclick=()=>{cur.s=+b.dataset.s;renderLesson()});
  $('#readstep').onclick=()=>toggleSpeak($('#readstep'),stepText());
+ $('#abbrbtn').onclick=()=>openAbbr(l.id);
  $('#focusbtn').onclick=()=>{const on=!store.get('focus',false);store.set('focus',on);applyReading();const b=$('#focusbtn');b.setAttribute('aria-pressed',on);b.textContent=on?'Show setlist':'Focus'};
  if(s===2)lessonPractice(l);
- if(s===3)document.querySelectorAll('#sbody .recall button').forEach(b=>b.onclick=()=>{const c=l.cards[+b.dataset.c],on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.innerHTML=`<span class="h">${on?'Answer':'Tap to flip'}</span><span class="fc">${on?c[1]:c[0]}</span>`});
+ if(s===3){document.querySelectorAll('#sbody .recall button[data-c]').forEach(b=>b.onclick=()=>{const c=l.cards[+b.dataset.c],on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.innerHTML=`<span class="h">${on?'Answer':'Tap to flip'}</span><span class="fc">${on?c[1]:c[0]}</span>`});
+  document.querySelectorAll('#sbody .recall button[data-ab]').forEach(b=>b.onclick=()=>{const c=AB[+b.dataset.ab],on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.innerHTML=on?`<span class="h">${c[0]}</span><span class="fc">${c[1]}</span><span class="h">${c[2]}</span>`:`<span class="h">Tap to flip</span><span class="fc m">${c[0]}</span>`})}
  if($('#prev'))$('#prev').onclick=lessonPrev;
  $('#next').onclick=lessonNext;
 }
@@ -1279,7 +1305,7 @@ class Round{
    :`<div class="mbar" style="flex:1 1 8rem;margin:0"><i style="width:${100*this.i/N}%"></i></div>`;
   this.root.innerHTML=`<div class="pq">
    <div class="pq-top">${dots}<span class="pq-count">Question ${this.i+1} of ${N}${this.end?' · <b class="pq-clock">--:--</b> left':''}<button class="btn-s btn-sm" data-act="end">End round</button></span></div>
-   <div class="pq-tags">${this.o.tag?`<span class="chip">Lesson ${q.li+1}</span>`:''}<span class="chip">${q.t==='m'?'Math':'Concept'}</span>${tp?`<span class="chip">${tp.n}</span>`:''}</div>
+   <div class="pq-tags">${this.o.title?`<span class="chip">${this.o.title}</span>`:''}${this.o.tag?`<span class="chip">Lesson ${q.li+1}</span>`:''}<span class="chip">${q.t==='m'?'Math':'Concept'}</span>${tp?`<span class="chip">${tp.n}</span>`:''}</div>
    ${q.tbl&&TABLES[q.tbl]?`<details class="pq-tbl" open><summary>Table (tap to hide)</summary>${TABLES[q.tbl]}</details>`:''}
    <p class="pq-q">${q.q}</p>
    <div class="pq-tools">${readBtn('read','Read aloud')}<button class="btn-s btn-sm" data-act="hint">Hint <span class="m">1/2</span></button><button class="btn-s btn-sm" data-act="stuck">I'm stuck</button></div>
@@ -1324,6 +1350,7 @@ class Round{
   const q=this.q,ok=this.order[k]===q.a,help=this.st.helped;
   this.res[this.i]={q,ok,help};
   const m=MAST[q.id]||{n:0,r:0};m.n++;if(ok&&!help)m.r++;m.last=ok?(help?2:1):0;m.at=Date.now();MAST[q.id]=m;store.set('mast',MAST);
+  if(!ok||help)REV.add(q.id);else REV.delete(q.id);saveRev();
   if(ok&&!help){this.streak++;this.missRow=0}else if(!ok){this.streak=0;this.missRow++}
   // the correct answer is always shown; words, not just color
   this.root.querySelectorAll('.pq-opts .opt').forEach((b,ix)=>{b.disabled=true;const real=this.order[ix],tg=b.querySelector('.tg');
@@ -1377,7 +1404,7 @@ class Round{
    ${skipped?`<p class="mute">${skipped} not answered.</p>`:''}
    ${Object.keys(tps).length?`<p class="lab">Quick refreshers</p><div class="pq-revs">${Object.values(tps).map(q=>`<button class="btn-s btn-sm" data-lid="${q.lid}" data-k="${q.k}">${this.o.tag?`L${q.li+1} · `:''}${topicOf(q).n}</button>`).join('')}</div>`:''}
    ${Object.keys(byL).length?`<p class="lab">Lessons to redo</p><div class="pq-revs">${Object.entries(byL).sort((a,b)=>b[1]-a[1]).map(([li,n])=>`<button class="btn-s btn-sm" data-go="${li}">L${+li+1} · ${L[li].title} (${n} missed)</button>`).join('')}</div>`:''}
-   <div class="pq-btns"><button class="btn-p" data-s="again">Next ${this.o.n===40?'mock exam':this.o.n+' questions'} →</button>${miss.length?`<button class="btn-s" data-s="redo">Redo my misses (${miss.length})</button>`:''}${this.o.final?'<button class="btn-s" data-s="settings">Change type or length</button>':''}</div>
+   <div class="pq-btns"><button class="btn-p" data-s="again">Next ${this.o.n===40?'mock exam':this.o.n+' questions'} →</button>${miss.length?`<button class="btn-s" data-s="redo">Redo my misses (${miss.length})</button>`:''}${this.o.final?'<button class="btn-s" data-s="settings">All quizzes</button>':''}</div>
   </div>`;
   this.root.querySelectorAll('[data-lid]').forEach(b=>b.onclick=()=>openHelp({lid:b.dataset.lid,k:b.dataset.k},null));
   this.root.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{cur={l:+b.dataset.go,s:2};renderLesson();show('lesson')});
@@ -1428,6 +1455,7 @@ function openHelp(ref,r){
   ${t.f?`<div class="help-sec"><p class="lab">Formula</p><p class="help-f">${t.f}</p></div>`:''}
   <div class="help-sec help-ex"><p class="lab">Mini example</p><p>${t.ex}</p></div>`:'<h3 id="help-t">This question</h3>'}
   ${live?`<div class="help-sec"><p class="lab">For this question</p><ol>${li(ref.h)}</ol></div>`:''}
+  ${live&&abbrIn(ref).length?`<div class="help-sec"><p class="lab">Acronyms in this question</p>${abbrRows(abbrIn(ref))}</div>`:''}
   <div class="help-actions"><button class="btn-s" data-h="read">${SPK}<span class="lbl">Read aloud</span></button>${live?'<button class="btn-s" data-h="sol">Show the full solution</button>':''}<button class="btn-p" data-h="back">${live?'Back to the question':'Got it'}</button></div>`;
  $('#help').hidden=false;document.querySelector('.help-card').scrollTop=0;
  const B=a=>document.querySelector(`#help-body [data-h="${a}"]`);
@@ -1484,9 +1512,86 @@ function finalPicker(){
  $('#fq-go').onclick=startFinal;
 }
 function startFinal(){
- const F=store.get('fq',{m:'x',n:10});$('#fq-pick').hidden=true;
- new Round($('#fq-root'),{pool:poolFor(null,F.m),n:F.n,mode:F.m,tag:true,final:true,scroll:true,timer:F.n===40?65*60:0,again:startFinal,
-  settings:()=>{const r=$('#fq-root')._pq;if(r)r.kill();$('#fq-root')._pq=null;$('#fq-root').innerHTML='';$('#fq-pick').hidden=false;finalPicker();window.scrollTo(0,0)}});
+ const F=store.get('fq',{m:'x',n:10});
+ quizRound({pool:poolFor(null,F.m),n:F.n,mode:F.m,tag:true,timer:F.n===40?65*60:0,title:F.n===40?'Mock exam':'Final quiz · '+TYPES[F.m],again:startFinal});
+}
+
+/* ================= ACRONYMS + SYMBOLS (per lesson) ================= */
+// [term, stands for, what it means]
+const ABBR={
+ l1:[['λ','lambda','Arrival rate: how many arrive per hour (or per minute).'],['μ','mu','Service rate: how many one server can help per hour.'],['ρ','rho','Utilization: % of time the server is busy. ρ = λ ÷ μ.'],
+  ['n<sub>s</sub>','number in system','Average people in the system: waiting + being served.'],['n<sub>l</sub>','number in line','Average people waiting in line.'],
+  ['t<sub>s</sub>','time in system','Average time from walking in to leaving.'],['t<sub>l</sub>','time in line','Average time waiting before service starts.'],
+  ['s (small, under a letter)','system','Line + being served. Careful: in Lesson 2, s by itself = number of servers.'],['l (small, under a letter)','line','Waiting only.'],
+  ['hr · min · sec','hour · minute · second','Hours to minutes: × 60. Hours to seconds: × 3,600.']],
+ l2:[['P<sub>n</sub>','probability of n','Chance of exactly n people in the system. One server: (1 − ρ) × ρ<sup>n</sup>.'],['P0','probability of 0','Chance the system is empty. One server: 1 − ρ.'],
+  ['s','servers','How many servers. k in line = k + s in system.'],['k','the number asked about','The k in "more than k" or "exactly k in line".'],
+  ['ρ ÷ s','busy % per server','Multi-server utilization: the 1-server ρ divided by the number of servers.'],
+  ['n(s) · n(l)','number in system · in line','Table rows. Same as n<sub>s</sub> and n<sub>l</sub>.'],['t(s) · t(l)','time in system · in line','Table rows, in minutes. Same as t<sub>s</sub> and t<sub>l</sub>.'],
+  ['X · O','customer · server','The drawing trick: count every X to find which P to use.']],
+ l3:[['SCM','supply chain management','"SCM Co" is the study-guide company that rationed its orders.'],['KDP','Kindle Direct Publishing','Amazon\'s print-on-demand books. Printed only after an order = pull.'],
+  ['AWS','Amazon Web Services','Amazon\'s cloud. Capacity used on demand = pull.'],['PC','personal computer','Custom Dell PCs are built after you order = pull.']],
+ l4:[['r','reliability of one machine','Chance it works, from 0 to 1. 0.86 = works 86% of the time.'],['R','reliability of the whole line','Machines in a row (series): multiply every r.'],
+  ['m','number of copies','Machines doing the same job (backups). Backup stage = 1 − (1 − r)<sup>m</sup>.'],['Mfg','manufacturing','The factory stage in the shrinkage chain.'],
+  ['$ · €','US dollar · euro','"$1.30 per €" = 1 euro costs $1.30. $ to €: divide by the rate.'],['BMW','Bayerische Motoren Werke','The German carmaker (Bavarian Motor Works) in the in-class currency problem.']],
+ l5:[['FTZ','Free Trade Zone (US name: Foreign-Trade Zone)','Goods enter duty free for storage or assembly, and are usually re-exported.'],['VMI','Vendor Managed Inventory','The supplier runs your inventory (Walmart, Amazon). Downside: loss of control.'],
+  ['ILWU','International Longshore and Warehouse Union','The dockworkers\' union. Class A members averaged about $146,500 in 2014.'],['TEU','twenty-foot equivalent unit','One 20-foot shipping container. Shanghai moves 44M TEU.'],
+  ['3PL','third-party logistics','An outside company that handles your shipping and warehousing.'],['LA / Long Beach','Los Angeles / Long Beach','The big US West Coast ports. Ran at ~130% in booms.'],['M','million','44M TEU = 44 million containers.']],
+ l6:[['5 Rs','Reduce · Reuse · Repair/Refurbish · Resell · Recycle','The prof\'s reverse-logistics framework. Goal: Net Zero.'],['5x5 Formula','the prof\'s framework','His name for the reverse-logistics framework behind his 5 Rs definitions.'],
+  ['EU','European Union','The EU right-to-repair law = a Repair example.'],['e-waste','electronic waste','Taking old electronics apart for materials = Recycle.'],
+  ['$1T','$1 trillion','US returns per year.'],['$65B','$65 billion','Outlet stores, a big Resell channel.']],
+ l7:[['NWC','Net Working Capital','Current assets − current liabilities. Ignore non-current lines.'],['WC','working capital','Days of WC = (NWC ÷ Revenue) × 365.'],
+  ['CA · CL','current assets · current liabilities','The only two balance-sheet rows NWC uses.'],['COGS','Cost of Goods Sold','What the products cost. Used in DIO, DPO and inventory turn.'],
+  ['DIO','Days Inventory Outstanding','Days inventory sits before it sells. (Inventory ÷ COGS) × 365.'],['DSO','Days Sales Outstanding','Days to get paid by customers. (AR ÷ Revenue) × 365.'],
+  ['DPO','Days Payable Outstanding','Days you take to pay suppliers. (AP ÷ COGS) × 365.'],['CCC','Cash-to-Cash Cycle (also: cash conversion cycle)','DSO + DIO − DPO. Negative = paid before you pay suppliers. Good.'],
+  ['AR','Accounts Receivable','Money customers owe you.'],['AP','Accounts Payable','Money you owe suppliers.'],
+  ['SCF','Supply Chain Financing','Reverse factoring. Set up by the buyer. Losers: suppliers who can\'t beat the interest or aren\'t eligible.'],
+  ['GP','Gross Profit','Revenue − COGS.'],['OpEx','Operating Expenses','Running costs. Operating income = GP − OpEx.'],
+  ['EBITDA','Earnings Before Interest, Taxes, Depreciation & Amortization','Profit before those four items.'],['PBT','Profit Before Tax','Profit before income tax.'],['PAT','Profit After Tax','The same as net income.'],
+  ['B · M','billion · million','$147.96B = $147.96 billion. $66,608M = $66,608 million.'],['£','British pound','Gymshark grew from £9M to £176M in revenue (2015–2019).']],
+ l8:[['USD · $','US dollar','"1 USD = 122 yen" = one dollar buys 122 yen.'],['€','euro','"1 € = $1.40": € to $ is × 1.40. "1.15 € = $1": € to $ is ÷ 1.15.'],
+  ['¥','Japanese yen','Toyota problem: $ to ¥ is × 122.'],['DC','distribution center','The warehouse stage in a shrinkage chain.'],
+  ['P0 … P5','probability of 0 … 5 in the system','Rows of the Spring ρ = 0.60 table.'],['t(s) · n(s)','time in system · number in system','Table rows. t(s) is in minutes.']],
+ gen:[['SCM','Supply Chain Management','SCM 300 = this course.'],['SC','supply chain','"Sustainable SC" = sustainable supply chain.'],['M5–M8','Modules 5–8','Exam 2 covers only these.'],
+  ['ASU','Arizona State University',''],['TI-84','Texas Instruments TI-84','The standard calculator allowed on the exam.'],['XE','ASU\'s academic-dishonesty grade','A failing grade. Unauthorized notes or devices = XE.']]
+};
+const abbrPlain=t=>String(t).replace(/<[^>]+>/g,'');
+function abbrRows(list){return `<dl class="abbr">${list.map(([t,s,d])=>`<div><dt class="m">${t}</dt><dd><b>${s}</b>${d?`<span>${d}</span>`:''}</dd></div>`).join('')}</dl>`}
+// acronyms that show up in a question (for the "I'm stuck" sheet)
+function abbrIn(q){const txt=abbrPlain([q.q,...q.o].join(' '));return (ABBR[q.lid]||[]).filter(([t])=>{const k=abbrPlain(t).split(/\s*[·/(]\s*/)[0].trim();return k.length>1&&new RegExp('(^|[^A-Za-z])'+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'([^A-Za-z]|$)').test(txt)})}
+function openAbbr(lid){
+ const li=L.findIndex(l=>l.id===lid),list=lid==='all'?null:ABBR[lid]||[];
+ hideNudge();stopSpeak();helpBack=document.activeElement;
+ $('#help-body').innerHTML=lid==='all'
+  ?`<h3 id="help-t">All acronyms</h3>${L.map((l,i)=>`<div class="help-sec"><p class="lab">Lesson ${i+1} · ${l.title}</p>${abbrRows(ABBR[l.id]||[])}</div>`).join('')}<div class="help-sec"><p class="lab">Course + exam</p>${abbrRows(ABBR.gen)}</div><div class="help-actions"><button class="btn-p" data-h="back">Got it</button></div>`
+  :`<h3 id="help-t">Acronyms · Lesson ${li+1}</h3><p class="mute" style="margin:.4rem 0 0">${L[li].title}</p><div class="help-sec">${abbrRows(list)}</div><div class="help-actions"><button class="btn-s" data-h="read">${SPK}<span class="lbl">Read aloud</span></button><button class="btn-s" data-h="all">All lessons</button><button class="btn-p" data-h="back">Got it</button></div>`;
+ $('#help').hidden=false;document.querySelector('.help-card').scrollTop=0;
+ const B=a=>document.querySelector(`#help-body [data-h="${a}"]`);
+ if(B('read'))B('read').onclick=()=>toggleSpeak(B('read'),list.map(([t,s,d])=>`${sayable(t)}. ${sayable(s)}. ${sayable(d)}`).join(' '));
+ if(B('all'))B('all').onclick=()=>openAbbr('all');
+ B('back').onclick=closeHelp;B('back').focus({preventScroll:true});
+}
+
+/* ================= QUIZZES PAGE: every lesson's Math / Concepts / Combo quiz, missed + guessed, final quiz ================= */
+const REV=new Set(store.get('review',[]));   // questions you missed or needed help on (and later: guessed)
+const saveRev=()=>store.set('review',[...REV]);
+const reviewPool=()=>ALLQ.filter(q=>REV.has(q.id));
+function hubBack(){const root=$('#fq-root'),r=root._pq;if(r)r.kill();root._pq=null;root.innerHTML='';$('#qhub').hidden=false;renderHub();window.scrollTo(0,0)}
+function quizRound(o){$('#qhub').hidden=true;new Round($('#fq-root'),Object.assign({final:true,scroll:true,settings:hubBack},o))}
+function startLessonQuiz(lid,mode){const li=L.findIndex(l=>l.id===lid);
+ quizRound({pool:poolFor([lid],mode),n:5,mode,tag:false,title:`Lesson ${li+1} · ${TYPES[mode]}`,again:()=>startLessonQuiz(lid,mode),learn:()=>{cur={l:li,s:0};renderLesson();show('lesson')}})}
+function startReview(){const p=reviewPool();quizRound({pool:p,n:Math.min(10,p.length),mode:'x',tag:true,title:'Missed + guessed',again:()=>{const q=reviewPool();if(q.length)startReview();else hubBack()}})}
+function renderHub(){
+ const rev=reviewPool();
+ $('#qhub').innerHTML=`
+  <section class="hub-sec"><h2>Lesson quizzes</h2><p class="mute">5 questions from one lesson. Pick Math, Concepts or Combo. The number is how many questions it has.</p>
+   <ol class="hub-list">${L.map((l,i)=>{const st={m:stats(poolFor([l.id],'m')),c:stats(poolFor([l.id],'c')),x:stats(poolFor([l.id],'x'))};
+    return `<li class="hub-row"><span class="m num">${pad2(i+1)}</span><span class="tt"><b>${l.title}</b><span class="mute small">${l.tag?'Bonus':'Module '+l.m} · ${st.x.ok} of ${st.x.n} mastered</span></span><span class="hub-btns">${['m','c','x'].map(m=>`<button class="btn-s btn-sm" data-ql="${l.id}" data-qm="${m}" ${st[m].n?'':'disabled'}>${TYPES[m]} <span class="m">${st[m].n}</span></button>`).join('')}</span></li>`}).join('')}</ol></section>
+  <section class="hub-sec"><h2>Missed + guessed</h2><p class="mute">${rev.length?`${rev.length} question${rev.length>1?'s':''} you missed or needed help on. Clear them before the exam.`:'Nothing here yet. Questions you miss or need help on land here.'}</p>${rev.length?`<button class="btn-s" id="hub-rev" style="align-self:flex-start">Review ${Math.min(10,rev.length)} of them →</button>`:''}</section>
+  <section class="hub-sec"><h2>Final quiz · all lessons</h2><div id="fq-pick" class="pq-head"></div></section>`;
+ $('#qhub').querySelectorAll('[data-ql]').forEach(b=>b.onclick=()=>startLessonQuiz(b.dataset.ql,b.dataset.qm));
+ if($('#hub-rev'))$('#hub-rev').onclick=startReview;
+ finalPicker();
 }
 
 /* ================= CLOCK / SPRINT ================= */
@@ -1973,7 +2078,8 @@ window.addEventListener('keydown',e=>{
 $('#set-nudge').value=String(store.get('nudge',60));$('#set-nudge').onchange=e=>store.set('nudge',+e.target.value);
 $('#set-rate').value=String(store.get('ttsRate',0.95));$('#set-rate').onchange=e=>store.set('ttsRate',+e.target.value);
 applyReading();document.querySelector('#final .rc').innerHTML=rcHTML(false);
-updProg();renderLesson();finalPicker();show(store.get('tab','plan'));
+$('#abbrlist').innerHTML=L.map((l,i)=>`<div class="fcard"><span class="modtag">L${i+1}</span><h3 style="margin-top:.5rem">${l.title}</h3>${abbrRows(ABBR[l.id]||[])}</div>`).join('')+`<div class="fcard"><span class="modtag">Course</span><h3 style="margin-top:.5rem">Course + exam</h3>${abbrRows(ABBR.gen)}</div>`;
+updProg();renderLesson();renderHub();show(store.get('tab','plan'));
 </script>
 
 </body>
