@@ -1726,7 +1726,7 @@ function fin(){const g=i=>+$('#'+i).value;const ca=g('ca'),cl=g('cl'),rev=g('rev
 ['ca','cl','rev','cogs','inv','ar','ap'].forEach(i=>$('#'+i).addEventListener('input',fin));fin();
 function ops(){
  let d=+$('#dem').value;const Ls=$('#losses').value.split(/[,\s]+/).filter(Boolean).map(Number);const names=['Retail','Distribution','Manufacturing','Suppliers','Stage 5','Stage 6'];
- let h=`<div><span>Start (retail need)</span><span>${fx(d,0)}</span></div>`;Ls.forEach((x,i)=>{const p=x>1?x/100:x;d=d/(1-p);h+=`<div><span>${names[i]||'Stage'} ÷ (1 − ${fx(p,4)})</span><span>${fx(d,1)}</span></div>`});
+ let h=`<div><span>Start (retail need)</span><span>${fx(d,0)}</span></div>`;Ls.forEach((x,i)=>{const p=x/100;d=d/(1-p);h+=`<div><span>${names[i]||'Stage'} ÷ (1 − ${fx(p,4)})</span><span>${fx(d,1)}</span></div>`});
  h+=`<div><span>Extra units</span><span>${fx(d-+$('#dem').value,1)}</span></div>`;$('#sout').innerHTML=h;
  const R=$('#rels').value.split(/[,\s]+/).filter(Boolean).map(Number),m=Math.max(1,+$('#bk').value||1),u=+$('#units').value;
  const base=R.reduce((a,b)=>a*b,1),last=R[R.length-1],nb=1-(1-last)**m,wb=base/last*nb;
