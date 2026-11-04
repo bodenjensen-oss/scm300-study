@@ -1,0 +1,1300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>SCM 300 Exam 2 Prep</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: Plan → Lesson → Section. One section on screen at a time, big Next button, sticky header with exam clock + progress */
+:root{
+  --bg:#f3f6f9; --card:#ffffff; --ink:#14212e; --mute:#566573; --line:#d6dee6;
+  --accent:#e0761a; --accent-ink:#ffffff; --soft:#fdf0e3;
+  --m5:#0f8b8d; --m6:#7048b8; --m7:#2f6fd0; --m8:#2c8a4b;
+  --good:#1f8a4c; --bad:#c23b3b; --goodbg:#e4f5ea; --badbg:#fbe7e7;
+  --f-display:"Lexend",system-ui,sans-serif; --f-body:"Atkinson Hyperlegible",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+  --fs:17px; --lh:1.65;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1720; --card:#17222e; --ink:#e8eef4; --mute:#9fb0c0; --line:#2a3a4a;
+  --accent:#f0913d; --accent-ink:#1a1006; --soft:#2c2116;
+  --m5:#3cc3c5; --m6:#a98cf0; --m7:#6ea3f5; --m8:#5cc483;
+  --good:#5cc483; --bad:#f07a7a; --goodbg:#163222; --badbg:#3a1b1b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1720; --card:#17222e; --ink:#e8eef4; --mute:#9fb0c0; --line:#2a3a4a;
+  --accent:#f0913d; --accent-ink:#1a1006; --soft:#2c2116;
+  --m5:#3cc3c5; --m6:#a98cf0; --m7:#6ea3f5; --m8:#5cc483;
+  --good:#5cc483; --bad:#f07a7a; --goodbg:#163222; --badbg:#3a1b1b; color-scheme:dark}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--f-body);font-size:var(--fs);line-height:var(--lh);letter-spacing:.01em;word-spacing:.06em}
+body.big{--fs:20px;--lh:1.8}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--card)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+header .wrap{padding-block:0}
+.hrow{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding-block:10px}
+h1{font-family:var(--f-display);font-size:1.25rem;margin:0}
+.meta{color:var(--mute);font-size:.85rem}
+.clock{font-family:var(--f-mono);font-size:.9rem;background:var(--soft);padding:4px 10px;border-radius:6px}
+.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:.92rem;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
+nav button{white-space:nowrap;border-radius:999px}
+nav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.prog{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.prog i{display:block;height:100%;background:var(--good);width:0;transition:width .3s}
+h2{font-family:var(--f-display);font-size:1.35rem;margin:26px 0 8px;text-wrap:balance}
+h3{font-family:var(--f-display);font-size:1.05rem;margin:0 0 6px;text-wrap:balance}
+p{margin:6px 0;max-width:65ch}
+ul.chunks{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ul.chunks li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+ul.chunks li b{background:var(--soft);padding:0 3px;border-radius:3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.stack{display:grid;gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid2>*{min-width:0}
+.tag{display:inline-block;font-family:var(--f-display);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px;color:var(--card)}
+.m5{background:var(--m5)}.m6{background:var(--m6)}.m7{background:var(--m7)}.m8{background:var(--m8)}
+.bl5{border-left:6px solid var(--m5)}.bl6{border-left:6px solid var(--m6)}.bl7{border-left:6px solid var(--m7)}.bl8{border-left:6px solid var(--m8)}
+.trig{color:var(--mute);font-size:.88rem}
+.f{font-family:var(--f-mono);font-size:.95rem;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 10px;display:block;margin:6px 0;overflow-x:auto;white-space:nowrap}
+label{display:block;font-size:.85rem;color:var(--mute);margin-bottom:2px}
+input[type=number],input[type=text],select{font:inherit;font-family:var(--f-mono);width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>div{flex:1 1 140px;min-width:0}
+.out{margin-top:10px;display:grid;gap:4px}
+.out div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding:3px 0}
+.out span:last-child{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.steps{font-size:.9rem;color:var(--mute);margin-top:8px}
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.9rem}
+td,th{border:1px solid var(--line);padding:4px 8px;text-align:right}
+th{background:var(--bg);font-family:var(--f-display);font-weight:500}
+td.hl{background:var(--soft);font-weight:700}
+.fb{margin-top:8px;padding:10px 12px;border-radius:8px}
+.fb.ok{background:var(--goodbg);border-left:5px solid var(--good)}
+.fb.no{background:var(--badbg);border-left:5px solid var(--bad)}
+.opts{display:grid;gap:6px;margin-top:8px}
+.opts button{text-align:left;padding:10px 12px}
+.opts button.right{border-color:var(--good);background:var(--goodbg)}
+.opts button.wrong{border-color:var(--bad);background:var(--badbg)}
+.qtext{font-weight:700}
+.warn{border-left:6px solid var(--accent);background:var(--soft)}
+/* plan */
+.lesson-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;cursor:pointer;text-align:left;width:100%;padding:12px 14px}
+.lnum{font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--accent);min-width:1.6em}
+.lmeta{color:var(--mute);font-size:.85rem}
+.pill{font-family:var(--f-mono);font-size:.78rem;padding:3px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.pill.full{background:var(--goodbg);border-color:var(--good)}
+.triage{display:grid;gap:8px}
+.triage div{display:grid;grid-template-columns:110px 1fr;gap:10px}
+.triage b{font-family:var(--f-display)}
+/* lesson */
+.secnav{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px}
+.secnav button{border-radius:999px;font-size:.85rem}
+.secnav button[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.secnav button.done::before{content:"✓ ";color:var(--good)}
+.secnav button[aria-current="true"].done::before{color:var(--bg)}
+.lhead{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pager{display:flex;gap:10px;margin-top:18px}
+.pager button{flex:1;padding:12px}
+.recall{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.recall button{min-height:90px;text-align:center;font-size:1rem;line-height:1.4}
+.recall button.open{background:var(--soft);border-color:var(--accent);font-size:.92rem}
+.recall button small{display:block;color:var(--mute);font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.picker{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.picker button{font-size:.85rem}
+.picker button[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* ---------- PORT RUSH (deliberate single look: night port terminal / departure board) ---------- */
+:root{--g-bg:#0b1622;--g-panel:#12212f;--g-line:#24394c;--g-ink:#e9f0f6;--g-dim:#8aa1b6;--g-amber:#ffb23e;--g-red:#ff5d5d;--g-green:#45d483;--g-cyan:#5ad1e6}
+nav .navdrop{white-space:nowrap;border-radius:999px;font-size:.9rem;padding:6px 12px;text-decoration:none;background:var(--g-panel);color:var(--g-cyan);border:1px solid var(--g-cyan);font-weight:700}
+nav .navgame{background:var(--g-bg);color:var(--g-amber);border-color:var(--g-bg);font-weight:700}
+nav .navgame[aria-selected="true"]{background:var(--g-amber);color:var(--g-bg);border-color:var(--g-amber)}
+#game{background:var(--g-bg);color:var(--g-ink);border-radius:14px;margin-top:16px;padding:18px clamp(14px,3vw,26px) 24px;font-family:var(--f-body)}
+#game h2,#game h3{color:var(--g-ink)}
+.g-title{font-family:var(--f-mono);font-size:clamp(2rem,7vw,3.4rem);letter-spacing:.14em;color:var(--g-amber);margin:6px 0 0;line-height:1}
+.g-sub{color:var(--g-dim);margin:8px 0 16px}
+.g-board{font-family:var(--f-mono);border:1px solid var(--g-line);border-radius:10px;overflow:hidden}
+.g-board div{display:grid;grid-template-columns:1fr auto;gap:10px;padding:8px 12px;border-top:1px solid var(--g-line);font-size:.88rem}
+.g-board div:first-child{border-top:0;background:var(--g-panel);color:var(--g-dim);letter-spacing:.1em;font-size:.72rem}
+.g-board b{color:var(--g-amber);font-weight:500}
+.g-modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:16px 0}
+.g-modes button{background:var(--g-panel);color:var(--g-ink);border:1px solid var(--g-line);border-radius:10px;padding:14px;text-align:left}
+.g-modes button:hover,.g-modes button:focus-visible{border-color:var(--g-amber);outline:none}
+.g-modes b{display:block;font-family:var(--f-display);font-size:1.1rem;color:var(--g-amber)}
+.g-modes span{color:var(--g-dim);font-size:.85rem}
+.g-hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-family:var(--f-mono)}
+.g-hud div{background:var(--g-panel);border:1px solid var(--g-line);border-radius:8px;padding:6px 10px;min-width:0}
+.g-hud small{display:block;color:var(--g-dim);font-size:.65rem;letter-spacing:.12em}
+.g-hud strong{font-size:1.05rem;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+#g-cash{color:var(--g-green)}#g-streak{color:var(--g-amber)}
+.g-box{display:inline-block;width:14px;height:12px;margin-right:3px;border-radius:2px;background:var(--g-cyan)}
+.g-box.lost{background:transparent;border:1px dashed var(--g-red)}
+@media (max-width:520px){.g-hud{grid-template-columns:repeat(2,1fr)}}
+.g-timer{height:6px;background:var(--g-line);border-radius:3px;margin:12px 0;overflow:hidden}
+.g-timer i{display:block;height:100%;width:100%;background:var(--g-amber);transform-origin:left}
+.g-timer.low i{background:var(--g-red)}
+.g-event{border:1px solid var(--g-amber);background:rgba(255,178,62,.1);border-radius:10px;padding:10px 12px;margin:12px 0 0;font-size:.92rem}
+.g-event b{font-family:var(--f-mono);color:var(--g-amber);letter-spacing:.08em}
+.g-active{font-family:var(--f-mono);font-size:.72rem;color:var(--g-amber);min-height:1em;margin-top:8px;letter-spacing:.06em}
+.g-q{font-size:1.12rem;font-weight:700;margin:4px 0 12px;line-height:1.5}
+.g-tag{font-family:var(--f-mono);font-size:.7rem;color:var(--g-dim);letter-spacing:.1em}
+.g-opts{display:grid;gap:8px}
+.g-opts button{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:center;text-align:left;background:var(--g-panel);color:var(--g-ink);border:1px solid var(--g-line);border-radius:10px;padding:12px;font-size:1rem}
+.g-opts button kbd{font-family:var(--f-mono);font-size:.8rem;color:var(--g-dim);border:1px solid var(--g-line);border-radius:4px;text-align:center;padding:1px 0}
+.g-opts button:hover:not(:disabled){border-color:var(--g-amber)}
+.g-opts button.right{border-color:var(--g-green);background:rgba(69,212,131,.14)}
+.g-opts button.wrong{border-color:var(--g-red);background:rgba(255,93,93,.14)}
+.g-opts button:disabled{cursor:default}
+.g-report{margin-top:12px;border-radius:10px;padding:10px 12px;border-left:5px solid var(--g-green);background:var(--g-panel)}
+.g-report.bad{border-left-color:var(--g-red)}
+.g-report b{font-family:var(--f-mono);letter-spacing:.06em}
+.g-next{margin-top:12px;width:100%;padding:12px;background:var(--g-amber);color:var(--g-bg);border:0;border-radius:10px;font-weight:700;font-size:1rem}
+.g-pop{font-family:var(--f-mono);color:var(--g-green);font-size:1.05rem;margin-left:6px}
+.g-rank{font-family:var(--f-mono);font-size:clamp(1.6rem,6vw,2.6rem);color:var(--g-amber);letter-spacing:.06em;margin:4px 0}
+.g-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:14px 0}
+.g-stats div{background:var(--g-panel);border:1px solid var(--g-line);border-radius:8px;padding:8px 10px;font-family:var(--f-mono)}
+.g-stats small{display:block;color:var(--g-dim);font-size:.65rem;letter-spacing:.12em}
+.g-weak button{background:var(--g-panel);color:var(--g-ink);border:1px solid var(--g-line);margin:4px 6px 0 0}
+.g-ghost{background:transparent;color:var(--g-dim);border:1px solid var(--g-line)}
+@keyframes gshake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.shake{animation:gshake .25s 2}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ---------- NAME THAT DROP (tab) + DROP BREAK POP-UP · same night-port look ---------- */
+nav .navdrop[aria-selected="true"]{background:var(--g-cyan);color:var(--g-bg);border-color:var(--g-cyan)}
+#drop{background:var(--g-bg);color:var(--g-ink);border-radius:14px;margin-top:16px;padding:18px clamp(14px,3vw,26px) 24px;font-family:var(--f-body)}
+#drop h2,#drop h3{color:var(--g-ink)}
+.d-play{display:block;box-sizing:border-box;width:100%;text-align:center;text-decoration:none;padding:16px;border-radius:10px;background:var(--g-cyan);color:var(--g-bg)!important;font-weight:700;font-size:1.1rem;margin:12px 0 4px;border:1px solid var(--g-cyan)}
+.d-play:focus-visible{outline:3px solid var(--g-amber);outline-offset:2px}
+.d-play.used{background:var(--g-panel);color:var(--g-cyan)!important}
+.d-note{color:var(--g-dim);font-size:.88rem;margin:4px 0 0}
+.d-q{font-family:var(--f-display);font-size:1.1rem;margin:16px 0 8px}
+.d-locked{opacity:.45}
+.d-list{font-family:var(--f-mono);font-size:.85rem;border:1px solid var(--g-line);border-radius:10px;overflow:hidden;margin:12px 0}
+.d-list div{display:grid;grid-template-columns:22px 1fr auto;gap:8px;padding:7px 12px;border-top:1px solid var(--g-line)}
+.d-list div:first-child{border-top:0}
+#drop a,#db a{color:var(--g-cyan)}
+.ok2{color:var(--g-green)}.no2{color:var(--g-red)}.half2{color:var(--g-amber)}
+#db-chip{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:40;background:var(--g-bg);color:var(--g-cyan);border:1px solid var(--g-cyan);border-radius:999px;font-family:var(--f-mono);font-size:.8rem;padding:8px 14px;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+#db-chip:hover{border-color:var(--g-amber)}
+#db{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:50;width:min(380px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;background:var(--g-bg);color:var(--g-ink);border:2px solid var(--g-cyan);border-radius:14px;padding:14px;box-shadow:0 10px 40px rgba(0,0,0,.45);font-family:var(--f-body);box-sizing:border-box}
+#db .g-opts button{padding:9px 10px;font-size:.95rem}
+#db .d-play{padding:12px;font-size:1rem}
+.db-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.db-clock{font-family:var(--f-mono);font-size:1.7rem;color:var(--g-amber);line-height:1}
+.db-clock.low{color:var(--g-red)}
+.db-bar{height:6px;background:var(--g-line);border-radius:3px;overflow:hidden;margin:8px 0 2px}
+.db-bar i{display:block;height:100%;background:var(--g-amber);transform-origin:left}
+.db-bar.low i{background:var(--g-red)}
+.db-set{margin-top:12px;border-top:1px solid var(--g-line);padding-top:10px;display:flex;gap:6px 8px;flex-wrap:wrap;align-items:center}
+.db-set label{color:var(--g-dim);font-size:.78rem;margin:0}
+.db-set select{width:auto;background:var(--g-panel);color:var(--g-ink);border-color:var(--g-line);font-size:.82rem;padding:4px 6px}
+.db-x{background:transparent;color:var(--g-dim);border:1px solid var(--g-line);padding:4px 10px}
+/* in-page YouTube player (laptop version), title blacked out */
+.yt-stage{position:relative;margin:12px 0 8px;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;border:1px solid var(--g-line)}
+.yt-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt-shield{position:absolute;inset:0;z-index:3}
+.yt-top{position:absolute;left:0;right:0;top:0;height:20%;background:linear-gradient(#000 72%,rgba(0,0,0,0));z-index:4}
+.yt-logo{position:absolute;right:0;bottom:0;width:24%;height:17%;background:linear-gradient(90deg,rgba(0,0,0,0),#000 35%);z-index:4}
+.yt-black{position:absolute;inset:0;z-index:5;background:#05090e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:opacity .25s}
+.yt-black.off{opacity:0;pointer-events:none}
+.yt-count{font-family:var(--f-mono);font-size:clamp(2.2rem,9vw,4rem);color:var(--g-amber);line-height:1}
+.yt-msg{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.14em;color:var(--g-dim);text-align:center;padding:0 12px}
+.yt-timer{position:absolute;left:0;bottom:0;height:5px;background:var(--g-amber);z-index:6;width:0}
+.eq{display:flex;gap:4px;align-items:flex-end;height:28px;justify-content:center}
+.eq i{width:6px;background:var(--g-cyan);border-radius:2px;animation:eq .7s infinite ease-in-out alternate}
+.eq i:nth-child(2){animation-delay:.15s}.eq i:nth-child(3){animation-delay:.3s}.eq i:nth-child(4){animation-delay:.45s}.eq i:nth-child(5){animation-delay:.6s}
+@keyframes eq{from{height:4px}to{height:28px}}
+button.d-play:disabled{opacity:.5;cursor:default}
+.yt-tap{display:none;position:absolute;left:0;right:0;bottom:10px;z-index:7;justify-content:center;pointer-events:none}
+.yt-tap span{background:var(--g-amber);color:var(--g-bg);font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;padding:6px 12px;border-radius:999px}
+.yt-stage.tap .yt-shield{display:none}
+.yt-stage.tap .yt-black{opacity:0;pointer-events:none}
+.yt-stage.tap .yt-tap{display:flex}
+.d-skip{background:transparent;color:var(--g-dim);border:1px solid var(--g-line);font-size:.8rem;padding:4px 10px;margin-left:6px}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="hrow">
+      <div>
+        <h1>SCM 300 · Exam 2</h1>
+        <div class="meta">Wed Nov 4 · 8:30 AM · 40 Qs · 65 min · 200 pts · formula sheet given</div>
+      </div>
+      <div class="tools">
+        <span class="clock" id="clock">--</span>
+        <button id="sprint" title="25-min focus sprint">▶ 25:00 sprint</button>
+        <button id="big" aria-pressed="false">A+ text</button>
+      </div>
+    </div>
+    <div class="prog" title="Sections finished"><i id="progbar"></i></div>
+    <nav role="tablist" id="tabs">
+      <button data-t="game" class="navgame">▶ Port Rush</button>
+      <button data-t="drop" class="navdrop">♫ Name That Drop</button>
+      <button data-t="plan" aria-selected="true">1 · Plan</button>
+      <button data-t="lesson">2 · Lessons</button>
+      <button data-t="final">3 · Final quiz</button>
+      <button data-t="tools">Tools</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- PORT RUSH -->
+<section id="game" class="panel" hidden>
+  <div id="g-start">
+    <div class="g-tag">SCM 300 · EXAM 2 · ARCADE MODE</div>
+    <h2 class="g-title">PORT RUSH</h2>
+    <p class="g-sub">You run the port. Every question is a shipment. Clear it fast for cash, build a streak, survive the disruptions. Miss 3 and you're fired.</p>
+    <div class="g-board">
+      <div><span>HOW IT PAYS</span><span>VALUE</span></div>
+      <div><span>Shipment cleared</span><b>$1,000</b></div>
+      <div><span>Streak multiplier (caps at 6 in a row)</span><b>up to ×4</b></div>
+      <div><span>Speed bonus</span><b>up to +$500</b></div>
+      <div><span>Miss or time out</span><b>lose a container</b></div>
+      <div><span>Every 4 shipments</span><b>random disruption</b></div>
+    </div>
+    <div class="g-modes">
+      <button data-mode="sprint"><b>Sprint</b><span>15 shipments. Quick run. Good between study blocks.</span></button>
+      <button data-mode="survival"><b>Survival</b><span>Endless. Every question in the deck until you lose 3 containers.</span></button>
+      <button data-mode="math"><b>Math only</b><span>Queues, shrinkage, reliability, currency, finance. 12 shipments, more time each.</span></button>
+      <button data-mode="encore"><b>Encore: clue version</b><span>No sound needed. Guess the track from BPM, key and clues.</span></button>
+      <button data-mode="live" style="border-color:var(--g-cyan)"><b style="color:var(--g-cyan)">Name That Drop · LIVE</b><span>Real festival clips on YouTube, opened right at the drop. Artist, then song.</span></button>
+    </div>
+    <div class="g-board" id="g-best"></div>
+    <p class="g-tag" style="margin-top:10px">KEYS: 1–4 to answer · ENTER for next shipment</p>
+  </div>
+
+  <div id="g-play" hidden>
+    <div class="g-hud">
+      <div><small>CASH</small><strong id="g-cash">$0</strong></div>
+      <div><small>STREAK</small><strong id="g-streak">×1.0</strong></div>
+      <div><small>CONTAINERS</small><strong id="g-lives"></strong></div>
+      <div><small>SHIPMENT</small><strong id="g-count">1</strong></div>
+    </div>
+    <div id="g-event"></div>
+    <div class="g-active" id="g-active"></div>
+    <div class="g-timer" id="g-timerwrap"><i id="g-timer"></i></div>
+    <div class="g-tag" id="g-qtag"></div>
+    <div class="g-q" id="g-q"></div>
+    <div class="g-opts" id="g-opts"></div>
+    <div id="g-report"></div>
+    <div class="row" style="margin-top:10px"><button class="g-ghost" id="g-quit" style="flex:0 0 auto">Quit run</button></div>
+  </div>
+
+  <div id="g-end" hidden>
+    <div class="g-tag" id="g-endwhy">RUN OVER</div>
+    <div class="g-rank" id="g-rank"></div>
+    <p class="g-sub" id="g-ranksub"></p>
+    <div class="g-stats" id="g-stats"></div>
+    <div id="g-weak"></div>
+    <button class="g-next" id="g-encorelive" style="background:var(--g-cyan)">ENCORE: Name That Drop · LIVE CLIPS →</button>
+    <button class="g-next" id="g-encorebtn" style="background:transparent;color:var(--g-cyan);border:1px solid var(--g-cyan)">No sound? Play the clue version for bonus cash</button>
+    <div class="row" style="margin-top:14px">
+      <button class="g-next" id="g-again" style="flex:1">Run it back</button>
+      <button class="g-ghost" id="g-menu" style="flex:0 0 auto;margin-top:12px">Modes</button>
+    </div>
+  </div>
+
+  <div id="g-encore" hidden>
+    <div class="g-tag" id="e-tag">ENCORE · NAME THAT DROP</div>
+    <div class="g-hud" style="margin-top:8px">
+      <div><small>POT</small><strong id="e-pot">$4,000</strong></div>
+      <div><small>BONUS</small><strong id="e-bank" style="color:var(--g-green)">$0</strong></div>
+      <div><small>TRACK</small><strong id="e-count">1</strong></div>
+      <div><small>CLUES</small><strong id="e-clues">1/4</strong></div>
+    </div>
+    <div class="g-board" id="e-cluebox" style="margin-top:12px"></div>
+    <button class="g-ghost" id="e-more" style="margin-top:8px;width:100%">Reveal next clue (pot −$1,000)</button>
+    <div class="g-tag" style="margin-top:14px">ARTIST</div>
+    <div class="g-opts" id="e-artist"></div>
+    <div class="g-tag" style="margin-top:12px">SONG</div>
+    <div class="g-opts" id="e-song"></div>
+    <button class="g-next" id="e-lock">Lock it in</button>
+    <div id="e-result"></div>
+  </div>
+</section>
+
+<!-- NAME THAT DROP -->
+<section id="drop" class="panel" hidden>
+  <div id="d-start">
+    <div class="g-tag">STUDY BREAK · LIVE SET EDITION</div>
+    <h2 class="g-title">NAME THAT DROP</h2>
+    <p class="g-sub">Tap <b>Play the drop</b>. YouTube opens <b>right at the drop</b> of a real festival clip. Listen, come back here, then pick the <b>artist</b> and the <b>song</b>.</p>
+    <p class="d-note">Heads up: YouTube shows the video title. Look away and just listen 🎧</p>
+    <div class="g-board" style="margin-top:12px">
+      <div><span>SCORING</span><span>POINTS</span></div>
+      <div><span>Artist right</span><b>500</b></div>
+      <div><span>Song right</span><b>500</b></div>
+      <div><span>Both right on the first listen</span><b>+500</b></div>
+      <div><span>Streak (both right, in a row)</span><b>+100 each</b></div>
+    </div>
+    <div class="g-modes" id="d-modes">
+      <button data-n="5"><b>Quick set</b><span>5 tracks. Between study blocks.</span></button>
+      <button data-n="10"><b>Main stage</b><span>10 tracks. About 5 minutes.</span></button>
+      <button data-n="25"><b>Headliner</b><span>25 tracks. Long set.</span></button>
+      <button data-n="0"><b>Endless</b><span>Keep going until you miss 3 songs.</span></button>
+    </div>
+    <div class="g-board" id="d-best"></div>
+    <p class="g-tag" id="d-crate" style="margin-top:10px"></p>
+    <p class="g-tag">KEYS: 1–4 = answer · ENTER = next track</p>
+  </div>
+
+  <div id="d-play" hidden>
+    <div class="g-hud">
+      <div><small>SCORE</small><strong id="d-score">0</strong></div>
+      <div><small>STREAK</small><strong id="d-streak">0</strong></div>
+      <div><small>TRACK</small><strong id="d-count">1</strong></div>
+      <div><small id="d-lastlabel">LISTENS</small><strong id="d-stage">0</strong></div>
+    </div>
+    <div class="yt-stage" data-local><div id="d-player"></div><div class="yt-shield"></div><div class="yt-top"></div><div class="yt-logo"></div><div class="yt-black" id="d-black"><div class="yt-count" id="d-big">5</div><div class="yt-msg" id="d-msg">PRESS PLAY · 5 SECONDS OF LIVE FOOTAGE</div></div><div class="yt-timer" id="d-timer"></div><div class="yt-tap"><span>TAP THE VIDEO TO PLAY</span></div></div>
+    <button class="d-play" id="d-playbtn" data-local>▶ Play clip</button>
+    <p class="d-note" data-local>5 seconds of live footage, 2 listens. The title is blacked out. Space = play. <a id="d-yt" href="#" target="_blank" rel="noopener">Won't play? Open on YouTube ↗</a><button class="d-skip" id="d-skip">Skip this clip</button></p>
+    <a class="d-play" id="d-link" href="#" target="_blank" rel="noopener" data-web>▶ Play the drop on YouTube</a>
+    <p class="d-note" id="d-hint" data-web>Opens in a new tab right at the drop. Listen, then come back and answer.</p>
+    <div id="d-qa"><div class="d-q">1 · Who's the artist? <span class="g-tag">500 PTS</span></div><div class="g-opts" id="d-artist"></div></div>
+    <div id="d-qs" class="d-locked"><div class="d-q">2 · What's the song? <span class="g-tag">500 PTS</span></div><div class="g-opts" id="d-song"></div></div>
+    <div id="d-report"></div>
+    <div class="row" style="margin-top:10px"><button class="g-ghost" id="d-quit" style="flex:0 0 auto">End set</button></div>
+  </div>
+
+  <div id="d-end" hidden>
+    <div class="g-tag" id="d-endwhy">SET OVER</div>
+    <div class="g-rank" id="d-rank"></div>
+    <p class="g-sub" id="d-ranksub"></p>
+    <div class="g-stats" id="d-stats"></div>
+    <div class="d-list" id="d-recap"></div>
+    <div class="row" style="margin-top:12px"><button class="g-next" id="d-again" style="flex:1;margin-top:0">Run it back</button><button class="g-ghost" id="d-menu" style="flex:0 0 auto">Modes</button></div>
+    <button class="g-ghost" id="d-study" style="width:100%;margin-top:10px">← Back to studying</button>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section id="plan" class="panel">
+  <h2>Study plan</h2>
+  <p class="trig">7 core lessons + 1 bonus lesson of new-number problems. Each lesson = 4 short sections: <b>Learn → Example → Try it → Recall</b>. Tap a lesson to start. About 3 hours total with breaks.</p>
+  <div class="card bl5" style="margin-bottom:12px"><h3>No overlap with Exam 1</h3><p>The syllabus says Exam 2 = <b>Modules 5–8 only</b> (Exam 1 was 1–4). Everything here is 5–8. Lessons 1–7 use the prof's own problem-set numbers, which you've seen. <b>Lesson 8 uses new numbers</b> so you can test yourself on problems you haven't memorized.</p></div>
+  <div class="stack" id="planlist"></div>
+
+  <h2>Short on time?</h2>
+  <div class="card triage">
+    <div><b>1 hour</b><span>Lesson 2 (queue probabilities) → Lesson 7 (finance math) → Lesson 4 (in-class problems). That's most of the math points.</span></div>
+    <div><b>2 hours</b><span>Add Lessons 1, 3 and 5.</span></div>
+    <div><b>Full run</b><span>All 8 lessons, then the Final quiz. Redo anything you miss.</span></div>
+  </div>
+
+  <h2>Know your prof</h2>
+  <div class="card bl8 stack">
+    <p><b>Hitendra Chaturvedi</b>, Professor of Practice. He founded <b>GreenDust</b> (a reverse-logistics startup) and wrote the 5 Rs framework himself. <b>Reverse logistics is his specialty</b>, so don't skip Lesson 6.</p>
+    <p>His recurring talking points: COVID as "one small pebble in the pond" that created a <b>ripple effect</b> (= bullwhip). On 2025 tariffs he said <b>Walmart, Target and Amazon</b> would feel it first and ship arrivals at LA/Long Beach were down ~35%.</p>
+    <p>The syllabus says exams test lecture content and are built around the study guide. His slides literally list "Possible Questions". Those are all covered in the lessons.</p>
+  </div>
+
+  <h2>Heads up</h2>
+  <div class="card warn stack">
+    <p><b>Exam rules (syllabus):</b> closed book, closed notes, <b>standard calculator (TI-84 or similar)</b>, in person, bring your ASU ID and a laptop with LockDown Browser. "Unauthorized notes or devices" = cheating, and the penalty is an <b>XE</b>. <b>Don't bring stored notes or programs on your calculator.</b></p>
+    <p><b>Textbook is optional.</b> The syllabus says exam content comes from <b>lectures</b> and is built around the study guide. That's what this tool covers.</p>
+    <p><b>You get the formula sheet</b> on the exam. Learn <b>when</b> to use each formula, not the formula itself.</p>
+    <p><b>Units.</b> Match λ and μ (both per hour or both per minute). Answers usually want <b>minutes</b>.</p>
+    <p><b>Don't round averages</b> mid-problem (the prof's key says this too).</p>
+    <p><b>Lecture sources in here:</b> all text from Lectures 10–14 (Waiting Lines, Push-Pull, Global SCM, Reverse Logistics, Finance for SCM), plus the picture-only slides (Gymshark CCC, Boeing income statement, inventory turns, 5 Rs funnel, ILWU pay).</p>
+    <p><b>Not in here yet:</b> the Nov 1 practice-lab Zoom recording (needs the passcode from the announcement) and the Sustainable SC lecture (its Canvas page is empty). Watch at 2x if you have time.</p>
+  </div>
+</section>
+
+<!-- LESSON -->
+<section id="lesson" class="panel" hidden>
+  <div class="picker" id="lpicker" aria-label="Pick a lesson"></div>
+  <div id="lview"></div>
+</section>
+
+<!-- FINAL -->
+<section id="final" class="panel" hidden>
+  <h2>Final quiz · every lesson mixed</h2>
+  <p class="trig">Score: <b id="score">0 / 0</b>. Each miss tells you which lesson to redo.</p>
+  <div class="stack" id="finallist"></div>
+  <div class="pager"><button id="resetfinal">Reset quiz</button></div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools" class="panel" hidden>
+  <h2>Queue calculator (single server)</h2>
+  <div class="card bl5">
+    <div class="row">
+      <div><label for="lamv">Arrivals (λ)</label><input id="lamv" type="number" value="12" step="any"></div>
+      <div><label for="lamu">λ is…</label><select id="lamu"><option value="ph">customers per hour</option><option value="pm">customers per minute</option><option value="em">1 arrives every X min</option></select></div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div><label for="muv">Service (μ)</label><input id="muv" type="number" value="4" step="any"></div>
+      <div><label for="muu">μ is…</label><select id="muu"><option value="ph">customers per hour</option><option value="pm">customers per minute</option><option value="em" selected>X min to help 1 customer</option></select></div>
+    </div>
+    <div class="out" id="qout"></div>
+    <div class="steps" id="qsteps"></div>
+  </div>
+
+  <h2>Multi-server table reader</h2>
+  <div class="card bl5">
+    <p class="trig">With <b>s</b> servers, <b>k in line = k + s in system</b>. Paste the P column from the exam table.</p>
+    <div class="row">
+      <div><label for="srv">Servers (s)</label><select id="srv"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
+      <div><label for="qtype">Question</label><select id="qtype">
+        <option value="imm">Served immediately</option>
+        <option value="eqL">Exactly k in LINE</option>
+        <option value="gtL">More than k in LINE</option>
+        <option value="ltL">Fewer than k in LINE</option>
+        <option value="geL">k or more in LINE</option>
+        <option value="eqS">Exactly k in SYSTEM</option>
+        <option value="gtS">More than k in SYSTEM</option>
+        <option value="ltS">Fewer than k in SYSTEM</option>
+        <option value="geS">k or more in SYSTEM</option>
+      </select></div>
+      <div><label for="kv">k</label><input id="kv" type="number" value="2" min="0" step="1"></div>
+    </div>
+    <div style="margin-top:8px"><label for="plist">P0, P1, P2… (decimals or %, comma separated)</label><input id="plist" type="text" value="49.3, 33.5, 11.4, 3.9, 1.3, 0.04, 0.004"></div>
+    <p class="trig">Example loaded: 2-server column from the Module 5 problem set (Q5).</p>
+    <div class="out" id="tout"></div>
+  </div>
+
+  <h2>Finance calculator</h2>
+  <div class="card bl8">
+    <div class="row">
+      <div><label for="ca">Current assets</label><input id="ca" type="number" value="147.96" step="any"></div>
+      <div><label for="cl">Current liabilities</label><input id="cl" type="number" value="165.63" step="any"></div>
+      <div><label for="rev">Revenue (sales)</label><input id="rev" type="number" value="416" step="any"></div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div><label for="cogs">COGS</label><input id="cogs" type="number" value="221" step="any"></div>
+      <div><label for="inv">(Avg) inventory</label><input id="inv" type="number" value="5.7" step="any"></div>
+      <div><label for="ar">Accounts receivable</label><input id="ar" type="number" value="72.96" step="any"></div>
+      <div><label for="ap">Accounts payable</label><input id="ap" type="number" value="69.86" step="any"></div>
+    </div>
+    <p class="trig">Loaded: Apple 9/30/2025 current assets and liabilities from the study guide. The other numbers are rough examples ($B). Swap in what the exam gives you.</p>
+    <div class="out" id="fout"></div>
+  </div>
+
+  <h2>Shrinkage · reliability · currency</h2>
+  <div class="grid2">
+    <div class="card bl6">
+      <h3>Shrinkage (work backward)</h3>
+      <label for="dem">Units needed at the end</label><input id="dem" type="number" value="7500">
+      <label for="losses" style="margin-top:8px">Loss % at each stage, retail first</label><input id="losses" type="text" value="1.2, 1.1, 0.9, 1.0">
+      <div class="out" id="sout"></div>
+    </div>
+    <div class="card bl6">
+      <h3>Reliability</h3>
+      <label for="rels">Machine reliabilities (series)</label><input id="rels" type="text" value="0.985, 0.98, 0.86">
+      <label for="bk" style="margin-top:8px">Copies (m) of the LAST machine</label><input id="bk" type="number" value="2" min="1">
+      <label for="units" style="margin-top:8px">Units made</label><input id="units" type="number" value="8000">
+      <div class="out" id="rout"></div>
+    </div>
+    <div class="card bl7">
+      <h3>Euro ↔ Dollar (BMW problem)</h3>
+      <label for="fx">$ per 1 €</label><input id="fx" type="number" value="1.30" step="any">
+      <label for="px" style="margin-top:8px">US sale price ($)</label><input id="px" type="number" value="35500">
+      <label for="eu" style="margin-top:8px">Make in Europe cost (€)</label><input id="eu" type="number" value="20000">
+      <label for="imp" style="margin-top:8px">Import cost ($)</label><input id="imp" type="number" value="4500">
+      <label for="us" style="margin-top:8px">Make in US cost ($)</label><input id="us" type="number" value="28500">
+      <div class="out" id="xout"></div>
+    </div>
+  </div>
+
+  <h2>All formulas</h2>
+  <div class="grid2" id="formlist"></div>
+</section>
+</main>
+
+<!-- DROP BREAK pop-up (corner) -->
+<button id="db-chip" title="Start a drop break now">♫ NEXT DROP <span id="db-in"></span></button>
+<div id="db" role="dialog" aria-label="Drop break" hidden>
+  <div class="db-top"><div class="g-tag">DROP BREAK · <span id="db-pts">0</span> PTS TOTAL</div><button class="db-x" id="db-close" aria-label="Close drop break">✕ Esc</button></div>
+  <div class="yt-stage" data-local style="margin-top:10px"><div id="db-player"></div><div class="yt-shield"></div><div class="yt-top"></div><div class="yt-logo"></div><div class="yt-black" id="db-black"><div class="yt-count" id="db-big">5</div><div class="yt-msg" id="db-msg">PRESS PLAY · 5 SECONDS</div></div><div class="yt-timer" id="db-timer"></div><div class="yt-tap"><span>TAP THE VIDEO TO PLAY</span></div></div>
+  <button class="d-play" id="db-playbtn" data-local>▶ Play clip</button><p class="d-note" data-local style="text-align:right;margin:0"><button class="d-skip" id="db-skip">Skip this clip</button></p>
+  <div id="db-body"></div>
+  <div class="db-set">
+    <label for="db-min">Pop up every</label>
+    <select id="db-min"><option value="3">3 min</option><option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option><option value="0">— (timer off)</option></select>
+    <label for="db-qn">or every</label>
+    <select id="db-qn"><option value="3">3 questions</option><option value="5">5 questions</option><option value="10">10 questions</option><option value="0">— (off)</option></select>
+  </div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ================= LESSON DATA ================= */
+const Q5TABLE=`<div class="tblwrap"><table>
+<tr><th>Servers</th><th>1</th><th>2</th><th>3</th></tr>
+<tr><th>ρ (busy)</th><td>0.680</td><td>0.340</td><td>0.227</td></tr>
+<tr><th>P0</th><td>32.0%</td><td>49.3%</td><td>50.5%</td></tr>
+<tr><th>P1</th><td>21.8%</td><td>33.5%</td><td>34.4%</td></tr>
+<tr><th>P2</th><td>14.8%</td><td>11.4%</td><td>11.7%</td></tr>
+<tr><th>P3</th><td>10.1%</td><td>3.9%</td><td>2.6%</td></tr>
+<tr><th>P4</th><td>6.8%</td><td>1.3%</td><td>0.6%</td></tr>
+<tr><th>P5</th><td>4.7%</td><td>0.04%</td><td>0.14%</td></tr>
+<tr><th>P6</th><td>3.2%</td><td>0.004%</td><td>0.03%</td></tr>
+<tr><th>n(s) in system</th><td>2.13</td><td>0.77</td><td>0.690</td></tr>
+<tr><th>n(l) in line</th><td>1.45</td><td>0.09</td><td>0.010</td></tr>
+<tr><th>t(s) min</th><td>7.500</td><td>2.714</td><td>2.435</td></tr>
+<tr><th>t(l) min</th><td>5.10</td><td>0.314</td><td>0.035</td></tr>
+</table></div><p class="trig">From the prof's Module 5 problem set, Q5: λ = 17/hr, μ = 25/hr.</p>`;
+
+const L=[
+{id:'l1',m:5,title:'Queue basics',mins:20,why:'Every queue question starts here',
+ learn:[
+  '<b>λ (lambda)</b> = arrival rate. <b>μ (mu)</b> = service rate. Always write them as <b>things ÷ time</b>.',
+  '"Takes 4 min to help a customer" → μ = 60 ÷ 4 = <b>15 per hour</b>. "One arrives every 8 min" → λ = 60 ÷ 8 = <b>7.5 per hour</b>.',
+  '<b>ρ (rho) = λ ÷ μ</b> = % of time the server is busy.',
+  '<b>s = system</b> (line + being served). <b>l = line</b> (waiting only). <b>n = number</b>, <b>t = time</b>.',
+  'n<sub>s</sub> = λ ÷ (μ − λ) · n<sub>l</sub> = ρ × n<sub>s</sub> · t<sub>s</sub> = 1 ÷ (μ − λ) · t<sub>l</sub> = ρ × t<sub>s</sub>',
+  'Per-hour rates give times in <b>hours</b>. × 60 = minutes, × 3600 = seconds.',
+  '<b>Balking</b> = sees the line, never joins. <b>Reneging</b> = joins, then leaves before service.'],
+ example:`<div class="card bl5"><h3>Burger King (prof's key)</h3><p>12 customers arrive per hour. Employee helps 16 per hour.</p>
+  <ul class="chunks"><li>ρ = 12 ÷ 16 = <b>0.75</b> → busy 75% of the time</li>
+  <li>n<sub>s</sub> = 12 ÷ (16 − 12) = 3 → n<sub>l</sub> = 0.75 × 3 = <b>2.25 waiting</b></li>
+  <li>t<sub>s</sub> = 1 ÷ 4 = 0.25 hr = <b>15 min</b> in the store</li>
+  <li>t<sub>l</sub> = 0.75 × 15 = <b>11.25 min</b> in line</li></ul></div>`,
+ quiz:[
+  ['12 customers arrive per hour. It takes 4 minutes to help 1 customer. Single server: average time in the SYSTEM, in minutes?',['5 min','15 min','20 min','16 min'],2,'μ = 60 ÷ 4 = 15/hr. t_s = 1 ÷ (15 − 12) = 1/3 hr = 20 min.'],
+  ['Calls come in at 120/hr. Each takes 20 seconds. What % of the time is the operator busy?',['33.3%','66.7%','50%','150%'],1,'μ = 3600 ÷ 20 = 180/hr. ρ = 120 ÷ 180 = 0.667.'],
+  ['Same operator. Average time a caller waits on hold, in seconds?',['20 s','40 s','60 s','30 s'],1,'t_s = 1 ÷ (180 − 120) = 1/60 hr = 60 s. t_l = 0.667 × 60 = 40 s.'],
+  ['Tom sees the long line and leaves without joining. John joins and waits. Who balked?',['John','Tom','Both','Neither'],1,'Balking = never joins. Tom balked.']],
+ cards:[['ρ (rho)','% of time the server is busy = λ ÷ μ'],['λ (lambda)','Arrival rate'],['μ (mu)','Service rate'],['n_s vs n_l','In SYSTEM (line + service) vs in LINE only'],['Balking','Sees the line, never joins'],['Reneging','Joins the line, leaves before service'],['Infinite pool','Many potential customers (McDonald\'s). Exam assumes infinite.']]},
+
+{id:'l2',m:5,title:'Queue probabilities + multi-server tables',mins:30,why:'Biggest chunk of the study guide',
+ learn:[
+  '<b>P<sub>n</sub> = (1 − ρ) × ρ<sup>n</sup></b> = chance of exactly n in the system (single server only).',
+  '<b>P0 = 1 − ρ</b> = system empty = served immediately (single server).',
+  '"More than k" = <b>1 − (P0 + … + Pk)</b>. "Fewer than k" = P0 + … + P(k−1).',
+  'The big trick: with <b>s servers</b>, the first s people are being served. So <b>k in LINE = k + s in SYSTEM</b>.',
+  'Served immediately with s servers = fewer than s in system. 2 servers → <b>P0 + P1</b>. 3 servers → <b>P0 + P1 + P2</b>.',
+  'More servers? <b>ρ<sub>s</sub> = ρ<sub>1</sub> ÷ s</b>. 0.68 with 4 servers = 0.17.',
+  'Draw it: X = customer, O = server. Count X\'s, then find that spot on the P row.'],
+ example:`<div class="card bl5"><h3>Read the exam table</h3>${Q5TABLE}
+  <ul class="chunks" style="margin-top:10px"><li><b>3 servers, served immediately?</b> Fewer than 3 in system → 50.5 + 34.4 + 11.7 = <b>96.6%</b></li>
+  <li><b>2 servers, 3 or more in system?</b> 1 − (49.3 + 33.5 + 11.4) = <b>5.8%</b></li>
+  <li><b>1 server, exactly 2 in line?</b> 2 in line = 3 in system → P3 = <b>10.1%</b></li>
+  <li><b>4 servers, % busy?</b> 0.68 ÷ 4 = <b>0.17</b></li>
+  <li><b>Fewest servers so wait &lt; 30 s?</b> 2 servers: t(l) = 0.314 min = <b>18.8 s</b> ✓</li></ul></div>`,
+ quiz:[
+  ['Burger King: ρ = 0.75 (single server). Probability of MORE than 1 person in line?',['42.19%','56.25%','25.00%','31.64%'],0,'>1 in line = >2 in system = 1 − (P0+P1+P2) = ρ³ = 0.4219.'],
+  ['Using the table: 2-server model, % of customers served immediately?',['49.3%','82.8%','94.2%','33.5%'],1,'Fewer than 2 in system: P0 + P1 = 49.3 + 33.5 = 82.8%.'],
+  ['3-server model. "Exactly 1 customer in line" equals…',['P1','P3','P4','1 − P4'],2,'1 in line + 3 being served = 4 in system → P4.'],
+  ['ρ for a single server is 0.68. What is ρ in a 4-server model?',['0.68','0.17','0.272','2.72'],1,'Divide by servers: 0.68 ÷ 4 = 0.17.']],
+ cards:[['P0','System empty = 1 − ρ'],['k in line, s servers','= k + s in system'],['Served immediately, 2 servers','P0 + P1'],['More than k in system','1 − (P0 + … + Pk)'],['Multi-server ρ','ρ single ÷ number of servers']]},
+
+{id:'l3',m:6,title:'Push vs pull, postponement, bullwhip',mins:20,why:'Concept questions + pick-from-a-list',
+ learn:[
+  '<b>Functional</b> products: stable demand, long life (2+ yrs), low margin (5–20%), easy to forecast. Toilet paper, milk.',
+  '<b>Innovative</b> products: short life (3 mo–1 yr), high margin (20–60%), forecast error 40–100%. Fashion, new phones.',
+  '<b>Push</b> = make to <b>forecast</b>. High inventory, economies of scale. Risk = forecast error. Fits functional.',
+  '<b>Pull</b> = make on <b>actual demand</b>. Low inventory. Risk = capacity. Fits innovative.',
+  '<b>Postponement</b> = push the standard part, delay the last step, pull the custom part. Benetton dyes sweaters late.',
+  '<b>Bullwhip</b> = small demand swings get bigger as you go upstream. Causes: <b>order batching, price changes/sales, rationing, shortage gaming</b>.',
+  '<b>Rationing</b> = supplier gives everyone a fair share. <b>Shortage gaming</b> = buyers inflate orders because they expect to be rationed.'],
+ example:`<div class="card bl6"><h3>Study guide question</h3><p>SCM Co had 1,000 units, customers ordered 1,500, so everyone got 67% of their order. What happens in 2027?</p>
+  <ul class="chunks"><li>67% of an order = <b>rationing</b></li><li>Rationed customers expect it again → they <b>order more than they need</b></li><li>Answer: <b>shortage gaming</b> → bullwhip</li></ul>
+  <h3 style="margin-top:12px">Push or pull?</h3><ul class="chunks"><li>Push: toilet paper, mass-market books, canned food</li><li>Pull: Amazon KDP print-on-demand, custom Dell PCs, AWS</li><li>Hybrid: fashion and seasonal items</li></ul>
+  <p class="trig">"Functional made innovative" examples (slide asked, no list given): water bottle → Stanley/Hydro Flask, razor → Dollar Shave Club, thermostat → Nest.</p></div>`,
+ quiz:[
+  ['SCM Co gave every customer 67% of their order. What should it expect next year?',['Order batching','Customers inflate orders (shortage gaming)','Lower orders','Postponement'],1,'Rationing leads to shortage gaming.'],
+  ['Which is made in a PULL system?',['Toilet paper','Mass-market paperbacks','Amazon KDP print-on-demand books','Canned soup'],2,'KDP prints only when a customer orders.'],
+  ['Benetton knits plain sweaters and dyes them once it sees which colors sell. This is…',['Bullwhip','Postponement','Rationing','Push'],1,'Standard part pushed, final custom step delayed = postponement.'],
+  ['Which describes an INNOVATIVE product?',['Long life cycle, low margin','Short life cycle, high margin, hard to forecast','Low variety, stable demand','1–2% stockout rate'],1,'Innovative = short life, high margin, high forecast error.']],
+ cards:[['Functional','Stable, long life, low margin → push'],['Innovative','Short life, high margin → pull'],['Push','Make to forecast'],['Pull','Make to actual demand'],['Postponement','Push standard, delay final, pull custom'],['Bullwhip','Demand swings grow upstream'],['Rationing','Fair share → partial orders'],['Shortage gaming','Inflating orders to beat rationing']]},
+
+{id:'l4',m:6,title:'In-class problems: shrinkage, reliability, BMW',mins:25,why:'Prof said these exact problems are on it',
+ learn:[
+  '<b>Shrinkage</b>: start at retail and work <b>backward</b>. Each stage: need ÷ (1 − loss%).',
+  '<b>Series reliability</b> (machines in a row): <b>multiply</b> them. R = r1 × r2 × r3.',
+  '<b>Backup</b> (m machines doing one job): <b>1 − (1 − r)<sup>m</sup></b>.',
+  'Good units = reliability × total. Defects = total − good.',
+  '<b>Currency</b>: $ → € means <b>÷ the rate</b> when the rate is "$ per €". Profit = sales − all costs, all in the same currency.'],
+ example:`<div class="card bl6"><h3>Shrinkage (need 7,500)</h3><ul class="chunks">
+  <li>Retail 1.2%: 7,500 ÷ 0.988 = 7,591</li><li>Distribution 1.1%: ÷ 0.989 = 7,676</li><li>Mfg 0.9%: ÷ 0.991 = 7,745</li><li>Supplier 1.0%: ÷ 0.990 = <b>7,823</b> (prof's key rounds each step → 7,826)</li>
+  <li>Extra ≈ 326/mo × 12 = 3,912/yr × $200 = <b>$782,400</b></li></ul>
+  <h3 style="margin-top:12px">Reliability (3 machines, 8,000 tables)</h3><ul class="chunks">
+  <li>0.985 × 0.98 × 0.86 = <b>0.830</b> → 6,640 good, 1,360 defects</li>
+  <li>Add a backup to the 0.86 machine: 1 − (0.14)² = <b>0.9804</b></li>
+  <li>New: 0.985 × 0.98 × 0.9804 = 0.946 → 432 defects</li>
+  <li>Savings: (1,360 − 432) × $135 = $125,280 − $27,000 machine = <b>$98,280</b></li></ul>
+  <h3 style="margin-top:12px">BMW at $1.30 per €</h3><ul class="chunks">
+  <li>Europe: 35,500 ÷ 1.3 − 20,000 − 4,500 ÷ 1.3 = <b>€3,846</b></li>
+  <li>US: (35,500 − 28,500) ÷ 1.3 = <b>€5,385</b> → build in the US</li></ul></div>`,
+ quiz:[
+  ['Retail needs 7,500. Losses: retail 1.2%, distribution 1.1%, mfg 0.9%, supplier 1.0%. Plan for about…',['7,500','7,590','7,826','8,250'],2,'Exact is ≈ 7,823. The prof\'s key rounds each step and gets 7,826. Pick the closest answer.'],
+  ['Three machines in series: 0.985, 0.98, 0.86. System reliability?',['0.86','0.830','0.942','0.946'],1,'Multiply: 0.985 × 0.98 × 0.86 = 0.830.'],
+  ['A backup (same 0.86) is added beside the 0.86 machine. That stage\'s reliability?',['0.9804','0.7396','0.86','1.72'],0,'1 − (1 − 0.86)² = 0.9804.'],
+  ['At $1.30 per €, US price $35,500, US build cost $28,500. Profit in euros if built in the US?',['€7,000','€5,385','€3,846','€9,100'],1,'(35,500 − 28,500) ÷ 1.30 = €5,384.6.']],
+ cards:[['Shrinkage step','Need ÷ (1 − loss), retail first'],['Series reliability','Multiply'],['Backup reliability','1 − (1 − r)^m'],['$ to € (rate in $/€)','Divide by the rate']]},
+
+{id:'l5',m:7,title:'Global supply chains',mins:20,why:'Definitions + pick-the-example',
+ learn:[
+  '<b>Outsourcing</b> = another company does it. <b>Offshoring</b> = move work to another country. <b>Nearshoring</b> = nearby country (US → Mexico). <b>Friendshoring</b> = ally country (China → Vietnam/India). <i>Standard definitions; double-check against your notes.</i>',
+  'Why go global (8): <b>cost, quality, quantity, customers, flexibility, tax, regulations, exchange rate</b>.',
+  '<b>Protectionism</b> example: tariffs in the US–China trade war.',
+  '<b>Tariff</b> = tax on imports. Cost gets passed down to the consumer.',
+  '<b>Freight forwarder</b> = US side of exports, the "travel agent" who finds the cheapest, most efficient route. <b>Customs house broker</b> = foreign side, clears customs.',
+  '<b>FTZ</b> = zone where goods enter duty free for storage/assembly, usually re-exported. <b>Duty drawback</b> = import, pay tariff, re-export → get ~90%+ back.',
+  '<b>VMI</b> = supplier manages your inventory (Walmart, Amazon). Downside: loss of control. <b>Longshoremen</b> = dock workers (ILWU union).',
+  'Longshoremen are well paid: Class A ILWU dockworkers averaged about <b>$146,500</b> in 2014. LA/Long Beach ran at ~130% during booms → delays. Alternative: <b>Lazaro Cardenas</b> port in Mexico (Toyota, Mazda).',
+  'Ports by volume: <b>Shanghai 44M TEU</b>, Singapore 38M, LA/Long Beach 7.5–9.5M. Ports handle <b>~80% of world trade</b>.'],
+ example:`<div class="card bl7"><h3>Spot the term</h3><ul class="chunks">
+  <li>"Apple pays Foxconn to build iPhones" → <b>outsourcing</b></li>
+  <li>"Toyota ships US cars through Lazaro Cardenas, Mexico" → port alternative / <b>nearshoring</b> logic</li>
+  <li>"Imports Swiss parts, pays duty, exports finished watches, gets refund" → <b>duty drawback</b></li>
+  <li>"Parts stored duty-free, assembled, shipped abroad" → <b>FTZ</b></li>
+  <li>"Supplier restocks Home Depot shelves on its own" → <b>VMI</b></li></ul></div>`,
+ quiz:[
+  ['A US company moves production from China to Vietnam because Vietnam is an ally. This is…',['Nearshoring','Friendshoring','Outsourcing','Reshoring'],1,'Allied country = friendshoring.'],
+  ['Imports Swiss watch parts, pays the tariff, exports watches to Canada, gets most of the tariff refunded. This is…',['FTZ','Duty drawback','VMI','Tariff'],1,'Import → re-export → refund = duty drawback.'],
+  ['Who handles the FOREIGN side, clearing goods through customs?',['Freight forwarder','Longshoreman','Customs house broker','3PL'],2,'Forwarder = US side. Customs house broker = foreign side.'],
+  ['Vendor Managed Inventory: main downside for the retailer?',['Higher ordering cost','Loss of control','More stockouts','Higher tariffs'],1,'The supplier makes the calls.']],
+ cards:[['Outsourcing','Another company does the work'],['Offshoring','Another country'],['Nearshoring','Nearby country'],['Friendshoring','Ally country'],['Freight forwarder','US side "travel agent"'],['Customs house broker','Foreign side, clears customs'],['FTZ','Duty-free zone, usually re-exported'],['Duty drawback','~90%+ tariff refund on re-export'],['VMI','Supplier runs your inventory'],['Longshoremen','Dock workers']]},
+
+{id:'l6',m:8,title:'Reverse logistics + the 5 Rs',mins:10,why:'Quick points, "which R is this?"',
+ learn:[
+  '<b>Reverse logistics</b> = anything that happens to a product <b>after the point of sale</b>.',
+  'Return rates: e-commerce 20–25%, stores 8–10%. About <b>$1 trillion</b> in US returns a year.',
+  'The 5 Rs: <b>Reduce · Reuse (& alternate use) · Repair/Refurbish · Resell · Recycle</b> → goal: Net Zero.',
+  'The prof\'s own definitions (his "5x5 Formula" reverse-logistics framework): <b>Reduce</b> = cut returns to the rate that maximizes profit. <b>Reuse</b> = reuse products & packaging, or find an alternate use. <b>Repair/Refurbish</b> = only if a full cost-benefit says it\'s worth it. <b>Resell</b> = balance price (yield) vs speed of selling (throughput). <b>Recycle</b> = design products so they can be recycled at end of life.',
+  '<b>GreenDust is the prof\'s own company.</b> He founded this reverse-logistics startup in India in April 2008 (backed by Kleiner Perkins). Lecture facts: <b>$500M value, 6,000 people, 1M sq ft, 260 retail stores, 5M units kept out of landfill, 100,000+ trees planted</b>. Expect a question on it.',
+  'Why things go backward (lecture funnel): <b>warranty, shelf pull, defective, damaged, end of life, end of lease, overstock, discontinued, scrap</b>.',
+  'Where they go: <b>repair/refurbish → liquidate/resell → recycle/landfill</b>, or back to installation & service.',
+  'Reverse supply chain is inherently green, and it starts with an efficient forward chain. Outlet stores are a <b>$65B</b> resell channel.'],
+ example:`<div class="card bl8"><h3>Which R? (lecture examples)</h3><ul class="chunks">
+  <li>Buy durable stuff, cut packaging → <b>Reduce</b></li><li>Loop refillable containers (Heinz, Evian) → <b>Reuse</b></li>
+  <li>EU right-to-repair law → <b>Repair</b></li><li>Allbirds ReRun, outlet stores, GreenDust → <b>Resell</b></li>
+  <li>Taking apart e-waste for materials → <b>Recycle</b></li></ul></div>`,
+ quiz:[
+  ['Allbirds ReRun sells gently used shoes. Which R?',['Reduce','Reuse','Repair','Resell'],3,'Selling it again = Resell.'],
+  ['Loop sells products in containers you return and refill. Which R?',['Recycle','Reuse','Reduce','Resell'],1,'Same container used again = Reuse.'],
+  ['Reverse logistics is…',['Shipping to the customer faster','Anything that happens to a product after the point of sale','Importing raw materials','Only recycling'],1,'After the point of sale.'],
+  ['A company designs its phones so the parts can be separated and recovered at end of life. Which R?',['Reduce','Repair','Recycle','Resell'],2,'Designing for end-of-life recovery = Recycle.'],
+  ['A retailer improves its sizing guide so fewer customers send clothes back. Which R?',['Reduce','Reuse','Resell','Recycle'],0,'Cutting the return rate = Reduce.'],
+  ['GreenDust, from the lecture, is…',['A recycling law in the EU','A reverse-logistics company that resells returned products','A freight forwarder','A green bond'],1,'The prof\'s own reverse-logistics startup in India: refurbished/returned goods sold through ~260 stores.']],
+ cards:[['Reverse logistics','Anything after the point of sale'],['5 Rs','Reduce, Reuse, Repair, Resell, Recycle'],['Allbirds ReRun','Resell'],['Loop containers','Reuse']]},
+
+{id:'l7',m:8,title:'Finance for supply chain',mins:25,why:'Plug-and-chug math points',
+ learn:[
+  '<b>NWC</b> = <b>CURRENT</b> assets − <b>CURRENT</b> liabilities. Ignore non-current lines.',
+  '<b>Days of working capital</b> = (NWC ÷ Revenue) × 365 → days you\'d survive with no revenue.',
+  '<b>DIO</b> = (Inventory ÷ COGS) × 365. <b>DSO</b> = (Receivables ÷ Revenue) × 365. <b>DPO</b> = (Payables ÷ COGS) × 365.',
+  '<b>CCC = DSO + DIO − DPO</b>. Negative = you get paid before you pay suppliers. That\'s good.',
+  '<b>Inventory turn</b> = COGS ÷ Inventory.',
+  '<b>Positive cash flow</b> = more cash in than out. <b>Negative</b> = more out than in.',
+  '<b>SCF</b> (reverse factoring) is set up by the buyer. Losers: suppliers who can\'t beat the interest, and suppliers not eligible.',
+  '<b>Green financing</b> example: green bonds. <b>Fixed</b> cost = rent. <b>Variable</b> cost = materials.',
+  'Income statement: <b>Gross profit = Revenue − COGS</b>. <b>Operating income = Gross profit − Operating expenses</b>. <b>EBITDA</b> = earnings before interest, taxes, depreciation & amortization. <b>PBT</b> = profit before tax. <b>PAT</b> = profit after tax = net income.',
+  'A business can be <b>profitable with negative cash flow</b> (customers haven\'t paid yet, big inventory buy) or <b>lose money with positive cash flow</b> (collected old receivables, sold assets).'],
+ example:`<div class="card bl8"><h3>Apple balance sheet (from the study guide)</h3><div class="tblwrap"><table>
+  <tr><th></th><th>9/30/22</th><th>9/30/23</th><th>9/30/24</th><th>9/30/25</th></tr>
+  <tr><th>Current assets</th><td>135.41B</td><td>143.57B</td><td>152.99B</td><td>147.96B</td></tr>
+  <tr><th>Current liabilities</th><td>153.98B</td><td>145.31B</td><td>176.39B</td><td>165.63B</td></tr>
+  <tr><th>NWC</th><td class="hl">−18.57B</td><td class="hl">−1.74B</td><td class="hl">−23.40B</td><td class="hl">−17.67B</td></tr></table></div>
+  <p class="trig">Total assets and non-current lines are traps. Only use the two CURRENT rows.</p>
+  <h3 style="margin-top:12px">Boeing vs Lockheed (lecture)</h3><ul class="chunks"><li>Boeing CCC = <b>455 days</b> (cash stuck in inventory)</li><li>Lockheed CCC = <b>20 days</b></li></ul>
+  <h3 style="margin-top:12px">Gymshark: negative CCC (lecture picture slides)</h3><ul class="chunks">
+  <li>Days to sell inventory (DIO) <b>108</b> + days to collect (DSO) <b>19</b> − days to pay suppliers (DPO) <b>163</b> = <b>−36 days</b></li>
+  <li>Meaning: Gymshark had cash for 36 days per item sold. <b>Suppliers financed its growth</b> (£9M → £176M revenue, 2015–2019)</li>
+  <li>Compare: Adidas 160, Nike 104, Lululemon 84, Gymshark <b>−36</b></li></ul>
+  <h3 style="margin-top:12px">Boeing 2022 income statement (lecture)</h3><div class="tblwrap"><table>
+  <tr><th>Revenue</th><td>$66,608M</td></tr><tr><th>COGS</th><td>$63,078M</td></tr><tr><th>Gross profit = Rev − COGS</th><td class="hl">$3,530M</td></tr>
+  <tr><th>COGS % of revenue</th><td class="hl">94.7%</td></tr><tr><th>Operating expenses</th><td>$7,077M</td></tr><tr><th>Operating income = GP − OpEx</th><td class="hl">−$3,547M</td></tr>
+  <tr><th>Net income (PAT)</th><td>−$4,935M</td></tr><tr><th>EBITDA</th><td>−$1,540M</td></tr></table></div>
+  <p class="trig">Slide 10 "possible questions": gross profit, operating income, COGS % of revenue, OpEx % of revenue, what EBITDA / PAT / PBT mean.</p>
+  <h3 style="margin-top:12px">Inventory turns by store type (lecture)</h3><ul class="chunks"><li>Highest: <b>food stores 10.78</b> (perishable, sells fast). Catalog 8.60. Drug stores 5.26.</li><li>Lowest: <b>jewelry 1.68</b> (expensive, sells slow). Toy stores 2.99.</li></ul></div>`,
+ quiz:[
+  ['Current assets $147.96B, current liabilities $165.63B. Net working capital?',['$17.67B','−$17.67B','$313.59B','−$5.71B'],1,'147.96 − 165.63 = −17.67B.'],
+  ['COGS = $500, inventory = $125. Inventory turn?',['0.25','4','62.5','91 days'],1,'500 ÷ 125 = 4.'],
+  ['Inventory $50, COGS $365. DIO?',['7.3 days','50 days','0.137 days','365 days'],1,'(50 ÷ 365) × 365 = 50 days.'],
+  ['A negative cash-to-cash cycle means…',['The company is losing money','It collects from customers before paying suppliers','Inventory is too high','DSO is negative'],1,'Customers pay you before you pay suppliers.'],
+  ['In supply chain financing, who can LOSE?',['The buyer','The bank','Suppliers who can\'t earn more than the interest, or aren\'t eligible','Customers'],2,'Buyer and bank win.'],
+  ['Which is a FIXED cost?',['Raw materials','Shipping per order','Warehouse rent','Sales commission'],2,'Rent is paid no matter the sales.'],
+  ['Gymshark: DIO 108 days, DSO 19 days, DPO 163 days. CCC?',['290 days','−36 days','36 days','52 days'],1,'19 + 108 − 163 = −36. Suppliers fund the business.'],
+  ['Boeing: revenue $66,608M, COGS $63,078M. Gross profit and COGS % of revenue?',['$3,530M and 94.7%','$3,530M and 5.3%','−$3,547M and 94.7%','$63,078M and 100%'],0,'66,608 − 63,078 = 3,530. 63,078 ÷ 66,608 = 94.7%.'],
+  ['Gross profit $3,530M, operating expenses $7,077M. Operating income?',['$10,607M','−$3,547M','$3,530M','−$4,935M'],1,'3,530 − 7,077 = −3,547.']],
+ cards:[['NWC','Current assets − current liabilities'],['Days of WC','(NWC ÷ Revenue) × 365'],['DIO','(Inv ÷ COGS) × 365'],['DSO','(AR ÷ Revenue) × 365'],['DPO','(AP ÷ COGS) × 365'],['CCC','DSO + DIO − DPO'],['Negative CCC','Paid before you pay → good'],['SCF losers','Can\'t beat interest + not eligible'],['Green financing','Green bonds']]},
+
+{id:'l8',m:6,tag:'Bonus · new numbers',title:'Fresh problems you haven\'t seen',mins:30,why:'Same question types, different numbers',
+ learn:[
+  'These come from the <b>Spring 2026 SCM 300</b> Canvas shell you still have access to: its Module 5 study guide, Math Module problem set and Practice Lab 4/5. All have answer keys.',
+  'Same formulas as Lessons 1–7. <b>New numbers</b>, so you can\'t just remember the answer.',
+  '<b>Rounding:</b> answer keys often round each step. If your exact answer is a few units off a choice, <b>pick the closest</b>.',
+  '<b>Currency direction:</b> "1 € = $1.40" → € to $ = <b>× 1.40</b>. "1.15 € = $1" → € to $ = <b>÷ 1.15</b>. Convert everything into the currency the question asks for.',
+  '<b>Reliability with backups:</b> do each station first (1 − (1 − r)<sup>m</sup>), then multiply the stations.'],
+ example:`<div class="card bl7"><h3>John Deere (answer in USD)</h3><p>Sells in Europe for €240,000. Make in Europe: €225,000. Make in US + ship + import: $280,000.</p>
+  <ul class="chunks"><li><b>1 € = $1.40</b>, make in Europe: (240,000 − 225,000) × 1.40 = <b>$21,000</b></li>
+  <li><b>1 € = $1.40</b>, make in US: 240,000 × 1.40 − 280,000 = <b>$56,000</b></li>
+  <li><b>1.15 € = $1</b>, make in Europe: 15,000 ÷ 1.15 = <b>$13,043</b></li>
+  <li><b>1.15 € = $1</b>, make in US: 240,000 ÷ 1.15 − 280,000 = <b>−$71,304 (loss)</b></li></ul>
+  <h3 style="margin-top:12px">Spring study-guide table (ρ = 0.60)</h3><div class="tblwrap"><table>
+  <tr><th>Servers</th><th>1</th><th>2</th><th>3</th></tr><tr><th>ρ</th><td>0.60</td><td>0.30</td><td>0.20</td></tr>
+  <tr><th>P0</th><td>0.400</td><td>0.538</td><td>0.548</td></tr><tr><th>P1</th><td>0.240</td><td>0.323</td><td>0.329</td></tr>
+  <tr><th>P2</th><td>0.144</td><td>0.097</td><td>0.099</td></tr><tr><th>P3</th><td>0.086</td><td>0.029</td><td>0.019</td></tr>
+  <tr><th>P4</th><td>0.052</td><td>0.009</td><td>0.003</td></tr><tr><th>P5</th><td>0.031</td><td>0.004</td><td>0.001</td></tr>
+  <tr><th>t(s) min</th><td>3.00</td><td>1.319</td><td>1.212</td></tr><tr><th>n(s)</th><td>1.50</td><td>0.660</td><td>0.606</td></tr></table></div>
+  <p class="trig">Use this table for the first 5 questions in Try it.</p></div>`,
+ quiz:[
+  ['(ρ = 0.60 table) Average time in the SYSTEM with ONE server?',['3.00 min','1.50 min','1.80 min','0.90 min'],0,'Read t(s), 1-server column: 3.00 min.'],
+  ['(ρ = 0.60 table) % of time each server is busy in a FIVE-server model?',['10%','5%','12%','6%'],2,'0.60 ÷ 5 = 0.12.'],
+  ['(ρ = 0.60 table) % of new arrivals served immediately in a TWO-server model?',['53.8%','93.8%','86.1%','56.3%'],2,'P0 + P1 = 0.538 + 0.323 = 86.1%.'],
+  ['(ρ = 0.60 table) Single server: probability that AT LEAST ONE customer is in the system?',['40%','60%','24%','76%'],1,'At least one = 1 − P0 = 1 − 0.40 = 60%.'],
+  ['(ρ = 0.60 table) Two-server model: probability of exactly 1 customer in LINE?',['32.3%','9.7%','2.9%','0.9%'],2,'1 in line + 2 being served = 3 in system → P3 = 0.029.'],
+  ['One server helps 35 customers/hr. A customer arrives every 4 minutes. % of time the server is busy?',['11.4%','88.6%','57.2%','42.8%'],3,'λ = 60 ÷ 4 = 15/hr. ρ = 15 ÷ 35 = 0.428.'],
+  ['Demand 10,000. Losses: retail 1.6%, DC 2.1%, mfg 0.7%, materials 1.3%. Materials plan should cover about…',['10,570','10,591','10,630','10,000'],1,'10,000 ÷ .984 ÷ .979 ÷ .993 ÷ .987 ≈ 10,591 (5.9% more).'],
+  ['Store needs 4,000. Losses: supplier 1%, mfg 1.5%, packaging 0.5%, distribution 1%, retail 1%. Plan for about…',['4,050','4,120','4,209','4,400'],2,'Exact ≈ 4,206; the key says 4,209 from rounding. Pick the closest.'],
+  ['Stations: A 0.92, B 0.94, two C\'s at 0.54, three D\'s at 0.49. System reliability?',['0.230','0.591','0.788','0.867'],1,'C: 1 − 0.46² = 0.7884. D: 1 − 0.51³ = 0.8673. 0.92 × 0.94 × 0.7884 × 0.8673 = 0.591.'],
+  ['Machines 0.98, 0.91, 0.84, 0.935. 23,500 units, $18.25 per defect. Total failure cost?',['$128,662.50','$80,628.50','$31,534','$7,050'],0,'R = 0.700 → 30% defects → 7,050 × $18.25 = $128,662.50.'],
+  ['Three steps: 0.97, 0.98, 0.90. Add a backup to step C. New system reliability?',['0.856','0.882','0.941','0.990'],2,'C: 1 − 0.1² = 0.99. 0.97 × 0.98 × 0.99 = 0.941.'],
+  ['1 € = $1.20. US price $45,000, made in Europe for €33,000, import $2,500. Profit in euros?',['€12,000','€2,416.67','€4,500','€9,500'],1,'45,000 ÷ 1.2 − 33,000 − 2,500 ÷ 1.2 = 37,500 − 33,000 − 2,083.33 = €2,416.67.'],
+  ['John Deere: 1 € = $1.40, sells for €240,000, makes in US for $280,000. Profit in USD?',['$21,000','$56,000','−$71,304','$13,043'],1,'240,000 × 1.40 = $336,000 − $280,000 = $56,000.'],
+  ['Toyota: 1 USD = 122 yen. Sells for $44,000, makes in the US for $40,500. Profit in yen?',['¥427,000','¥3,500','¥1,568,000','¥266,000'],0,'(44,000 − 40,500) × 122 = ¥427,000.']],
+ cards:[['At least one in system','1 − P0'],['€ → $ when 1 € = $1.40','× 1.40'],['€ → $ when 1.15 € = $1','÷ 1.15'],['Backups + series','Each station first, then multiply'],['Key off by a few units?','Rounding. Pick the closest choice.']]}
+];
+const SECS=['Learn','Example','Try it','Recall'];
+
+/* ================= STATE ================= */
+const prog=store.get('prog2',{});           // {"l1-0":true,...}
+let cur=store.get('cur',{l:0,s:0});
+const totalSecs=L.length*SECS.length;
+function updProg(){const n=Object.values(prog).filter(Boolean).length;$('#progbar').style.width=(100*n/totalSecs)+'%';renderPlan()}
+function mark(li,si){prog[L[li].id+'-'+si]=true;store.set('prog2',prog);updProg()}
+
+/* ================= TABS ================= */
+const tabs=[...document.querySelectorAll('#tabs button')];
+function show(t){tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==t);store.set('tab',t);window.scrollTo(0,0)}
+tabs.forEach(b=>b.onclick=()=>show(b.dataset.t));
+
+/* ================= PLAN ================= */
+function renderPlan(){
+ $('#planlist').innerHTML=L.map((l,i)=>{const d=SECS.filter((_,s)=>prog[l.id+'-'+s]).length;
+  return `<button class="card lesson-row bl${l.m}" data-l="${i}"><span class="lnum">${i+1}</span><span><span class="tag m${l.m}">${l.tag||'Module '+l.m}</span><h3 style="margin:4px 0 0">${l.title}</h3><span class="lmeta">${l.mins} min · ${l.why}</span></span><span class="pill ${d===4?'full':''}">${d}/4</span></button>`}).join('');
+ document.querySelectorAll('.lesson-row').forEach(b=>b.onclick=()=>{cur={l:+b.dataset.l,s:0};renderLesson();show('lesson')});
+}
+
+/* ================= LESSON ================= */
+const quizState={};
+function quizHTML(qs,key){return qs.map((q,i)=>{const st=quizState[key+i];return `<div class="card" data-k="${key+i}"><div class="qtext">${i+1}. ${q[0]}</div><div class="opts">${q[1].map((o,j)=>`<button data-q="${key+i}" data-o="${j}" class="${st!==undefined?(j===q[2]?'right':(j===st?'wrong':'')):''}">${o}</button>`).join('')}</div><div class="fbx">${st!==undefined?`<div class="fb ${st===q[2]?'ok':'no'}"><b>${st===q[2]?'Yes.':'Not quite.'}</b> ${q[3]}</div>`:''}</div></div>`}).join('')}
+function wireQuiz(root,lookup,onAns){root.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{const k=b.dataset.q;if(quizState[k]!==undefined)return;const q=lookup(k),j=+b.dataset.o;quizState[k]=j;const box=b.closest('.card');box.querySelectorAll('.opts button').forEach((x,i)=>{if(i===q[2])x.classList.add('right');else if(i===j)x.classList.add('wrong')});box.querySelector('.fbx').innerHTML=`<div class="fb ${j===q[2]?'ok':'no'}"><b>${j===q[2]?'Yes.':'Not quite.'}</b> ${q[3]}${q.lesson?` <i>(Lesson ${q.lesson})</i>`:''}</div>`;onAns&&onAns();window.DBq&&DBq()})}
+
+function renderLesson(){
+ store.set('cur',cur);
+ const l=L[cur.l],s=cur.s;
+ $('#lpicker').innerHTML=L.map((x,i)=>`<button data-l="${i}" aria-current="${i===cur.l}">L${i+1}</button>`).join('');
+ document.querySelectorAll('#lpicker button').forEach(b=>b.onclick=()=>{cur={l:+b.dataset.l,s:0};renderLesson()});
+ let body='';
+ if(s===0)body=`<ul class="chunks">${l.learn.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+ if(s===1)body=l.example;
+ if(s===2)body=`<div class="stack" id="lq">${quizHTML(l.quiz,l.id+'q')}</div>`;
+ if(s===3)body=`<p class="trig">Say the answer out loud, then tap to check.</p><div class="recall">${l.cards.map(c=>`<button data-a="${c[1].replace(/"/g,'&quot;')}" data-t="${c[0].replace(/"/g,'&quot;')}"><small>term</small>${c[0]}</button>`).join('')}</div>`;
+ const last=cur.l===L.length-1&&s===3;
+ $('#lview').innerHTML=`<h2 class="lhead"><span class="tag m${l.m}">Lesson ${cur.l+1} · ${l.tag||'Module '+l.m}</span><span>${l.title}</span></h2>
+  <div class="secnav">${SECS.map((x,i)=>`<button data-s="${i}" aria-current="${i===s}" class="${prog[l.id+'-'+i]?'done':''}">${i+1} · ${x}</button>`).join('')}</div>
+  <div id="sbody">${body}</div>
+  <div class="pager"><button id="prev" ${cur.l===0&&s===0?'disabled':''}>← Back</button><button id="next" class="primary">${last?'Done → Final quiz':s===3?'Next lesson →':'Got it → '+SECS[s+1]}</button></div>`;
+ document.querySelectorAll('.secnav button').forEach(b=>b.onclick=()=>{cur.s=+b.dataset.s;renderLesson()});
+ if(s===2){const lk={};l.quiz.forEach((q,i)=>lk[l.id+'q'+i]=q);wireQuiz($('#lq'),k=>lk[k])}
+ if(s===3)document.querySelectorAll('.recall button').forEach(b=>b.onclick=()=>{const o=b.classList.toggle('open');b.innerHTML=o?`<small>${b.dataset.t}</small>${b.dataset.a}`:`<small>term</small>${b.dataset.t}`});
+ $('#prev').onclick=()=>{if(s>0)cur.s--;else if(cur.l>0){cur.l--;cur.s=3}renderLesson();window.scrollTo(0,0)};
+ $('#next').onclick=()=>{mark(cur.l,s);if(last){show('final');return}if(s<3)cur.s++;else{cur.l++;cur.s=0}renderLesson();window.scrollTo(0,0)};
+}
+
+/* ================= FINAL QUIZ ================= */
+let right=0,answered=0;
+function renderFinal(){
+ const all=[];L.forEach((l,li)=>l.quiz.forEach(q=>{const c=q.slice();c.lesson=li+1;all.push(c)}));
+ const order=all.map((q,i)=>[(i*7)%all.length,q]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]); // fixed interleave so modules mix
+ const lk={};order.forEach((q,i)=>lk['F'+i]=q);
+ $('#finallist').innerHTML=order.map((q,i)=>`<div class="card"><div class="qtext">${i+1}. ${q[0]}</div><div class="opts">${q[1].map((o,j)=>`<button data-q="F${i}" data-o="${j}">${o}</button>`).join('')}</div><div class="fbx"></div></div>`).join('');
+ wireQuiz($('#finallist'),k=>lk[k],()=>{answered=Object.keys(quizState).filter(k=>k[0]==='F').length;right=Object.keys(quizState).filter(k=>k[0]==='F'&&quizState[k]===lk[k][2]).length;$('#score').textContent=`${right} / ${answered}`});
+}
+$('#resetfinal').onclick=()=>{Object.keys(quizState).filter(k=>k[0]==='F').forEach(k=>delete quizState[k]);$('#score').textContent='0 / 0';renderFinal();window.scrollTo(0,0)};
+
+/* ================= CLOCK / SPRINT / TEXT ================= */
+const exam=new Date('2026-11-04T08:30:00-07:00');
+function tick(){const ms=exam-new Date();if(ms<=0){$('#clock').textContent='Exam time. You got this.';return}const h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4);$('#clock').textContent=`${h}h ${m}m to exam`}
+tick();setInterval(tick,30000);
+let sp=null,left=1500;
+$('#sprint').onclick=()=>{if(sp){clearInterval(sp);sp=null;left=1500;$('#sprint').textContent='▶ 25:00 sprint';return}
+ sp=setInterval(()=>{left--;const m=String(Math.floor(left/60)).padStart(2,'0'),s=String(left%60).padStart(2,'0');$('#sprint').textContent=`■ ${m}:${s}`;if(left<=0){clearInterval(sp);sp=null;left=1500;$('#sprint').textContent='Break! ▶ again'}},1000);$('#sprint').textContent='■ 25:00'};
+$('#big').onclick=()=>{const on=document.body.classList.toggle('big');$('#big').setAttribute('aria-pressed',on);store.set('big',on)};
+if(store.get('big',false)){document.body.classList.add('big');$('#big').setAttribute('aria-pressed','true')}
+
+/* ================= TOOLS ================= */
+const F=[[5,'Server busy (rho)','ρ = λ ÷ μ','"% busy", "utilization". Multi-server: ρ ÷ s'],[5,'Avg # in system','n_s = λ ÷ (μ − λ)','"customers in the store"'],[5,'Avg # in line','n_l = ρ × n_s','"waiting", "on hold"'],[5,'Time in system','t_s = 1 ÷ (μ − λ)','"enter to leave"'],[5,'Time in line','t_l = ρ × t_s','"wait time"'],[5,'Exactly n in system','P_n = (1 − ρ) × ρ^n','single server only'],[5,'More than k in system','1 − (P0 + … + Pk)','single server shortcut: ρ^(k+1)'],[5,'Line → system','k in line = k + s in system','s = # servers'],[6,'Shrinkage','Order = Demand ÷ (1 − loss)','each stage, retail first'],[6,'Series reliability','R = r1 × r2 × … × rn','machines in a row'],[6,'Backup reliability','R = 1 − (1 − r)^m','m machines, same job'],[8,'NWC','Current assets − Current liabilities','"working capital"'],[8,'Days of WC','(NWC ÷ Revenue) × 365','"days with no revenue"'],[8,'DIO','(Inventory ÷ COGS) × 365','days inventory sits'],[8,'DSO','(AR ÷ Revenue) × 365','days to get paid'],[8,'DPO','(AP ÷ COGS) × 365','days to pay suppliers'],[8,'CCC','DSO + DIO − DPO','negative = good'],[8,'Inventory turn','COGS ÷ Inventory','times sold & replaced']];
+$('#formlist').innerHTML=F.map(f=>`<div class="card bl${f[0]}"><h3>${f[1]}</h3><code class="f">${f[2]}</code><div class="trig">Use when: ${f[3]}</div></div>`).join('');
+const toHr=(v,u)=>u==='ph'?v:u==='pm'?v*60:60/v;
+const fx=(x,d=4)=>Number.isFinite(x)?(+x.toFixed(d)).toString():'—';
+const pct=x=>Number.isFinite(x)?(x*100).toFixed(2)+'%':'—';
+function queue(){
+ const l=toHr(+$('#lamv').value,$('#lamu').value),m=toHr(+$('#muv').value,$('#muu').value);
+ if(!(l>0&&m>0)){$('#qout').innerHTML='<div><span>Enter positive rates</span><span></span></div>';$('#qsteps').textContent='';return}
+ if(l>=m){$('#qout').innerHTML='<div><span>λ ≥ μ means the line grows forever. Check the rates.</span><span></span></div>';$('#qsteps').textContent='';return}
+ const r=l/m,ns=l/(m-l),nl=r*ns,ts=1/(m-l),tl=r*ts;
+ let h=`<div><span>λ (per hour)</span><span>${fx(l)}</span></div><div><span>μ (per hour)</span><span>${fx(m)}</span></div><div><span>ρ server busy</span><span>${pct(r)}</span></div><div><span>n<sub>s</sub> in system</span><span>${fx(ns)}</span></div><div><span>n<sub>l</sub> in line</span><span>${fx(nl)}</span></div><div><span>t<sub>s</sub> time in system</span><span>${fx(ts*60)} min</span></div><div><span>t<sub>l</sub> time in line</span><span>${fx(tl*60)} min</span></div><div><span>P0 empty / served immediately</span><span>${pct(1-r)}</span></div>`;
+ for(let n=1;n<=6;n++)h+=`<div><span>P${n}: exactly ${n} in system${n>1?` (${n-1} in line)`:''}</span><span>${pct((1-r)*r**n)}</span></div>`;
+ $('#qout').innerHTML=h;
+ $('#qsteps').innerHTML=`Steps: ρ = ${fx(l)} ÷ ${fx(m)} = ${fx(r)}. t<sub>s</sub> = 1 ÷ (${fx(m)} − ${fx(l)}) = ${fx(ts)} hr × 60 = ${fx(ts*60)} min. t<sub>l</sub> = ${fx(r)} × ${fx(ts*60)} = ${fx(tl*60)} min.`;
+}
+['lamv','lamu','muv','muu'].forEach(i=>$('#'+i).addEventListener('input',queue));queue();
+function table(){
+ const s=+$('#srv').value,k=Math.max(0,Math.floor(+$('#kv').value||0)),t=$('#qtype').value;
+ let P=$('#plist').value.split(/[,\s]+/).filter(Boolean).map(Number);if(P.some(x=>x>1))P=P.map(x=>x/100);
+ const sum=n=>{let a=0;for(let i=0;i<=n;i++)a+=(P[i]??NaN);return a};const list=n=>Array.from({length:n+1},(_,i)=>'P'+i).join(' + ');
+ let e='',v=NaN,need=0;
+ if(t==='imm'){e=`Served immediately = fewer than ${s} in system = ${list(s-1)}`;v=sum(s-1);need=s-1}
+ if(t==='eqL'){e=`${k} in line = ${k+s} in system → P${k+s}`;v=P[k+s];need=k+s}
+ if(t==='gtL'){e=`More than ${k} in line = more than ${k+s} in system → 1 − (${list(k+s)})`;v=1-sum(k+s);need=k+s}
+ if(t==='ltL'){e=k<1?'Use k ≥ 1':`Fewer than ${k} in line = fewer than ${k+s} in system → ${list(k+s-1)}`;v=k<1?NaN:sum(k+s-1);need=k+s-1}
+ if(t==='geL'){e=`${k} or more in line = ${k+s} or more in system → 1 − (${k+s-1>=0?list(k+s-1):'0'})`;v=1-(k+s-1>=0?sum(k+s-1):0);need=k+s-1}
+ if(t==='eqS'){e=`Exactly ${k} in system → P${k}`;v=P[k];need=k}
+ if(t==='gtS'){e=`More than ${k} in system → 1 − (${list(k)})`;v=1-sum(k);need=k}
+ if(t==='ltS'){e=k<1?'Use k ≥ 1':`Fewer than ${k} in system → ${list(k-1)}`;v=k<1?NaN:sum(k-1);need=k-1}
+ if(t==='geS'){e=`${k} or more in system → 1 − (${k>=1?list(k-1):'0'})`;v=1-(k>=1?sum(k-1):0);need=k-1}
+ $('#tout').innerHTML=`<div><span>${e}</span><span></span></div>${need>=P.length?`<div><span>Add values through P${need}</span><span></span></div>`:''}<div><span>Answer</span><span>${pct(v)}</span></div>`;
+}
+['srv','qtype','kv','plist'].forEach(i=>$('#'+i).addEventListener('input',table));table();
+function fin(){const g=i=>+$('#'+i).value;const ca=g('ca'),cl=g('cl'),rev=g('rev'),cogs=g('cogs'),inv=g('inv'),ar=g('ar'),ap=g('ap');
+ const nwc=ca-cl,dwc=nwc/rev*365,dio=inv/cogs*365,dso=ar/rev*365,dpo=ap/cogs*365,ccc=dso+dio-dpo;
+ $('#fout').innerHTML=`<div><span>NWC = CA − CL</span><span>${fx(nwc,2)}</span></div><div><span>Days of working capital</span><span>${fx(dwc,1)} days</span></div><div><span>DIO</span><span>${fx(dio,1)} days</span></div><div><span>DSO</span><span>${fx(dso,1)} days</span></div><div><span>DPO</span><span>${fx(dpo,1)} days</span></div><div><span>CCC = DSO + DIO − DPO</span><span>${fx(ccc,1)} days${ccc<0?' (good)':''}</span></div><div><span>Inventory turn</span><span>${fx(cogs/inv,2)}×</span></div>`}
+['ca','cl','rev','cogs','inv','ar','ap'].forEach(i=>$('#'+i).addEventListener('input',fin));fin();
+function ops(){
+ let d=+$('#dem').value;const Ls=$('#losses').value.split(/[,\s]+/).filter(Boolean).map(Number);const names=['Retail','Distribution','Manufacturing','Suppliers','Stage 5','Stage 6'];
+ let h=`<div><span>Start (retail need)</span><span>${fx(d,0)}</span></div>`;Ls.forEach((x,i)=>{const p=x>1?x/100:x;d=d/(1-p);h+=`<div><span>${names[i]||'Stage'} ÷ (1 − ${fx(p,4)})</span><span>${fx(d,1)}</span></div>`});
+ h+=`<div><span>Extra units</span><span>${fx(d-+$('#dem').value,1)}</span></div>`;$('#sout').innerHTML=h;
+ const R=$('#rels').value.split(/[,\s]+/).filter(Boolean).map(Number),m=Math.max(1,+$('#bk').value||1),u=+$('#units').value;
+ const base=R.reduce((a,b)=>a*b,1),last=R[R.length-1],nb=1-(1-last)**m,wb=base/last*nb;
+ $('#rout').innerHTML=`<div><span>Reliability (series)</span><span>${fx(base,4)}</span></div><div><span>Good / defective</span><span>${fx(base*u,0)} / ${fx((1-base)*u,0)}</span></div>${m>1?`<div><span>Last stage: 1 − (1 − ${last})^${m}</span><span>${fx(nb,4)}</span></div><div><span>New reliability</span><span>${fx(wb,4)}</span></div><div><span>New defective</span><span>${fx((1-wb)*u,0)}</span></div>`:''}`;
+ const f=+$('#fx').value,px=+$('#px').value,eu=+$('#eu').value,imp=+$('#imp').value,us=+$('#us').value,pe=px/f-eu-imp/f,pu=(px-us)/f;
+ $('#xout').innerHTML=`<div><span>Make in Europe</span><span>€${fx(pe,1)}</span></div><div><span>Make in US</span><span>€${fx(pu,1)}</span></div><div><span>Better</span><span>${pe>pu?'Europe':'US'}</span></div>`;
+}
+['dem','losses','rels','bk','units','fx','px','eu','imp','us'].forEach(i=>$('#'+i).addEventListener('input',ops));ops();
+
+/* ================= PORT RUSH ================= */
+const G={};
+const POOL=[];L.forEach((l,li)=>l.quiz.forEach(q=>POOL.push({q:q[0],o:q[1],a:q[2],why:q[3],li,math:[0,1,3,6,7].includes(li)&&/\d/.test(q[0])})));
+const RANKS=[[0,'Intern','Coffee runs and pallet counts. Run it back.'],[8000,'Analyst','You can read a queue table. Keep stacking.'],[20000,'Ops Manager','The floor runs on time when you\'re on shift.'],[35000,'Director of Logistics','You\'d survive a port strike.'],[50000,'VP Supply Chain','Bullwhip doesn\'t scare you.'],[65000,'CEO','Future CEOs come from supply chain. Go to bed.']];
+const EVENTS=[
+ {k:'strike',t:'PORT STRIKE',d:'ILWU walked out. Clock is 10 seconds shorter for 3 shipments.',n:3},
+ {k:'tariff',t:'TARIFF HIT',d:'25% import tax. Payouts ×0.75 for 3 shipments.',n:3},
+ {k:'peak',t:'PEAK SEASON',d:'Demand spike. Payouts ×2 for 3 shipments.',n:3},
+ {k:'scf',t:'SUPPLY CHAIN FINANCE',d:'The bank paid your invoice early. +$3,000 now.',n:0},
+ {k:'suez',t:'SUEZ BLOCKED',d:'Next shipment is a math problem worth ×3.',n:1},
+ {k:'ftz',t:'FREE TRADE ZONE',d:'Your next miss is duty-free. No container lost.',n:1},
+ {k:'bull',t:'BULLWHIP',d:'Demand is swinging. Next shipment pays ×2 but a miss costs 2 containers.',n:1}];
+const money=n=>(n<0?'−$':'$')+Math.abs(Math.round(n)).toLocaleString('en-US');
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function bestBoard(){const b=store.get('portrush',{});const rows=[['sprint','Sprint'],['survival','Survival'],['math','Math only'],['encore','Encore (8 tracks)']].map(([k,n])=>`<div><span>${n}</span><b>${b[k]?money(b[k].cash)+(k==='encore'?'':' · '+b[k].rank):'no run yet'}</b></div>`).join('');$('#g-best').innerHTML=`<div><span>YOUR BEST RUNS</span><span>CASH · RANK</span></div>${rows}`}
+function gScreen(s){['start','play','end','encore'].forEach(x=>$('#g-'+x).hidden=x!==s)}
+function startRun(mode){
+ if(mode==='encore')return startEncore(8,false);
+ if(mode==='live'){show('drop');ntdStart(5);return}
+ let deck=mode==='math'?shuffle(POOL.filter(p=>p.math)).slice(0,12):mode==='sprint'?shuffle(POOL).slice(0,15):shuffle(POOL);
+ $('#g-encorebtn').hidden=false;
+ Object.assign(G,{mode,deck,i:0,cash:0,streak:0,best:0,lives:3,right:0,seen:0,miss:{},fx:[],shield:false,locked:false,timer:null,why:''});
+ gScreen('play');nextShip();window.scrollTo(0,0);
+}
+function fxActive(k){return G.fx.find(f=>f.k===k&&f.n>0)}
+function rollEvent(){const e=EVENTS[Math.floor(Math.random()*EVENTS.length)];let note='';
+ if(e.k==='scf'){G.cash+=3000;note=' <span class="g-pop">+$3,000</span>'}
+ else if(e.k==='ftz')G.shield=true;
+ else if(e.k==='suez'){const j=G.deck.findIndex((p,ix)=>ix>=G.i&&p.math);if(j>G.i){[G.deck[G.i],G.deck[j]]=[G.deck[j],G.deck[G.i]]}G.fx.push({k:'suez',n:1})}
+ else G.fx.push({k:e.k,n:e.n});
+ $('#g-event').innerHTML=`<div class="g-event"><b>⚠ ${e.t}</b> · ${e.d}${note}</div>`;}
+function hud(){$('#g-cash').textContent=money(G.cash);$('#g-streak').textContent='×'+mult().toFixed(1)+(G.streak?` (${G.streak})`:'');
+ $('#g-lives').innerHTML=[0,1,2].map(i=>`<span class="g-box ${i<G.lives?'':'lost'}"></span>`).join('');
+ $('#g-count').textContent=G.mode==='survival'?`${G.i+1}`:`${G.i+1}/${G.deck.length}`;
+ const act=[];G.fx.filter(f=>f.n>0).forEach(f=>act.push({strike:'STRIKE −10s',tariff:'TARIFF ×0.75',peak:'PEAK ×2',suez:'SUEZ ×3',bull:'BULLWHIP ×2 / −2'}[f.k]+(f.n>1?` (${f.n})`:'')));if(G.shield)act.push('FTZ SHIELD');
+ $('#g-active').textContent=act.length?'ACTIVE: '+act.join(' · '):'';}
+function mult(){return 1+0.5*Math.min(G.streak,6)}
+function nextShip(){
+ if(G.lives<=0)return endRun('FIRED · OUT OF CONTAINERS');
+ if(G.i>=G.deck.length)return endRun(G.mode==='survival'?'DECK CLEARED':'RUN COMPLETE');
+ $('#g-event').innerHTML='';$('#g-report').innerHTML='';
+ if(G.i>0&&G.i%4===0)rollEvent();
+ const p=G.deck[G.i];G.cur=p;G.locked=false;
+ const order=shuffle(p.o.map((t,ix)=>({t,ix})));G.order=order;
+ $('#g-qtag').textContent=`LESSON ${p.li+1} · ${L[p.li].title.toUpperCase()}${p.math?' · MATH':''}`;
+ $('#g-q').textContent=p.q;
+ $('#g-opts').innerHTML=order.map((o,k)=>`<button data-k="${k}"><kbd>${k+1}</kbd><span>${o.t}</span></button>`).join('');
+ document.querySelectorAll('#g-opts button').forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+ hud();
+ G.total=(p.math?45:25)-(fxActive('strike')?10:0);G.left=G.total;G.start=performance.now();
+ clearInterval(G.timer);const bar=$('#g-timer'),wrap=$('#g-timerwrap');bar.style.transform='scaleX(1)';wrap.classList.remove('low');
+ G.timer=setInterval(()=>{G.left=G.total-(performance.now()-G.start)/1000;bar.style.transform=`scaleX(${Math.max(0,G.left/G.total)})`;wrap.classList.toggle('low',G.left<6);if(G.left<=0)answer(-1)},100);
+}
+function tickFx(){G.fx.forEach(f=>f.n--);G.fx=G.fx.filter(f=>f.n>0)}
+function answer(k){
+ if(G.locked)return;G.locked=true;clearInterval(G.timer);
+ const p=G.cur,picked=k>=0?G.order[k].ix:-1,ok=picked===p.a;G.seen++;
+ document.querySelectorAll('#g-opts button').forEach((b,ix)=>{b.disabled=true;const real=G.order[ix].ix;if(real===p.a)b.classList.add('right');else if(ix===k)b.classList.add('wrong')});
+ let msg='';
+ if(ok){G.right++;G.streak++;G.best=Math.max(G.best,G.streak);
+  let pay=1000*mult();if(fxActive('tariff'))pay*=.75;if(fxActive('peak'))pay*=2;if(fxActive('suez'))pay*=3;if(fxActive('bull'))pay*=2;
+  const speed=Math.round(500*Math.max(0,G.left)/G.total);pay+=speed;G.cash+=pay;
+  msg=`<div class="g-report"><b>CLEARED</b> <span class="g-pop">+${money(pay)}</span> <span class="g-tag">(speed +${money(speed)})</span><div>${p.why}</div></div>`;
+ }else{G.streak=0;G.miss[p.li]=(G.miss[p.li]||0)+1;
+  let lost=fxActive('bull')?2:1;if(G.shield){lost=0;G.shield=false}G.lives=Math.max(0,G.lives-lost);
+  $('#g-play').classList.remove('shake');void $('#g-play').offsetWidth;$('#g-play').classList.add('shake');
+  msg=`<div class="g-report bad"><b>${k<0?'TIMED OUT':'INCIDENT REPORT'}</b> ${lost?`· −${lost} container${lost>1?'s':''}`:'· FTZ shield saved you'}<div>${p.why}</div><div class="g-tag" style="margin-top:4px">REVIEW: LESSON ${p.li+1}</div></div>`;}
+ tickFx();G.i++;hud();
+ const last=G.lives<=0||G.i>=G.deck.length;
+ $('#g-report').innerHTML=msg+`<button class="g-next" id="g-nextbtn">${last?'See results':'Next shipment →'} <span class="g-tag" style="color:inherit">(Enter)</span></button>`;
+ $('#g-nextbtn').onclick=nextShip;$('#g-nextbtn').focus({preventScroll:true});window.DBq&&DBq();
+}
+function rankFor(c){let r=RANKS[0];RANKS.forEach(x=>{if(c>=x[0])r=x});return r}
+function endRun(why){
+ clearInterval(G.timer);gScreen('end');
+ const r=rankFor(G.cash);$('#g-endwhy').textContent=why;$('#g-rank').textContent=r[1].toUpperCase();$('#g-ranksub').textContent=r[2];
+ const acc=G.seen?Math.round(100*G.right/G.seen):0;
+ $('#g-stats').innerHTML=`<div><small>CASH</small>${money(G.cash)}</div><div><small>ACCURACY</small>${acc}% (${G.right}/${G.seen})</div><div><small>BEST STREAK</small>${G.best}</div><div><small>MODE</small>${{sprint:'Sprint',survival:'Survival',math:'Math only'}[G.mode]}</div>`;
+ const weak=Object.entries(G.miss).sort((a,b)=>b[1]-a[1]);
+ $('#g-weak').innerHTML=weak.length?`<div class="g-tag">WHERE YOU LOST CONTAINERS → TAP TO REVIEW</div><div class="g-weak">${weak.map(([li,n])=>`<button data-l="${li}">L${+li+1} · ${L[li].title} (${n})</button>`).join('')}</div>`:'<div class="g-tag">CLEAN RUN. NO CONTAINERS LOST.</div>';
+ document.querySelectorAll('.g-weak button').forEach(b=>b.onclick=()=>{cur={l:+b.dataset.l,s:0};renderLesson();show('lesson')});
+ const best=store.get('portrush',{});if(!best[G.mode]||G.cash>best[G.mode].cash){best[G.mode]={cash:Math.round(G.cash),rank:r[1]};store.set('portrush',best);$('#g-endwhy').textContent=why+' · NEW BEST'}
+ bestBoard();
+}
+/* ---------- ENCORE: NAME THAT DROP ---------- */
+// [artist, song, bpm, camelot, key, genre, year, energy 0-1, origin clue, fact clue]  — BPM/key/energy from FreqBlog audio analysis
+const TRACKS=[
+ ['FISHER','Losing It',124,'5A','C minor','tech house',2018,.80,'Australian. Used to be a pro surfer.','Grammy-nominated for Best Dance Recording. The whole hook is basically one vocal chop.'],
+ ['John Summit','Where You Are',126,'8A','A minor','house',2023,.74,'From Chicago. Was an accountant before he blew up.','Vocal by HAYLA. Big festival singalong on his Comfort in Chaos era.'],
+ ['Dom Dolla','Saving Up',130,'2A','E♭ minor','tech house',2023,.86,'Australian. Also known for "San Frandisco".','Title sounds like personal finance advice.'],
+ ['Swedish House Mafia','Don\'t You Worry Child',129,'9B','G major','progressive house',2012,.76,'A Swedish trio.','Features John Martin. Their big farewell-tour anthem.'],
+ ['Avicii','Levels',126,'12B','E major','progressive house',2011,.43,'Swedish. One of the biggest names in EDM history.','Samples Etta James. The lead synth is instantly recognizable.'],
+ ['Major Lazer','Lean On',98,'6A','G minor','moombahton',2015,.85,'Diplo\'s group.','With DJ Snake and MØ. One of the most-streamed songs ever at the time.'],
+ ['The Chainsmokers','Closer',95,'5B','E♭ major','pop / future bass',2016,.56,'NYC duo. Played frat parties early on.','Features Halsey. 12 weeks at #1 on the Hot 100.'],
+ ['David Guetta','Titanium',124,'5A','C minor','dance pop',2011,.62,'French. Ibiza legend.','Features Sia. Massive vocal anthem.'],
+ ['Green Velvet','Flash',128,'9B','G major','Chicago house',1995,.75,'Chicago house legend, real name Curtis Jones. Famous hair.','Rave-era classic built on a spoken-word vocal. Still gets dropped in his sets today.'],
+ ['Afrojack','Take Over Control',130,'5A','C minor','electro house',2010,.94,'Dutch. Very tall. Big-room king.','Features Eva Simons.'],
+ ['Skrillex','Bangarang',110,'6A','G minor','dubstep',2011,.91,'LA producer. Used to front a post-hardcore band.','Features Sirah. Won a Grammy for Best Dance Recording.'],
+ ['Disclosure','Latch',122,'4A','F minor','UK garage / house',2012,.74,'Two brothers from the UK.','Breakout song for Sam Smith.'],
+ ['Mau P','Drugs From Amsterdam',125,'5B','E♭ major','tech house',2022,.89,'Dutch producer.','The title names a city and a substance. Huge tech-house crossover.'],
+ ['ODESZA','Say My Name',115,'11B','A major','future bass / indie electronic',2014,.55,'Seattle duo known for marching drumlines live.','Features Zyra.'],
+ ['Zedd','Clarity',128,'4B','A♭ major','electro house',2012,.84,'Russian-German producer.','Features Foxes. Won a Grammy for Best Dance Recording.'],
+ ['Fred again..','Marea (We\'ve Lost Dancing)',123,'4A','F minor','house',2021,.75,'UK. Builds tracks out of voice memos and found audio.','Built around The Blessed Madonna talking about missing the dance floor.'],
+ ['Chris Lake','Turn Off the Lights',125,'9A','E minor','tech house',2018,.49,'British DJ, big in the US underground.','With Alexis Roberts. Dark, minimal, whispery.'],
+ ['Calvin Harris','Feel So Close',128,'9B','G major','electro house',2011,.85,'Scottish. Went from bedroom producer to Vegas residencies.','He sings on it himself.'],
+ ['Kaskade','Atmosphere',123,'4A','F minor','progressive house',2013,.60,'American, real name Ryan Raddon.','Title is another word for vibe.'],
+ ['ILLENIUM','Good Things Fall Apart',144,'10B','D major','melodic bass',2019,.94,'Denver-based. Emotional bass music.','With Jon Bellion.']
+];
+const E={};
+function startEncore(n,fromRun){const deck=shuffle(TRACKS).slice(0,n);Object.assign(E,{deck,i:0,bank:0,fromRun,n});gScreen('encore');encoreTrack();window.scrollTo(0,0)}
+function opts(correct,field){const others=shuffle(TRACKS.filter(t=>t[field]!==correct)).slice(0,3).map(t=>t[field]);return shuffle([correct,...others])}
+function encoreTrack(){
+ const t=E.deck[E.i];Object.assign(E,{t,clues:1,pickA:null,pickS:null,done:false});
+ E.aOpts=opts(t[0],0);E.sOpts=opts(t[1],1);
+ $('#e-tag').textContent=E.fromRun?'ENCORE · BONUS ROUND · ONE TRACK':'ENCORE · NAME THAT DROP';
+ $('#e-count').textContent=`${E.i+1}/${E.deck.length}`;$('#e-result').innerHTML='';$('#e-lock').hidden=false;$('#e-more').hidden=false;
+ const draw=(id,arr,key)=>{$(id).innerHTML=arr.map((x,k)=>`<button data-k="${k}"><kbd>${'ABCD'[k]}</kbd><span>${x}</span></button>`).join('');
+  document.querySelectorAll(id+' button').forEach(b=>b.onclick=()=>{if(E.done)return;E[key]=+b.dataset.k;document.querySelectorAll(id+' button').forEach(x=>x.style.borderColor=x===b?'var(--g-amber)':'')})};
+ draw('#e-artist',E.aOpts,'pickA');draw('#e-song',E.sOpts,'pickS');
+ encoreClues();
+}
+function encoreClues(){const t=E.t;const bar=Math.round(t[7]*10);
+ const rows=[['BPM · KEY · GENRE',`${t[2]} BPM · ${t[3]} (${t[4]}) · ${t[5]}`],['YEAR · ENERGY',`${t[6]} · ${'▮'.repeat(bar)}${'▯'.repeat(10-bar)}`],['WHO',t[8]],['TELL',t[9]]];
+ $('#e-cluebox').innerHTML=`<div><span>CLUE</span><span>INTEL</span></div>`+rows.slice(0,E.clues).map(r=>`<div><span>${r[0]}</span><b style="text-align:right">${r[1]}</b></div>`).join('');
+ $('#e-pot').textContent=money(pot());$('#e-clues').textContent=`${E.clues}/4`;$('#e-bank').textContent=money(E.bank);
+ $('#e-more').disabled=E.clues>=4;$('#e-more').textContent=E.clues>=4?'All clues out':'Reveal next clue (pot −$1,000)';}
+function pot(){return 4000-1000*(E.clues-1)}
+$('#e-more').onclick=()=>{if(E.done||E.clues>=4)return;E.clues++;encoreClues()};
+$('#e-lock').onclick=()=>{
+ if(E.done)return;if(E.pickA===null||E.pickS===null){$('#e-result').innerHTML='<div class="g-report bad"><b>PICK BOTH</b> · Choose an artist and a song first.</div>';return}
+ E.done=true;const t=E.t,aOk=E.aOpts[E.pickA]===t[0],sOk=E.sOpts[E.pickS]===t[1];
+ const won=(aOk?pot()/2:0)+(sOk?pot()/2:0);E.bank+=won;
+ const mark=(id,arr,pick,ans)=>document.querySelectorAll(id+' button').forEach((b,k)=>{b.disabled=true;b.style.borderColor='';if(arr[k]===ans)b.classList.add('right');else if(k===pick)b.classList.add('wrong')});
+ mark('#e-artist',E.aOpts,E.pickA,t[0]);mark('#e-song',E.sOpts,E.pickS,t[1]);
+ while(E.clues<4)E.clues++;encoreClues();
+ const q=encodeURIComponent(t[0]+' '+t[1]+' live');const last=E.i>=E.deck.length-1;
+ $('#e-lock').hidden=true;$('#e-more').hidden=true;
+ $('#e-result').innerHTML=`<div class="g-report ${aOk&&sOk?'':'bad'}"><b>${aOk&&sOk?'NAILED IT':aOk||sOk?'HALF CREDIT':'MISSED'}</b> <span class="g-pop">+${money(won)}</span><div>${t[0]} · "${t[1]}" (${t[6]})</div>
+  <div style="margin-top:6px"><a href="https://www.youtube.com/results?search_query=${q}" target="_blank" rel="noopener" style="color:var(--g-cyan)">Watch it live on YouTube ↗</a> · <a href="https://open.spotify.com/search/${encodeURIComponent(t[0]+' '+t[1])}" target="_blank" rel="noopener" style="color:var(--g-cyan)">Spotify ↗</a></div></div>
+  <button class="g-next" id="e-next">${last?(E.fromRun?'Bank it → results':'Finish'):'Next track →'}</button>`;
+ $('#e-next').onclick=()=>{if(!last){E.i++;encoreTrack();return}
+  if(E.fromRun){G.cash+=E.bank;endRun('ENCORE BANKED +'+money(E.bank));$('#g-encorebtn').hidden=true}
+  else{const b=store.get('portrush',{});if(!b.encore||E.bank>b.encore.cash){b.encore={cash:E.bank,rank:''};store.set('portrush',b)}gScreen('start');bestBoard()}};
+};
+$('#g-encorebtn').onclick=()=>startEncore(1,true);
+$('#g-encorelive').onclick=()=>{show('drop');ntdStart(5)};
+
+document.querySelectorAll('.g-modes button').forEach(b=>b.onclick=()=>startRun(b.dataset.mode));
+$('#g-again').onclick=()=>startRun(G.mode);$('#g-menu').onclick=()=>{gScreen('start');bestBoard()};
+$('#g-quit').onclick=()=>endRun('QUIT');
+document.addEventListener('keydown',e=>{if($('#game').hidden||$('#g-play').hidden)return;if(/^[1-4]$/.test(e.key)&&!G.locked){const k=+e.key-1;if(k<G.order.length)answer(k)}else if(e.key==='Enter'&&G.locked&&$('#g-nextbtn')){e.preventDefault();nextShip()}});
+bestBoard();
+
+/* ================= NAME THAT DROP + DROP BREAKS ================= */
+// Claude's site can't embed YouTube, so every clip is a plain link that opens YouTube right at the drop.
+(function(){
+// [youtubeId, artist, song, dropStartSeconds, clipTitle]  (drop time = YouTube "most replayed" peak, minus a few seconds)
+const CRATE=[["RYxUmlW2AeM","Avicii","Levels",110,"Avicii - Levels (Ultra Music Festival 2013)"],["oUbpmjOgmmU","FISHER","Losing It",101,"FISHER - Losing It - Live at Coachella 2019 Friday April 12, 2019"],["02twwNa622s","Swedish House Mafia","Don't You Worry Child",141,"Swedish House Mafia - Don't You Worry Child (Live UMF 2013)"],["9t-vun3_9as","John Summit","Where You Are",120,"Where You Are (Orchestral Version) - Live At The Forum"],["yAl6yiQHHNw","Dom Dolla","Saving Up",55,"Dom Dolla - Saving Up (Last Night in Vegas Visual)"],["3kDHYGTYwa8","Major Lazer","Lean On",150,"Major Lazer & MØ   Lean On LIVE @ Lollapalooza Festival 2016 Chicago"],["agFMqNB9BYM","The Chainsmokers","Closer",190,"The Chainsmokers - Closer ft. Halsey (Live from the 2016 MTV VMAs)"],["RXd0EVQ4C3Q","David Guetta","Titanium",128,"David Guetta - Titanium ft. Sia (Alesso Remix) Live @ Tomorrowland 2015"],["rnNCNgvC1Nw","ILLENIUM","Good Things Fall Apart",130,"ILLENIUM - Good Things Fall Apart (Live @Ultra Music Festival Miami 2026)"],["Te1bondqHbA","Calvin Harris","Feel So Close",90,"Calvin Harris - Feel So Close LIVE at 2024 Ultra Music Festival Miami"],["jk5roonvMyc","ODESZA","Say My Name",108,"ODESZA - Say My Name (feat.  Zyra) (Live)"],["NcK8Zyzg5eA","Martin Garrix","Animals",78,"Martin Garrix ANIMALS LIVE TOMORROWLAND 2016"],["h-nQ63LCV7I","Eric Prydz","Opus",153,"Eric Prydz - Opus [Live Tomorrowland 2017]"],["Vaw59VJKoAk","deadmau5","Strobe",252,"deadmau5 - Strobe live @ SPACE, Ibiza 09"],["d6bV9p_Nels","Alesso","Heroes",115,"Alesso - Heroes [Live Tomorrowland 2016] [Brasil]"],["lKsz6tUEoVk","Tiësto","Adagio for Strings",30,"Tiesto - Adagio for strings / Secret ( Epic Tomorrowland Show 2019 )"],["3HIlAdazD3Y","Kygo","Firestone",290,"Kygo - Firestone ft. Conrad Sewell (Live from the iHeartRadio Music Festival 2018)"],["vNy-CnyEMoA","Flume","Never Be Like You",230,"Flume - Never Be Like You feat. Kai [Live at St. Jerome's Laneway Festival Melbourne]"],["us6HYdU1He4","RÜFÜS DU SOL","Innerbloom",249,"RÜFÜS DU SOL ●● Innerbloom (Live at The Hordern Pavilion, Sydney)"],["AqBQfbFX3gk","Porter Robinson","Language",50,"Porter Robinson \"Language\" New Year Countdown 2020"],["J1oanSGqym8","Hardwell","Spaceman",20,"Amazing 2013 Hardwell Intro SpaceMan vs Above and Beyond Classic Ultra"],["khdlq0OBPeg","Galantis","Runaway (U & I)",154,"Galantis - Runaway (Live at Ultra Music Festival 2015)"],["OuD8wCqBvkU","Marshmello","Alone",136,"Marshmello - Alone (Live at Echostage)"],["Orp4k_YkE5w","Avicii","Wake Me Up",186,"Avicii Tribute Concert - Wake Me Up (Live Vocals by Aloe Blacc)"],["xOxP8F6mngo","Green Velvet","Flash",197,"Green Velvet-Flash-Live Tomorrowland 2014"],["PS24lfTLA9M","Afrojack","Take Over Control",93,"Afrojack ft Eva Simons - Take Over Control (Antoine Delvig & AFROJACK Edit) (LIVE TML Winter 2023)"],["wYO3NZ8lMV4","Chris Lake","Turn Off the Lights",80,"Chris Lake DJing “Turn Off The Lights” Live in Toronto Nov 29/25"],["wfdVCKc_EBY","Disclosure","Latch",185,"Disclosure - Latch (Live From Alexandra Palace)"],["_LUaJHDcQZ8","Zedd","Clarity",363,"Zedd - Clarity ft. Foxes (LIVE at Ultra Music Festival 2025)"],["9uGDHXZPr1A","Skrillex","Bangarang",6,"Skrillex - Bangarang - live at Eden Sessions 2014"],["zoWEDDiKXbY","Mau P","Drugs From Amsterdam",123,"Mau P - Drugs From Amsterdam (LIVE Tomorrowland 2023)"],["2_64XAqYgJ0","Fred again..","Delilah (pull me out of this)",422,"Fred again.. - Delilah (pull me out of this) / Billie (loving arms) | Glastonbury 2023"],["Z7S-VY6qKP8","FISHER","You Little Beauty",66,"Fisher - You Little Beauty-LIVE AT TOMORROWLAND 2019"],["K3JwlURFvJw","Dom Dolla","Rhyme Dust",93,"Dom Dolla  ft  MK  -  Rhyme Dust   PLAY Live @ Allianz Stadium, Sydney   2025"],["YW0I29V7WrE","Swedish House Mafia","One (Your Name)",94,"One (Your Name) Swedish House Mafia Live Tomorrowland 2023"],["Hjqs8YIB7ys","Daft Punk","One More Time",20,"Daft Punk -  Alive 2007 One More Time, Aerodynamic , Da Funk, Daftendirekt 1080p 50p:"],["T-3aJ7TjQMo","John Summit","Human",104,"John Summit - Human (Live at Coachella 2022)"],["OeA2bX5vEaU","DJ Snake","Turn Down for What",15,"DJ SNAKE - TURN DOWN FOR WHAT, GET LOW LIVE UMF 2018"],["9xJiSUILXew","The Chainsmokers","Don't Let Me Down",115,"Chainsmokers - 'Don't Let Me Down' (Live At Capital's Jingle Bell Ball 2017)"],["YoTodIvpuzQ","Eric Prydz","Pjanoo",171,"SYNTHONY - Eric Prydz 'Pjanoo' (Live at Electric Avenue Festival 2024) | ProShot 4K"],["82-5u3H1-yk","Anyma","Eternity",57,"Anyma & Chris Avantgarde - Eternity [Live from Afterlife Tulum]"],["-IxQczhPchI","REZZ","Edge",78,"REZZ - Edge (Live @ Nocturnal Wonderland Day 2)"],["j13_YIqQmPQ","SLANDER","Love Is Gone",102,"Love Is Gone (Acoustic) - Live at The Shrine LA"],["KcyclzxUZyM","Armin van Buuren","Blah Blah Blah",56,"Armin van Buuren - Blah Blah Blah (Live at Ultra Music Festival 2018)"],["rZVfJOgSHHA","Peggy Gou","(It Goes Like) Nanana",46,"Peggy Gou — (It Goes Like) Nanana (Live) Remastered, Edited and Upscaled to 4K by Richie Holland"],["dDi8knjTN5M","Tiësto","The Business",62,"The Business by tiesto live at Ultra Miami 2022"],["tfF2eU6YeJ0","deadmau5","Ghosts 'n' Stuff",308,"Deadmau5 - Ghosts N Stuff - Live @ The Hollywood Palladium 9-26-19 in hd"],["6zrsuWwx0kI","Above & Beyond","Sun & Moon",276,"Above & Beyond feat. Richard Bedford - Sun & Moon (ABGT250 Encore) 4K"],["ItYqMb9M6vQ","James Hype","Ferrari",64,"James Hype – Ferrari (Live at Capital's Summertime Ball 2025) | Capital"],["7jesFO6N3KA","Knife Party","Bonfire",52,"Knife Party - Bonfire live @ Weekend Festival"],["vk8r_gAc0bU","Axwell Λ Ingrosso","More Than You Know",98,"Axwell Λ Ingrosso -  More Than You Know (live @ Tomorrowland 2017)"],["DDq6zSAuZ_0","Dimitri Vegas & Like Mike","Mammoth",53,"Dimitri Vegas & Like Mike - MAMMOTH LIVE TOMORROWLAND 2018"],["VPq7YY4kSmY","Major Lazer","Cold Water",131,"Major Lazer - Cold Water (feat. Justin Bieber & MØ) [Live in Europe 2016]"],["mKu-6kHDpT8","Nicky Romero","Toulouse",118,"Nicky romero Toulouse Tomorrowland year 2016"],["PXJBWW8Q9YM","Gryffin","Tie Me Down",89,"Tie me down - Gryffin  live @ Red Rocks"],["HxEnEQTazgw","Avicii","The Nights",136,"Avicii Tribute Concert - The Nights (Live Vocals by Nick Furlong)"],["yXofg9Fc728","Avicii","Waiting for Love",231,"Avicii Tribute Concert - Waiting For Love (Live Vocals by Simon Aldred)"],["F10IetLz71s","Avicii","Hey Brother",198,"Avicii Tribute Concert - Hey Brother (Live Vocals by Dan Tyminski and Vargas & Lagola)"],["Kpw716_0fg8","Swedish House Mafia","Save the World",149,"Swedish House Mafia - Save The World (Live)"],["cMDM1UUQQW0","Swedish House Mafia","Greyhound",128,"Swedish House Mafia - Greyhound (LIVE Tomorrowland 2024)"],["Cc1LyALKaKw","Swedish House Mafia","Miami 2 Ibiza",69,"Swedish House Mafia ft Tinie Tempah - Miami 2 Ibiza (LIVE Tomorrowland 2024)"],["MPa-kWJhnvA","Axwell Λ Ingrosso","Sun Is Shining",156,"Sun is Shining-Axwell & Ingrosso Tomorrowland 2015"],["7yT4WnILeio","Calvin Harris","This Is What You Came For",18,"Calvin Harris - 'This is What You Came For' (Live At Capital’s Jingle Bell Ball 2016)"],["a8BK5YHQf90","Axwell Λ Ingrosso","Dreamer",101,"AXWELL-INGROSSO - DREAMER TOMORROWLAND 2018"],["OFpiqviK3zk","Calvin Harris","We Found Love",166,"Calvin Harris - 'We Found Love' (Live At Capital’s Jingle Bell Ball 2016)"],["eqwyRt2ep9w","Calvin Harris","How Deep Is Your Love",191,"How Deep Is Your Love Live on Jimmy Fallon"],["-dezurVI81E","David Guetta","When Love Takes Over",90,"KELLY ROWLAND feat. DAVID GUETTA - When love takes over  (HD) [Live at Fete de la Musique 2009]"],["kXhBKjDKF84","David Guetta","I'm Good (Blue)",30,"David Guetta & Bebe Rexha - I'm Good (Blue) [Live Performance]"],["mOJKjrYVsu4","David Guetta","Without You",99,"David Guetta - Without You ft. Usher (live Tomorrowland 2017)"],["Tw0aNkagZWU","David Guetta","Memories",25,"David Guetta - Memories (Live at V Festival 2010)"],["CUOWdhENjJQ","David Guetta","Hey Mama",70,"Hey Mama - David Guetta feat. Nicki Minaj & Bebe Rexha Live | iHeartRadio Summer Pool Party 2015 HD"],["3NHxs_H2I-A","Martin Garrix","Scared to Be Lonely",227,"Martin Garrix & Dua Lipa – Scared To Be Lonely (Live) | KISS House Party Live"]];
+// real songs per artist, for the wrong answers on the song question
+const SONGS={"ILLENIUM": ["Good Things Fall Apart", "Fractures", "Takeaway", "In Your Arms", "Crawl Outta Love", "Nightlight", "Feel Good", "Needed You"], "Knife Party": ["Bonfire", "Internet Friends", "Centipede", "Rage Valley", "LRAD", "Antidote"], "ODESZA": ["Say My Name", "A Moment Apart", "Bloom", "Line of Sight", "Loyal", "Sun Models", "Higher Ground", "The Last Goodbye"], "Skrillex": ["Bangarang", "Scary Monsters and Nice Sprites", "First of the Year (Equinox)", "Rumble", "Kyoto", "Make It Bun Dem", "Ragga Bomb"], "Porter Robinson": ["Language", "Shelter", "Sad Machine", "Divinity", "Look at the Sky", "Get Your Wish", "Musician"], "RÜFÜS DU SOL": ["Innerbloom", "You Were Right", "On My Knees", "Alive", "Underwater", "Treat You Better", "Next to Me"], "Dimitri Vegas & Like Mike": ["Mammoth", "Tremor", "The Hum", "Higher Place", "Hey Baby", "Stay a While"], "Disclosure": ["Latch", "White Noise", "You & Me", "F for You", "Omen", "Tondo", "Magnets"], "Daft Punk": ["One More Time", "Around the World", "Harder Better Faster Stronger", "Get Lucky", "Da Funk", "Digital Love", "Aerodynamic", "Robot Rock"], "Eric Prydz": ["Opus", "Pjanoo", "Call on Me", "Every Day", "Liberate", "Generate", "Niton (The Reason)"], "Armin van Buuren": ["Blah Blah Blah", "This Is What It Feels Like", "In and Out of Love", "Great Spirit", "Ping Pong", "Communication", "Another You"], "Anyma": ["Eternity", "Consciousness", "Syren", "Hypnotized"], "Tiësto": ["Adagio for Strings", "The Business", "Red Lights", "Traffic", "Wasted", "Secrets", "10:35", "Lay Low"], "Flume": ["Never Be Like You", "Say It", "Holdin On", "Rushing Back", "Insane", "Sleepless", "The Difference"], "Marshmello": ["Alone", "Happier", "Silence", "FRIENDS", "Keep It Mello", "Summer", "Wolves", "Spotlight"], "Chris Lake": ["Turn Off the Lights", "A Drug From God", "Changes", "In the Yuma"], "David Guetta": ["Titanium", "When Love Takes Over", "I'm Good (Blue)", "Without You", "Memories", "Hey Mama", "Lovers on the Sun", "Play Hard"], "REZZ": ["Edge", "Someone Else", "Hex", "Relax", "Taste of You", "Puzzle Box"], "James Hype": ["Ferrari", "More Than Friends", "Drums", "Afraid"], "Calvin Harris": ["Feel So Close", "Summer", "This Is What You Came For", "We Found Love", "How Deep Is Your Love", "Outside", "Blame", "One Kiss", "Slide", "Miracle"], "Mau P": ["Drugs From Amsterdam", "Gimme That Bounce", "Metro", "Beats for the Underground"], "Above & Beyond": ["Sun & Moon", "Thing Called Love", "Alone Tonight", "Blue Sky Action", "We're All We Need", "Black Room Boy", "On My Way to Heaven"], "Avicii": ["Levels", "Wake Me Up", "Hey Brother", "The Nights", "Waiting for Love", "Silhouettes", "Fade Into Darkness", "Without You", "SOS"], "Major Lazer": ["Lean On", "Cold Water", "Light It Up", "Pon de Floor", "Know No Better", "Watch Out for This (Bumaye)", "Run Up"], "Afrojack": ["Take Over Control", "Ten Feet Tall", "Rock the House", "The Spark"], "Galantis": ["Runaway (U & I)", "Peanut Butter Jelly", "No Money", "Gold Dust", "Love On Me", "Smile", "Mama Look at Me Now"], "Nicky Romero": ["Toulouse", "I Could Be the One", "Symphonica", "Like Home", "Legacy", "Novell"], "Peggy Gou": ["(It Goes Like) Nanana", "Starry Night", "It Makes You Forget (Itgehane)", "I Go", "Lobster Telephone", "Han Jan"], "John Summit": ["Where You Are", "Human", "Shiver", "La Danza", "Make Me Feel", "Deep End", "Show Me", "Crystallized"], "Green Velvet": ["Flash", "La La Land", "Bigger Than Prince", "Answering Machine", "Shake and Pop"], "FISHER": ["Losing It", "You Little Beauty", "Take It Off", "Stop It", "Yeah the Girls", "Ya Kidding"], "Dom Dolla": ["Saving Up", "Rhyme Dust", "San Frandisco", "Take It", "Girl$", "Miracle Maker", "Define", "Eat Your Man"], "Gryffin": ["Tie Me Down", "Feel Good", "Body Back", "Nobody Compares to You", "Whole Heart"], "Swedish House Mafia": ["Don't You Worry Child", "One (Your Name)", "Save the World", "Greyhound", "Miami 2 Ibiza", "Moth to a Flame", "Antidote"], "Zedd": ["Clarity", "Spectrum", "Stay the Night", "The Middle", "Beautiful Now", "Stay", "Happy Now", "Find You"], "Alesso": ["Heroes", "Years", "If I Lose Myself", "Cool", "Calling (Lose My Mind)", "Under Control", "Tear the Roof Up"], "SLANDER": ["Love Is Gone", "Potions", "Walk on Water", "Superhuman", "First Time"], "The Chainsmokers": ["Closer", "Don't Let Me Down", "Roses", "Something Just Like This", "Paris", "#SELFIE", "All We Know", "Sick Boy", "High"], "Martin Garrix": ["Animals", "Tremor", "In the Name of Love", "Scared to Be Lonely", "High on Life", "Forbidden Voices", "Gold Skies", "Virus", "Summer Days"], "DJ Snake": ["Turn Down for What", "Let Me Love You", "Taki Taki", "Middle", "Magenta Riddim", "Loco Contigo", "A Different Way"], "Hardwell": ["Spaceman", "Apollo", "Dare You", "Never Say Goodbye", "Young Again", "Bella Ciao", "Encoded"], "Kygo": ["Firestone", "Stole the Show", "It Ain't Me", "Higher Love", "Stay", "Here for You", "Remind Me to Forget", "Carry On"], "Axwell Λ Ingrosso": ["More Than You Know", "Sun Is Shining", "Dreamer", "Something New", "On My Way", "Thinking About You"], "deadmau5": ["Strobe", "Ghosts 'n' Stuff", "I Remember", "The Veldt", "Some Chords", "Raise Your Weapon", "Professional Griefers", "Faxing Berlin"], "Fred again..": ["Delilah (pull me out of this)", "Marea (we've lost dancing)", "Rumble", "Turn On The Lights again..", "Jungle", "adore u", "leavemealone", "Kyle (i found you)", "Danielle (smile on my face)"]};
+const yt=t=>`https://www.youtube.com/watch?v=${t[0]}&t=${t[3]}s`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tkey=t=>t[1]+'|'+t[2];
+function pickTracks(k,exclude){
+ const seen=new Set(store.get('ntd_seen',[])),ex=new Set(exclude||[]);
+ const pool=CRATE.filter(t=>!ex.has(tkey(t)));
+ let fresh=pool.filter(t=>!seen.has(tkey(t)));
+ if(fresh.length<k){store.set('ntd_seen',[]);fresh=pool}
+ return shuffle(fresh).slice(0,k);
+}
+function markSeen(t){const s=store.get('ntd_seen',[]);s.push(tkey(t));store.set('ntd_seen',s.slice(-400))}
+function optionsFor(t){
+ const artists=[...new Set(CRATE.map(x=>x[1]))].filter(a=>a!==t[1]);
+ const aOpts=shuffle([t[1],...shuffle(artists).slice(0,3)]);
+ const same=shuffle((SONGS[t[1]]||[]).filter(s=>s!==t[2]));
+ const others=shuffle([...new Set(CRATE.filter(x=>x[2]!==t[2]&&!same.includes(x[2])).map(x=>x[2]))]);
+ const sOpts=shuffle([t[2],...[...same,...others].slice(0,3)]);
+ return {aOpts,sOpts};
+}
+function drawOpts(el,arr,disabled,onPick){
+ el.innerHTML=arr.map((x,k)=>`<button data-k="${k}" ${disabled?'disabled':''}><kbd>${k+1}</kbd><span>${esc(x)}</span></button>`).join('');
+ el.querySelectorAll('button').forEach(b=>b.onclick=()=>onPick(+b.dataset.k));
+}
+function markOpts(el,arr,pick,ans){el.querySelectorAll('button').forEach((b,k)=>{b.disabled=true;if(arr[k]===ans)b.classList.add('right');else if(k===pick)b.classList.add('wrong')})}
+
+/* ---------- in-page YouTube player: only when served from the laptop (http://127.0.0.1), not file:// ---------- */
+// LOCAL = "YouTube can play inside this page": any real web address (laptop server, GitHub Pages) except Claude's own site, which blocks it
+const LOCAL=/^https?:$/.test(location.protocol)&&!/(^|\.)claude(usercontent)?\.(ai|com)$/i.test(location.hostname);
+document.querySelectorAll(LOCAL?'[data-web]':'[data-local]').forEach(e=>e.hidden=true);
+let apiReady=false;
+if(LOCAL){window.onYouTubeIframeAPIReady=()=>{apiReady=true};const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s)}
+const SECS=5;
+function makeClip(pre){
+ const C={p:null,ready:false,t:null,start:0,left:2,used:0,listening:false,clockOn:false,locked:false,revealing:false,raf:0,tok:0,onErr:null};
+ const el=s=>document.getElementById(pre+'-'+s);
+ C.cover=on=>el('black').classList.toggle('off',!on);
+ C.msg=m=>{el('msg').innerHTML=m};
+ C.sync=()=>{const b=el('playbtn');b.disabled=C.left<=0||C.listening||C.locked;
+  b.textContent=C.locked?'Clip locked':C.listening?'Listening…':C.left<=0?'No listens left':(C.used?'▶ Play again (last listen)':'▶ Play clip')};
+ const cue=()=>{try{C.p.mute();C.p.cueVideoById({videoId:C.t[0],startSeconds:C.start})}catch(e){}};
+ C.load=t=>{
+  C.t=t;C.start=t[3];C.left=2;C.used=0;C.listening=false;C.clockOn=false;C.locked=false;C.revealing=false;C.tok++;clearInterval(C.raf);
+  C.cover(true);el('big').textContent='5';C.msg('PRESS PLAY · 5 SECONDS OF LIVE FOOTAGE');el('timer').style.width='0';C.sync();
+  const go=()=>{if(!C.p){C.p=new YT.Player(pre+'-player',{videoId:t[0],playerVars:{controls:0,disablekb:1,modestbranding:1,rel:0,iv_load_policy:3,fs:0,playsinline:1,start:t[3],origin:location.origin},
+    events:{onReady:()=>{C.ready=true;cue()},onStateChange:C.state,onError:C.err}})}else if(C.ready)cue()};
+  if(apiReady)go();else{C.msg('LOADING PLAYER…');const w=setInterval(()=>{if(apiReady){clearInterval(w);go();if(!C.listening)C.msg('PRESS PLAY · 5 SECONDS OF LIVE FOOTAGE')}},150)}
+ };
+ const EQ='<div class="eq"><i></i><i></i><i></i><i></i><i></i></div>';
+ // "tap mode": the browser blocked playback (Safari does this), so let them tap the video itself
+ C.tap=on=>el('black').parentNode.classList.toggle('tap',!!on);
+ C.play=()=>{
+  if(!C.t||C.left<=0||C.listening||C.locked)return;
+  if(!C.ready){C.msg('PLAYER STILL LOADING · TAP AGAIN IN A SEC');return}
+  C.left--;C.used++;C.listening=true;C.clockOn=false;C.pw=0;C.tap(false);
+  const tok=++C.tok,t0=Date.now();let lastSeek=Date.now();
+  C.msg(EQ);el('big').textContent='5';el('timer').style.width='0';C.sync();
+  try{C.p.mute();C.p.seekTo(C.start,true);C.p.playVideo()}catch(e){}
+  clearInterval(C.raf);
+  // follow the real video time: ads and buffering don't use up the 5 seconds
+  C.raf=setInterval(()=>{
+   if(C.tok!==tok){clearInterval(C.raf);return}
+   let ct=0,s=-1;try{ct=C.p.getCurrentTime()||0;s=C.p.getPlayerState()}catch(e){}
+   const waited=(Date.now()-t0)/1000;
+   if(!C.clockOn){
+    const inRange=ct>=C.start-1.5&&ct<C.start+SECS;
+    if(s===1&&inRange){C.clockOn=true;try{C.p.unMute();C.p.setVolume(100)}catch(e){}C.cover(false);C.tap(false);return}
+    if(s===1&&!inRange&&Date.now()-lastSeek>2500){lastSeek=Date.now();try{C.p.seekTo(C.start,true)}catch(e){}}
+    if(waited>3.5&&s!==1&&s!==3)C.tap(true);
+    else if(waited>4)C.msg(EQ+'<div style="margin-top:6px">AD OR BUFFERING · HANG ON</div>');
+    if(waited>30){clearInterval(C.raf);C.listening=false;C.left++;C.used--;C.tap(false);try{C.p.pauseVideo();C.p.mute()}catch(e){}
+     C.msg('CLIP DIDN’T START · TAP PLAY AGAIN OR SKIP IT');C.sync()}
+    return;
+   }
+   if(s===2)C.tap(true);else if(s===1){C.tap(false);C.pw+=0.1}
+   const played=Math.min(SECS,Math.max(0,ct-C.start));
+   el('timer').style.width=Math.min(100,100*played/SECS)+'%';el('big').textContent=Math.max(0,Math.ceil(SECS-played));
+   if(played>=SECS||C.pw>SECS+3)C.stop();
+  },100);
+ };
+ C.state=()=>{};
+ C.stop=()=>{clearInterval(C.raf);C.tap(false);try{C.p.pauseVideo();C.p.mute()}catch(e){}C.listening=false;C.clockOn=false;C.cover(true);el('timer').style.width='0';
+  el('big').textContent=C.left>0?'?':'0';C.msg(C.left>0?`${C.left} LISTEN LEFT`:'NO LISTENS LEFT · TRUST YOUR EAR');C.sync()};
+ // after answering: replay the drop with sound, title still covered
+ C.reveal=()=>{if(C.listening)C.stop();C.locked=true;C.sync();if(!C.ready)return;C.cover(false);try{C.p.seekTo(C.start,true);C.p.unMute();C.p.setVolume(100);C.p.playVideo()}catch(e){}};
+ C.halt=()=>{C.tok++;clearInterval(C.raf);C.listening=false;C.tap(false);try{C.p.pauseVideo();C.p.mute()}catch(e){}C.cover(true)};
+ // "Skip this clip" = same as a clip that won't load
+ const sk=el('skip');if(sk)sk.onclick=()=>{C.halt();if(C.listening){C.left++;C.used--}C.onErr&&C.onErr()};
+ C.err=()=>{if(C.listening){C.listening=false;C.left++;C.used--}C.msg('CLIP UNAVAILABLE · SWAPPING');C.cover(true);C.sync();C.onErr&&setTimeout(C.onErr,900)};
+ el('playbtn').onclick=C.play;
+ return C;
+}
+const DC=LOCAL?makeClip('d'):null,BC=LOCAL?makeClip('db'):null;
+
+/* ---------- the Name That Drop tab ---------- */
+const D={};const MODES={5:'Quick set',10:'Main stage',25:'Headliner',0:'Endless'};
+function dScreen(s){['start','play','end'].forEach(x=>$('#d-'+x).hidden=x!==s)}
+function dBest(){const b=store.get('ntd_best',{});
+ $('#d-best').innerHTML='<div><span>YOUR BEST</span><span>SCORE</span></div>'+Object.entries(MODES).map(([k,n])=>`<div><span>${n}</span><b>${b[k]!=null?b[k].toLocaleString():'—'}</b></div>`).join('');
+ $('#d-crate').textContent=`CRATE: ${CRATE.length} LIVE CLIPS · ${new Set(CRATE.map(t=>t[1])).size} ARTISTS`}
+function ntdStart(n){Object.assign(D,{n,deck:pickTracks(n||10),i:0,score:0,streak:0,results:[],misses:0});dScreen('play');dTrack();window.scrollTo(0,0)}
+window.ntdStart=ntdStart;
+function dHud(){$('#d-score').textContent=D.score.toLocaleString();$('#d-streak').textContent=D.streak;
+ $('#d-stage').innerHTML=D.n?String(D.used):`<span style="color:var(--g-red);letter-spacing:2px">${'♥'.repeat(Math.max(0,3-D.misses))}</span>`}
+function dTrack(){
+ const t=D.deck[D.i];Object.assign(D,{t,used:0,aPick:null,sPick:null,phase:'artist'},optionsFor(t));
+ const a=$('#d-link');a.href=yt(t);a.classList.remove('used');a.textContent='▶ Play the drop on YouTube';$('#d-yt').href=yt(t);
+ if(DC)DC.load(t);
+ $('#d-count').textContent=D.n?`${D.i+1}/${D.deck.length}`:`${D.i+1}`;
+ $('#d-lastlabel').textContent=D.n?'LISTENS':'MISSES LEFT';
+ dHud();
+ drawOpts($('#d-artist'),D.aOpts,false,k=>dAnswer('artist',k));
+ drawOpts($('#d-song'),D.sOpts,true,k=>dAnswer('song',k));
+ $('#d-qs').classList.add('d-locked');$('#d-report').innerHTML='';
+}
+$('#d-link').addEventListener('click',()=>{if(!D.t||D.phase==='done')return;D.used++;const a=$('#d-link');a.classList.add('used');a.textContent='▶ Play it again';dHud()});
+function dAnswer(kind,k){
+ if(kind==='artist'){if(D.phase!=='artist')return;D.aPick=k;D.phase='song';markOpts($('#d-artist'),D.aOpts,k,D.t[1]);
+  $('#d-qs').classList.remove('d-locked');$('#d-song').querySelectorAll('button').forEach(b=>b.disabled=false);return}
+ if(D.phase!=='song')return;D.sPick=k;D.phase='done';markOpts($('#d-song'),D.sOpts,k,D.t[2]);dReveal();
+}
+function dReveal(){
+ const t=D.t,aOk=D.aOpts[D.aPick]===t[1],sOk=D.sOpts[D.sPick]===t[2];
+ if(DC){D.used=DC.used;DC.reveal()}
+ let pts=(aOk?500:0)+(sOk?500:0),bonus='';
+ if(aOk&&sOk){if(D.used<=1){pts+=500;bonus+=' · first listen +500'}D.streak++;if(D.streak>1){pts+=100*(D.streak-1);bonus+=` · streak +${100*(D.streak-1)}`}}else D.streak=0;
+ if(!sOk)D.misses++;
+ D.score+=pts;D.results.push({t,aOk,sOk,pts});markSeen(t);dHud();
+ const over=D.n?D.i>=D.deck.length-1:D.misses>=3;
+ $('#d-report').innerHTML=`<div class="g-report ${aOk&&sOk?'':'bad'}"><b>${aOk&&sOk?'NAILED IT':aOk||sOk?'HALF CREDIT':'MISSED IT'}</b> <span class="g-pop">+${pts.toLocaleString()}</span><span class="g-tag">${bonus}</span>
+  <div style="margin-top:4px;font-weight:700">${esc(t[1])} · ${esc(t[2])}</div><div class="g-tag" style="margin-top:2px">${esc(String(t[4]||'').toUpperCase())}</div></div>
+  <button class="g-next" id="d-next">${over?'See results':'Next track →'} <span class="g-tag" style="color:inherit">(Enter)</span></button>`;
+ $('#d-next').onclick=dNext;$('#d-next').focus({preventScroll:true});
+}
+function dNext(){
+ if(DC)DC.halt();
+ if(!D.n&&D.misses>=3)return dEnd('OUT OF LIVES');
+ if(D.n&&D.i>=D.deck.length-1)return dEnd('SET OVER');
+ if(!D.n&&D.i>=D.deck.length-2)D.deck.push(...pickTracks(5,D.deck.map(tkey)));
+ D.i++;dTrack();window.scrollTo(0,0);
+}
+function dEnd(why){
+ if(DC)DC.halt();
+ dScreen('end');window.scrollTo(0,0);
+ const max=D.results.length*1000,pct=max?D.score/max:0;
+ const R=pct>=1.3?['HEADLINER','You could close Tomorrowland.']:pct>=.95?['MAIN STAGE','Crowd is losing it.']:pct>=.7?['SUPPORT ACT','Solid set. Couple of trainwrecks.']:pct>=.4?['OPENER','Warming up the room.']:['STILL IN THE BOOTH','Back to the crates.'];
+ $('#d-endwhy').textContent=why;$('#d-rank').textContent=R[0];$('#d-ranksub').textContent=R[1];
+ const both=D.results.filter(r=>r.aOk&&r.sOk).length;
+ $('#d-stats').innerHTML=`<div><small>SCORE</small>${D.score.toLocaleString()}</div><div><small>BOTH RIGHT</small>${both}/${D.results.length}</div><div><small>ARTISTS</small>${D.results.filter(r=>r.aOk).length}</div><div><small>SONGS</small>${D.results.filter(r=>r.sOk).length}</div>`;
+ $('#d-recap').innerHTML=D.results.map(r=>`<div><span class="${r.aOk&&r.sOk?'ok2':r.aOk||r.sOk?'half2':'no2'}">${r.aOk&&r.sOk?'✓':r.aOk||r.sOk?'½':'✗'}</span><span>${esc(r.t[1])} · ${esc(r.t[2])}</span><a href="${yt(r.t)}" target="_blank" rel="noopener">watch ↗</a></div>`).join('')||'<div><span></span><span>No tracks played.</span><span></span></div>';
+ const b=store.get('ntd_best',{}),k=String(D.n);
+ if(D.results.length&&(b[k]==null||D.score>b[k])){b[k]=D.score;store.set('ntd_best',b);$('#d-endwhy').textContent=why+' · NEW BEST'}
+ dBest();
+}
+document.querySelectorAll('#d-modes button').forEach(b=>b.onclick=()=>ntdStart(+b.dataset.n));
+$('#d-quit').onclick=()=>dEnd('SET ENDED EARLY');
+$('#d-again').onclick=()=>ntdStart(D.n);
+$('#d-menu').onclick=()=>{dScreen('start');dBest()};
+$('#d-study').onclick=()=>show('lesson');
+if(DC){
+ // a clip that won't load gets swapped for a fresh track
+ DC.onErr=()=>{if(D.phase==='done'||$('#d-play').hidden)return;D.deck[D.i]=pickTracks(1,D.deck.map(tkey))[0];dTrack()};
+ // leaving the tab stops the music
+ document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.t!=='drop')DC.halt()}));
+}
+document.addEventListener('keydown',e=>{
+ if(B.open||$('#drop').hidden||$('#d-play').hidden)return;
+ if(e.code==='Space'&&DC&&!/INPUT|SELECT|TEXTAREA/.test((e.target&&e.target.tagName)||'')){e.preventDefault();if(document.activeElement)document.activeElement.blur();DC.play();return}
+ if(/^[1-4]$/.test(e.key)){const k=+e.key-1;if(D.phase==='artist')dAnswer('artist',k);else if(D.phase==='song')dAnswer('song',k)}
+ else if(e.key==='Enter'&&D.phase==='done'&&$('#d-next')&&document.activeElement!==$('#d-next')){e.preventDefault();dNext()}
+});
+dBest();
+
+/* ---------- DROP BREAKS: corner pop-up every N minutes or N questions ---------- */
+const B={open:false,since:Date.now(),qs:0,timer:null,phase:'done'};
+let cfg=store.get('db_cfg',{min:5,qn:5});
+$('#db-min').value=String(cfg.min);$('#db-qn').value=String(cfg.qn);
+$('#db-min').onchange=$('#db-qn').onchange=()=>{cfg={min:+$('#db-min').value,qn:+$('#db-qn').value};store.set('db_cfg',cfg);chip()};
+function due(){return (cfg.min>0&&Date.now()-B.since>=cfg.min*60000)||(cfg.qn>0&&B.qs>=cfg.qn)}
+// never cut in on a timed Port Rush question, an encore round, or the Name That Drop tab itself
+function busy(){
+ if(B.open||document.hidden)return true;
+ if(!$('#game').hidden&&!$('#g-play').hidden&&!G.locked)return true;
+ if(!$('#game').hidden&&!$('#g-encore').hidden)return true;
+ if(!$('#drop').hidden)return true;
+ return false;
+}
+function chip(){
+ const parts=[];
+ if(cfg.min>0){const s=Math.max(0,Math.ceil((cfg.min*60000-(Date.now()-B.since))/1000));parts.push(`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`)}
+ if(cfg.qn>0)parts.push(`${Math.max(0,cfg.qn-B.qs)} Q`);
+ $('#db-in').textContent=parts.length?parts.join(' · '):'· tap for one';
+}
+function tryBreak(){if(due()&&!busy())openBreak()}
+setInterval(()=>{chip();tryBreak()},1000);chip();
+// called after every answered study question (lesson Try it, final quiz, Port Rush)
+window.DBq=()=>{B.qs++;chip();setTimeout(tryBreak,2500)};
+function openBreak(){
+ if(B.open)return;B.open=true;$('#db-chip').hidden=true;$('#db').hidden=false;
+ const t=pickTracks(1)[0];Object.assign(B,{t,phase:'artist',aPick:null,sPick:null,end:Date.now()+120000},optionsFor(t));
+ $('#db-pts').textContent=store.get('db_pts',0).toLocaleString();
+ $('#db-body').innerHTML=`<div class="db-top" style="margin-top:8px"><div class="db-clock" id="db-clock">2:00</div><span class="g-tag">2 MIN TO ANSWER</span></div>
+  <div class="db-bar" id="db-barw"><i id="db-bar"></i></div>
+  ${LOCAL?`<p class="d-note">2 listens · Space = play · <a href="${yt(t)}" target="_blank" rel="noopener">won't play? YouTube ↗</a></p>`:`<a class="d-play" id="db-link" href="${yt(t)}" target="_blank" rel="noopener">▶ Play the drop</a>
+  <p class="d-note">Opens YouTube right at the drop. Listen, then come back.</p>`}
+  <div class="d-q" style="font-size:1rem;margin:10px 0 6px">1 · Artist?</div><div class="g-opts" id="db-a"></div>
+  <div id="db-sw" class="d-locked"><div class="d-q" style="font-size:1rem;margin:10px 0 6px">2 · Song?</div><div class="g-opts" id="db-s"></div></div>
+  <div id="db-res"></div>`;
+ drawOpts($('#db-a'),B.aOpts,false,k=>bAnswer('artist',k));
+ drawOpts($('#db-s'),B.sOpts,true,k=>bAnswer('song',k));
+ clearInterval(B.timer);B.timer=setInterval(bTick,250);bTick();
+ if(BC){BC.load(t);$('#db-playbtn').focus({preventScroll:true})}else $('#db-link').focus({preventScroll:true});
+}
+// a clip that won't load: swap in another track (same 2-minute clock)
+if(BC)BC.onErr=()=>{if(!B.open||B.phase==='done')return;const end=B.end;B.open=false;openBreak();B.end=end};
+function bTick(){
+ const left=Math.max(0,B.end-Date.now()),s=Math.ceil(left/1000),low=left<30000;
+ $('#db-clock').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+ $('#db-clock').classList.toggle('low',low);$('#db-barw').classList.toggle('low',low);
+ $('#db-bar').style.transform=`scaleX(${left/120000})`;
+ if(left<=0)bFinish(true);
+}
+function bAnswer(kind,k){
+ if(B.phase==='done')return;
+ if(kind==='artist'){if(B.phase!=='artist')return;B.aPick=k;B.phase='song';markOpts($('#db-a'),B.aOpts,k,B.t[1]);
+  $('#db-sw').classList.remove('d-locked');$('#db-s').querySelectorAll('button').forEach(b=>b.disabled=false);return}
+ if(B.phase!=='song')return;B.sPick=k;markOpts($('#db-s'),B.sOpts,k,B.t[2]);bFinish(false);
+}
+// out of time = whatever you didn't answer counts as missed
+function bFinish(timeout){
+ if(B.phase==='done')return;clearInterval(B.timer);if(BC)BC.reveal();
+ const t=B.t,aOk=B.aPick!=null&&B.aOpts[B.aPick]===t[1],sOk=B.sPick!=null&&B.sOpts[B.sPick]===t[2];B.phase='done';
+ if(B.aPick==null)markOpts($('#db-a'),B.aOpts,-1,t[1]);
+ if(B.sPick==null){$('#db-sw').classList.remove('d-locked');markOpts($('#db-s'),B.sOpts,-1,t[2])}
+ const pts=(aOk?500:0)+(sOk?500:0),tot=store.get('db_pts',0)+pts;store.set('db_pts',tot);$('#db-pts').textContent=tot.toLocaleString();markSeen(t);
+ $('#db-res').innerHTML=`<div class="g-report ${aOk&&sOk?'':'bad'}"><b>${timeout?'TIME!':aOk&&sOk?'NAILED IT':aOk||sOk?'HALF CREDIT':'MISSED IT'}</b> <span class="g-pop">+${pts}</span>
+  <div style="margin-top:4px;font-weight:700">${esc(t[1])} · ${esc(t[2])}</div></div>
+  <div class="row" style="margin-top:10px"><button class="g-next" id="db-back" style="flex:1;margin-top:0">Back to studying</button><button class="g-ghost" id="db-more" style="flex:0 0 auto">One more</button></div>`;
+ $('#db-back').onclick=closeBreak;$('#db-more').onclick=()=>{clearInterval(B.timer);B.open=false;openBreak()};
+ $('#db-back').focus({preventScroll:true});
+}
+function closeBreak(){clearInterval(B.timer);if(BC)BC.halt();B.open=false;B.phase='done';$('#db').hidden=true;$('#db-chip').hidden=false;B.since=Date.now();B.qs=0;chip()}
+$('#db-close').onclick=closeBreak;
+$('#db-chip').onclick=openBreak;
+// keys while a break is open: 1–4 answer, Esc closes, Enter = back to studying (and nothing leaks to the games underneath)
+window.addEventListener('keydown',e=>{
+ if(!B.open)return;
+ const inDb=document.activeElement&&$('#db').contains(document.activeElement);
+ if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();closeBreak();return}
+ if(e.code==='Space'&&BC&&!/INPUT|SELECT|TEXTAREA/.test((e.target&&e.target.tagName)||'')){e.preventDefault();e.stopImmediatePropagation();BC.play();return}
+ if(/^[1-4]$/.test(e.key)&&!(document.activeElement&&document.activeElement.tagName==='SELECT')){e.preventDefault();e.stopImmediatePropagation();const k=+e.key-1;if(B.phase==='artist')bAnswer('artist',k);else if(B.phase==='song')bAnswer('song',k);return}
+ if(e.key==='Enter'){e.stopImmediatePropagation();if(B.phase==='done'&&!inDb){e.preventDefault();closeBreak()}}
+},true);
+})();
+
+/* ================= BOOT ================= */
+updProg();renderLesson();renderFinal();show(store.get('tab','plan'));
+</script>
+
+</body>
+</html>
