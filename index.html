@@ -8,238 +8,245 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;700&family=Atkinson+Hyperlegible+Next:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;700&family=Lexend:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-/* ===== SCM 300 design: Swiss grid, warm paper, black ink, one red for action, blue for "correct". Square corners, 2px rules, no shadows. ===== */
+/* ===== "Pads" design: warm paper, chunky pads, module colors (M5 blue · M6 orange · M7 teal · M8 yellow · Bonus ink) ===== */
 :root{
-  --paper:#F6F4EE; --ink:#16161A; --ink-2:#4B4A45; --line:#D8D3C7; --line-2:#B8B2A5; --hover:#EDE9DF;
-  --cue:#C2361A; --cue-hover:#A42B12; --cue-tint:#F2DCD3; --cue-text:#8E2412; --cue-on-dark:#F2A48F;
-  --blue:#1E4C8F; --blue-tint:#DFE6EF;
-  --tint-blue:#EAF0F6; --tint-green:#EDF2E8; --tint-cream:#FBF1D9;
-  --font:'Atkinson Hyperlegible Next',Verdana,sans-serif; --mono:'Atkinson Hyperlegible Mono',Menlo,monospace;
-  --border:2px solid var(--ink); --row:1px solid var(--line); --tap:44px;
-  --read:19px; color-scheme:light;
+  --paper:#F8F4EA; --surface:#FFFFFF; --ink:#1B1A22; --ink-2:#55525E; --line:#E4DED0; --dim:#B8B0A0;
+  --blue:#2453FF; --orange:#FF7A1A; --teal:#12B5C9; --yellow:#FFC83D;
+  --blue-tint:#E3E9FF; --orange-tint:#FFE7D4; --yellow-tint:#FFF1C7; --teal-tint:#DDF5F8;
+  --font:'Lexend',Verdana,sans-serif; --mono:'Atkinson Hyperlegible Mono',Menlo,monospace;
+  --b:2.5px solid var(--ink); --row:1.5px solid var(--line);
+  --r-sm:10px; --r-btn:16px; --r-card:22px;
+  --lift:0 4px 0 var(--ink); --lift-card:0 6px 0 var(--ink);
+  --ls:.02em; --ws:.06em;
+  --rls:.12em; --rws:.16em;   /* reading areas: Normal .02/.06 · Wide .12/.16 (default) · Extra .2/.3 */
+  --read:18px; --tap:44px; color-scheme:light;
 }
-body.ts1{--read:22px} body.ts2{--read:25px}
-*,*::before,*::after{box-sizing:border-box;border-radius:0!important;box-shadow:none!important}
+body.ts1{--read:21px} body.ts2{--read:24px}
+body.ls0{--rls:.02em;--rws:.06em} body.ls2{--rls:.2em;--rws:.3em}
+*,*::before,*::after{box-sizing:border-box}
 html,body{background:var(--paper);color:var(--ink)}
-body{margin:0;font-family:var(--font);font-size:18px;line-height:1.6;letter-spacing:.01em;word-spacing:.04em}
-em,i{font-style:normal;font-weight:800}
+body{margin:0;font-family:var(--font);font-size:18px;line-height:1.65;letter-spacing:var(--ls);word-spacing:var(--ws)}
 .m,code,kbd{font-family:var(--mono);letter-spacing:0;word-spacing:0}
-:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+em,i{font-style:normal;font-weight:700}
 a{color:var(--blue)}
-p{margin:0 0 .6em;max-width:42rem}
-h1,h2,h3{margin:0;line-height:1.1;font-weight:800;text-wrap:balance}
-h1{font-size:clamp(2rem,6vw,3rem)} h2{font-size:clamp(1.5rem,4vw,2rem)} h3{font-size:1.25rem}
-b,strong{font-weight:800}
-.mute{color:var(--ink-2)} .small{font-size:.9rem} .cue{color:var(--cue)}
+p{margin:0 0 .6em;max-width:44rem}
+h1,h2,h3{margin:0;line-height:1.15;font-weight:800;text-wrap:balance}
+h1{font-size:clamp(1.9rem,6vw,2.9rem)} h2{font-size:clamp(1.35rem,4vw,1.75rem)} h3{font-size:1.15rem}
+b,strong{font-weight:700}
+.mute{color:var(--ink-2)} .small{font-size:.9rem}
 .trig{color:var(--ink-2);font-size:.92em}
-.wrap{max-width:84rem;margin:0 auto;padding:2rem 2rem 4rem}
-@media (max-width:640px){.wrap{padding:1.25rem 1rem 3rem}body{font-size:17px}}
-/* buttons: one red primary per screen, ink-outline secondaries */
-button{font:inherit;color:inherit;cursor:pointer;font-weight:inherit}
-.btn-s{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:var(--tap);padding:0 1rem;border:var(--border);background:transparent;color:var(--ink);font-weight:800;text-decoration:none;line-height:1.2}
-.btn-s:hover{background:var(--ink);color:var(--paper)}
-.btn-s.on{background:var(--ink);color:var(--paper)}
-.btn-p{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:52px;padding:0 1.5rem;border:2px solid var(--cue);background:var(--cue);color:#fff;font-weight:800;text-decoration:none;line-height:1.2}
-.btn-p:hover{background:var(--cue-hover);border-color:var(--cue-hover)}
-.btn-s:disabled,.btn-p:disabled{border:2px dashed var(--line-2);background:transparent;color:var(--ink-2);cursor:default}
-.btn-sm{font-size:.9rem;padding:0 .8rem}
-kbd{border:1px solid currentColor;padding:0 .35rem;font-size:.85em}
+.wrap{max-width:82rem;margin:0 auto;padding:2rem 2rem 4rem}
+@media (max-width:640px){.wrap{padding:1.25rem 1rem 3rem}}
+/* every button is a pad: lifts on hover, sinks on press */
+button{font:inherit;color:inherit;cursor:pointer;letter-spacing:inherit;word-spacing:inherit}
+.pad,.btn-s,.btn-p,.btn-i,.btn-y{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:var(--tap);padding:.35rem 1.1rem;border:var(--b);border-radius:var(--r-btn);box-shadow:var(--lift);font-weight:800;line-height:1.25;text-decoration:none;background:var(--surface);color:var(--ink);transition:transform 90ms ease,box-shadow 90ms ease}
+.pad:hover,.btn-s:hover,.btn-p:hover,.btn-i:hover,.btn-y:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+.pad:active,.btn-s:active,.btn-p:active,.btn-i:active,.btn-y:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn-p{background:var(--blue);color:#fff;min-height:52px;padding:.4rem 1.5rem}
+.btn-i{background:var(--ink);color:#fff;min-height:52px;padding:.4rem 1.5rem}
+.btn-y{background:var(--yellow)}
+.btn-sm{font-size:.88rem;padding:.25rem .85rem;border-radius:12px}
+.btn-s.on,.btn-s[aria-pressed="true"]{background:var(--yellow)}
+.pad:disabled,.btn-s:disabled,.btn-p:disabled,.btn-i:disabled,.btn-y:disabled{background:var(--paper);color:var(--ink-2);border-style:dashed;border-color:var(--dim);box-shadow:none;transform:none;cursor:default}
+kbd{border:1.5px solid currentColor;border-radius:6px;padding:0 .35rem;font-size:.8em}
+.card{background:var(--surface);border:var(--b);border-radius:var(--r-card);box-shadow:var(--lift-card)}
+.tag{display:inline-flex;align-items:center;font-family:var(--mono);font-size:.8rem;font-weight:700;padding:.1rem .55rem;border:2px solid var(--ink);border-radius:8px;letter-spacing:.04em;background:var(--surface);white-space:nowrap}
+.tag.m5{background:var(--blue);color:#fff}.tag.m6{background:var(--orange)}.tag.m7{background:var(--teal)}.tag.m8{background:var(--yellow)}.tag.mb{background:var(--ink);color:#fff}.tag.xp{background:var(--yellow)}
+.lab{font-size:.85rem;font-weight:800;color:var(--ink-2);margin:0;letter-spacing:.04em}
 /* top bar */
-.top{border-bottom:var(--border)}
-.top-in{max-width:84rem;margin:0 auto;padding:.875rem 2rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1rem}
-@media (max-width:640px){.top-in{padding:.5rem 1rem}}
-.brand{display:flex;align-items:baseline;gap:.6rem}
-.brand .wm{font-weight:800;font-size:1.25rem}
-.brand .m{font-weight:700;color:var(--cue)}
+.top{background:var(--surface);border-bottom:var(--b)}
+.top-in{max-width:82rem;margin:0 auto;padding:.7rem 2rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem 1rem}
+@media (max-width:640px){.top-in{padding:.6rem 1rem}}
+.brand{display:flex;align-items:center;gap:.6rem}
+.logo{display:grid;grid-template-columns:repeat(2,10px);gap:3px}
+.logo i{display:block;width:10px;height:10px;border-radius:3px;border:1.5px solid var(--ink)}
+.logo i:nth-child(1){background:var(--blue)}.logo i:nth-child(2){background:var(--orange)}.logo i:nth-child(3){background:var(--teal)}.logo i:nth-child(4){background:var(--yellow)}
+.brand .wm{font-weight:800;font-size:1.2rem}
+.brand .ex{font-family:var(--mono);font-weight:700;font-size:.78rem;background:var(--yellow);border:2px solid var(--ink);border-radius:6px;padding:0 .4rem;letter-spacing:.06em}
 #tabs{display:flex;flex-wrap:wrap;gap:.25rem}
-#tabs button{border:0;border-bottom:3px solid transparent;background:transparent;padding:.5rem .8rem;min-height:var(--tap)}
-#tabs button:hover{border-bottom-color:var(--cue)}
-#tabs button[aria-current="page"]{border-bottom-color:var(--ink);font-weight:800}
+#tabs button{border:0;background:transparent;border-radius:var(--r-sm);padding:.35rem .75rem;min-height:var(--tap);font-weight:700}
+#tabs button:hover{background:var(--paper)}
+#tabs button[aria-current="page"]{background:var(--ink);color:#fff}
 .top-tools{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
-#db-in{font-weight:400;font-size:.85rem}
-/* segmented control + page tints */
-.segc{display:inline-flex;border:var(--border)}
-.segc button{border:0;min-height:var(--tap);min-width:var(--tap);padding:0 1rem;background:transparent;font-weight:800;line-height:1.2}
-.segc button+button{border-left:var(--border)}
-.segc button:hover{background:var(--hover)}
-.segc button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.segc.big{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}
-.segc.big button{min-height:4.25rem;padding:.5rem;text-align:center}
-.segc.big small{display:block;font-family:var(--mono);font-weight:400;font-size:.8rem;margin-top:3px}
-.tints{display:flex;gap:.35rem}
-.tints button{width:var(--tap);height:var(--tap);padding:0;border:2px solid var(--line-2)}
-.tints button[aria-pressed="true"]{border:3px solid var(--ink)}
-.rc{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
-/* plan: hero, up next, setlist */
-.hero{display:flex;flex-wrap:wrap;gap:2rem;align-items:stretch;margin-bottom:3rem}
-.hero-l{flex:999 1 30rem;min-width:0;display:flex;flex-direction:column;gap:1.25rem;justify-content:center}
-.hero-l p{margin:0}
-.display{font-size:clamp(2.6rem,9vw,4.75rem);line-height:.98;letter-spacing:-.02em}
-.display .m{color:var(--cue);font-weight:700;letter-spacing:-.02em}
-.lead{font-size:1.2rem;max-width:40rem}
-.upnext{flex:1 1 20rem;min-width:0;background:var(--ink);color:var(--paper);padding:1.75rem;display:flex;flex-direction:column;gap:1.1rem}
-.upnext p{margin:0;color:var(--line)}
-.upnext .lab{font-size:.9rem;font-weight:800;color:var(--cue-on-dark)}
-.upnext h2{font-size:2.1rem;color:var(--paper)}
-.ministeps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
-.ministeps li{display:flex;flex-direction:column;gap:.35rem;font-size:.85rem;color:var(--line)}
-.ministeps i{display:block;height:.5rem;border:2px solid #8E897E}
-.ministeps .done i{background:var(--paper);border-color:var(--paper)}
-.ministeps .done{color:var(--paper)}
-.ministeps .now i{background:#E8573A;border-color:#E8573A}
-.ministeps .now{font-weight:800;color:var(--paper)}
-.upnext .btn-p{margin-top:auto;justify-content:space-between;min-height:3.5rem;font-size:1.15rem;width:100%}
-.upnext kbd{border-color:#8E897E}
-.split{display:flex;flex-wrap:wrap;gap:3rem;align-items:flex-start}
-.split-main{flex:999 1 38rem;min-width:0;display:flex;flex-direction:column;gap:1.25rem}
-.split-side{flex:1 1 18rem;min-width:0;display:flex;flex-direction:column;gap:2rem}
-.sl-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem}
-.sl-head p{margin:.25rem 0 0}
-.timeline{display:flex;gap:4px;height:2.25rem}
-.timeline .blk{display:flex;gap:2px;padding:4px;border:2px solid var(--ink);min-width:0}
-.timeline .blk.later{border-color:var(--line-2)}
-.timeline .blk i{flex:1 1 0;background:var(--line)}
-.timeline .blk.later i{background:#E9E5DA}
-.timeline .blk i.done{background:var(--ink)}
-.timeline .blk i.now{background:var(--cue)}
-.setlist{list-style:none;margin:0;padding:0;border-top:var(--border)}
-.setlist li{border-bottom:var(--row)}
-.setrow{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.25rem;padding:1rem .75rem;width:100%;border:0;background:transparent;text-align:left;min-height:var(--tap)}
-.setrow:hover{background:var(--hover)}
-.setrow .num{width:2.25rem;font-size:1.5rem;font-weight:700;color:var(--cue)}
-.setrow .tt{flex:999 1 15rem;min-width:0;display:flex;flex-direction:column}
-.setrow .tt b{font-size:1.2rem}
-.setrow .tt span{font-size:.95rem;color:var(--ink-2)}
-.setrow .meta{flex:1 1 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.6rem 1.1rem}
-.modtag{font-family:var(--mono);font-size:.85rem;font-weight:700;border:1.5px solid var(--ink);padding:.1rem .45rem;white-space:nowrap}
-.pips{display:flex;gap:3px}
-.pips i{width:.8rem;height:.8rem;border:2px solid #9A958A}
-.pips i.done{background:var(--ink);border-color:var(--ink)}
-.pips i.now{background:var(--cue);border-color:var(--cue)}
-.status{min-width:6.5rem;font-size:.9rem;font-weight:800}
-.status.now{color:var(--cue)} .status.later{color:var(--ink-2)}
-.side-box{display:flex;flex-direction:column;gap:.75rem;border-top:var(--border);padding-top:1rem}
-.side-box.cuebar{border-top:4px solid var(--cue)}
-.side-box h2{font-size:1.25rem}
-.side-box ol,.side-box ul{margin:0;padding-left:1.4rem;display:flex;flex-direction:column;gap:.6rem;font-size:1rem}
-.side-box p{margin:0;font-size:1rem}
-.side-box .row2{display:flex;flex-wrap:wrap;gap:.75rem}
-.side-box .row2>div{flex:1 1 9rem;min-width:0}
-.lnk{display:flex;justify-content:space-between;align-items:center;gap:.5rem;width:100%;padding:.6rem .5rem;min-height:var(--tap);color:var(--ink);text-decoration:none;border:0;border-bottom:var(--row);background:transparent;text-align:left}
-.lnk:hover{background:var(--hover)}
-.dark{background:var(--ink);color:var(--paper);padding:1.25rem;display:flex;flex-direction:column;gap:.75rem}
-.dark h2{color:var(--paper);font-size:1.25rem}
-.dark p{color:var(--line);margin:0;font-size:.95rem}
-.dark .btn-s{border-color:var(--paper);color:var(--paper);justify-content:space-between;width:100%}
-.dark .btn-s:hover{background:var(--paper);color:var(--ink)}
-.dark .btn-s .m{font-weight:400}
-.know{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:2rem 3rem;margin-top:3.5rem}
-.know section{border-top:var(--border);padding-top:1rem}
-.know h2{font-size:1.25rem;margin-bottom:.75rem}
-.know p{font-size:1rem}
-.know .warnbox{background:var(--cue-tint);padding:1rem 1.1rem;border-top:0}
-.know .warnbox h2{color:var(--cue-text)}
-/* lesson: rail + main */
-.two{display:flex;flex-wrap:wrap;gap:2.5rem;align-items:flex-start}
-.rail{flex:1 1 15rem;min-width:0;display:flex;flex-direction:column;gap:.25rem}
-.rail-h{font-size:.85rem;font-weight:800;color:var(--ink-2);padding-bottom:.4rem;border-bottom:var(--border);margin:0}
-.rail button{display:flex;align-items:center;gap:.6rem;width:100%;min-height:var(--tap);padding:.4rem .6rem;border:0;background:transparent;text-align:left}
-.rail button:hover{background:var(--hover)}
-.rail button[aria-current="page"],.rail button[aria-current="true"]{background:var(--ink);color:var(--paper);font-weight:800}
-.rail .n{font-family:var(--mono);width:1.75rem;font-weight:700;color:var(--cue);flex:0 0 auto}
-.rail .n.ok{color:var(--blue)}
-.rail button[aria-current] .n{color:var(--cue-on-dark)}
-.rail .t{flex:1 1 auto;min-width:0}
-.rail .mn{font-family:var(--mono);font-size:.8rem;color:var(--ink-2)}
-.rail button[aria-current] .mn{color:var(--line)}
-.rail .note{margin-top:1rem;padding:.9rem 1rem;background:var(--cue-tint);font-size:.95rem}
-.rail .note b{color:var(--cue-text)}
-.main{flex:999 1 38rem;min-width:0;max-width:52rem;display:flex;flex-direction:column;gap:1.75rem}
-body.focus #lesson .rail{display:none}
-body.focus #lesson .main{margin:0 auto}
+#sprint{background:var(--yellow)}
+#db-in{font-weight:400;font-size:.8rem}
+.ico{width:18px;height:18px;flex:0 0 auto}
+/* segmented pads (plan, reading panel, quiz type) */
+.segc{display:flex;flex-wrap:wrap;gap:.5rem}
+.segc button{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-height:var(--tap);padding:.35rem 1rem;border:var(--b);border-radius:var(--r-btn);box-shadow:var(--lift);background:var(--surface);font-weight:800;line-height:1.25;transition:transform 90ms ease,box-shadow 90ms ease}
+.segc button:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+.segc button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.segc button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.segc.big{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.segc.big button{min-height:4.2rem;padding:.5rem}
+.segc small{display:block;font-family:var(--mono);font-weight:400;font-size:.78rem;margin-top:2px}
+.tints{display:flex;gap:.5rem;flex-wrap:wrap}
+.tints button{width:3rem;height:3rem;padding:0;border:var(--b);border-radius:12px;box-shadow:var(--lift)}
+.tints button[aria-pressed="true"]{outline:4px solid var(--yellow);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.segc button,.opt,.cell{transition:none!important}.segc button:hover,.segc button:active,.opt:hover,.opt:active{transform:none!important}}
+/* home: your set */
+.home{display:flex;flex-wrap:wrap;gap:2rem;align-items:flex-start}
+.home-l{flex:1 1 22rem;min-width:0;display:flex;flex-direction:column;gap:1.25rem}
+.home-r{flex:999 1 30rem;min-width:0}
+.home-l p{margin:0}
+.count{align-self:flex-start;background:var(--yellow);border:var(--b);border-radius:var(--r-card);box-shadow:var(--lift-card);padding:.6rem 1.25rem;font-family:var(--mono);font-weight:700;font-size:clamp(3.2rem,10vw,5.5rem);line-height:1.05;letter-spacing:-.02em}
+.upnext{padding:1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.upnext h2{font-size:1.75rem}
+.upnext p{margin:0}
+.stepbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+.stepbar i{display:block;height:.65rem;border-radius:5px;border:2px solid var(--ink);background:var(--surface)}
+.stepbar i.done{background:var(--blue)} .stepbar i.now{background:var(--yellow)}
+.upnext .btn-p{justify-content:space-between;width:100%;min-height:3.6rem;font-size:1.15rem}
+.upnext .btn-p kbd{border-color:#fff}
+.gridcard{padding:1.25rem 1.5rem 1.5rem;display:flex;flex-direction:column;gap:1.1rem}
+.gc-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem}
+.padgrid{display:grid;grid-template-columns:4.6rem repeat(8,minmax(0,1fr));grid-template-rows:auto repeat(4,auto);grid-auto-flow:column;gap:.5rem;align-items:center}
+.padgrid .corner{min-height:1px}
+.padgrid .rowh{font-size:.8rem;font-weight:700;color:var(--ink-2);letter-spacing:.02em}
+.padgrid .colh{display:flex;flex-direction:column;align-items:stretch;gap:.3rem;font-family:var(--mono);font-weight:700;font-size:.85rem;text-align:center}
+.padgrid .colh i{display:block;height:.5rem;border-radius:4px;border:2px solid var(--ink)}
+.cell{height:3.1rem;min-height:var(--tap);width:100%;padding:0;border:2.5px solid var(--ink);border-radius:12px;background:var(--surface);position:relative;transition:transform 90ms ease}
+.cell:hover{transform:translateY(-2px)}
+.cell.done{box-shadow:0 3px 0 var(--ink)}
+.cell.here{background:var(--ink)}
+.cell.here::after{content:"";position:absolute;width:32%;height:32%;left:34%;top:34%;background:var(--yellow);border-radius:3px}
+.cell.later{border:2.5px dashed #9C9483;background:transparent}
+.cell.sel{outline:4px solid var(--yellow);outline-offset:2px}
+@media (max-width:700px){.padgrid{grid-template-columns:3.4rem repeat(4,minmax(0,1fr));grid-template-rows:none;grid-auto-flow:row}.padgrid .rowh{text-align:center}.padgrid .colh{flex-direction:row;align-items:center;gap:.35rem}.padgrid .colh i{width:.5rem;height:1.6rem}}
+.gc-sel{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem;min-height:3.4rem;padding-top:.75rem;border-top:var(--row)}
+.gc-sel p{margin:0;font-weight:700}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.75rem;margin-top:2.5rem;align-items:start}
+.band{padding:.6rem 1.25rem;border-bottom:var(--b);border-radius:calc(var(--r-card) - 3px) calc(var(--r-card) - 3px) 0 0;font-weight:800}
+.band.or{background:var(--orange)} .band.te{background:var(--teal)} .band.ye{background:var(--yellow)} .band.bl{background:var(--blue);color:#fff}
+.inner{padding:1rem 1.25rem 1.25rem;display:flex;flex-direction:column;gap:.6rem}
+.inner ol,.inner ul{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:.5rem;font-size:1rem}
+.inner p{margin:0;font-size:1rem}
+.lnk{display:flex;justify-content:space-between;align-items:center;gap:.5rem;width:100%;min-height:var(--tap);padding:.4rem .6rem;border:0;border-bottom:var(--row);background:transparent;text-align:left;border-radius:8px}
+.lnk:hover{background:var(--teal-tint)}
+.dbcard{background:var(--ink);color:#fff;box-shadow:0 6px 0 var(--yellow)}
+.dbcard p{color:#E4DED0}
+.dbcard .btn-s{width:100%;justify-content:space-between;box-shadow:0 4px 0 var(--yellow)}
+.dbcard .btn-s:hover{box-shadow:0 6px 0 var(--yellow)}
+.dbcard .btn-s:active{box-shadow:0 1px 0 var(--yellow)}
+.know{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:1.75rem;margin-top:2.5rem;align-items:start}
+.know .inner p{font-size:1rem}
+.row2{display:flex;flex-wrap:wrap;gap:.75rem}.row2>div{flex:1 1 9rem;min-width:0}
+/* lesson */
+.lcol{max-width:62rem;margin:0 auto;display:flex;flex-direction:column;gap:1.4rem}
 .lhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:1rem}
-.lhead p{margin:0 0 .4rem}
-.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}
-.steps button{display:flex;flex-direction:column;gap:.5rem;width:100%;min-height:var(--tap);padding:0 0 .25rem;border:0;background:transparent;text-align:left;font-weight:800;color:var(--ink-2)}
-.steps button i{display:block;height:.4rem;background:var(--line)}
-.steps button.done i{background:var(--ink)}
-.steps button[aria-current="step"]{color:var(--ink)}
-.steps button[aria-current="step"] i{background:var(--cue)}
-.steps .sn{font-family:var(--mono);font-size:.9rem;margin-right:.45rem}
-.content{font-size:var(--read);line-height:1.7;min-width:0}
-.lrow{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:1rem;padding:1.1rem 0;border-top:var(--row)}
-.lrow:first-child{border-top:var(--border)}
-.lrow:last-child{border-bottom:var(--row)}
-.lrow .n{font-family:var(--mono);color:var(--cue);font-weight:700}
-.lrow .tx{max-width:42rem;min-width:0}
-.lrow.fx .tx{font-family:var(--mono);font-weight:800}
-.lrow.key{background:var(--ink);color:var(--paper);padding:1.25rem 1.25rem 1.25rem 0;margin:.5rem 0;border-top:0}
-.lrow.key .n{color:var(--cue-on-dark);padding-left:1rem}
-.lrow.key .lab{display:block;font-size:.85em;font-weight:800;color:var(--cue-on-dark);margin-bottom:.3rem}
-.lrow.key+.lrow{border-top:0}
-.content .card{border:2px solid var(--blue);padding:1.25rem 1.5rem;margin:0}
-.content .card h3{color:var(--blue);font-size:1em;font-weight:800;margin:1.25rem 0 .5rem}
+.lhead p{margin:0}
+.lmeta{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.rc{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem}
+.steps button{width:100%;min-height:3.3rem;padding:.3rem .5rem;border:var(--b);border-radius:var(--r-btn);box-shadow:var(--lift);background:var(--surface);font-weight:800;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:transform 90ms ease,box-shadow 90ms ease}
+.steps button:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+.steps button.done{background:var(--blue);color:#fff}
+.steps button[aria-current="step"]{background:var(--ink);color:#fff}
+.steps .sn{font-family:var(--mono);font-size:.85rem}
+@media (max-width:640px){.steps .sn{display:none}.steps button{font-size:.85rem;padding:.3rem .2rem}}
+.lcard{border-radius:24px;padding:clamp(1.25rem,3vw,2.25rem);display:flex;flex-direction:column;gap:1.25rem;min-width:0}
+.content{font-size:var(--read);letter-spacing:var(--rls);word-spacing:var(--rws);line-height:1.7;min-width:0}
+.keys{font-size:.85rem;color:var(--ink-2);text-align:center}
+.lfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem;padding-top:1rem;border-top:var(--row)}
+.learn-prog{display:flex;gap:.35rem}
+.learn-prog i{flex:1 1 0;height:.6rem;border-radius:5px;border:2px solid var(--ink);background:var(--surface)}
+.learn-prog i.done{background:var(--blue)} .learn-prog i.now{background:var(--yellow)}
+.lc{display:flex;flex-direction:column;gap:1rem}
+.lc-num{font-family:var(--mono);font-size:3rem;font-weight:700;color:var(--blue);line-height:1}
+.lc-text{font-size:1.5em;line-height:1.55;max-width:46rem}
+@media (max-width:640px){.lc-text{font-size:1.25em}}
+.lc-text b{font-weight:800}
+.pill{display:inline-block;background:var(--blue-tint);border-radius:10px;padding:.05em .45em;font-family:var(--mono);font-weight:700;letter-spacing:0;word-spacing:0;margin:.1em 0}
+.lc.fx .lc-text{font-family:var(--mono);font-weight:700;letter-spacing:0;word-spacing:0}
+.lcard.dark{background:var(--ink);color:#fff}
+.lcard.dark .lc-num{color:var(--yellow)}
+.lcard.dark .pill{background:var(--yellow);color:var(--ink)}
+.lcard.dark .learn-prog i{border-color:#fff}
+.lcard.dark .lab{color:var(--yellow)}
+.lcard.dark .lfoot{border-top-color:#3A3845}
+.lcard.dark .btn-s,.lcard.dark .btn-p{box-shadow:0 4px 0 var(--yellow)}
+.lcard.dark .btn-s:hover,.lcard.dark .btn-p:hover{box-shadow:0 6px 0 var(--yellow)}
+.lc-key{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:800;border-radius:8px;padding:.05rem .5rem;font-size:.85rem}
+.content .card{border:0;box-shadow:none;padding:0;background:transparent;border-radius:0}
+.content .card h3{color:var(--blue);font-size:1.05em;margin:1.4rem 0 .5rem}
 .content .card h3:first-child{margin-top:0}
-.content ul.chunks{list-style:none;margin:.4rem 0 0;padding:0;border-top:var(--row)}
-.content ul.chunks li{padding:.55rem 0;border-bottom:var(--row)}
+.content ul.chunks{list-style:none;margin:.4rem 0 0;padding:0}
+.content ul.chunks li{padding:.55rem .9rem;margin:.4rem 0;border:2px solid var(--ink);border-radius:12px;background:var(--surface)}
 .tblwrap{overflow-x:auto;margin:.5rem 0;max-width:100%}
-table{border-collapse:collapse;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.88em}
+table{border-collapse:collapse;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.88em;letter-spacing:0;word-spacing:0}
 td,th{padding:.3rem .6rem;border-bottom:var(--row);text-align:right;white-space:nowrap}
-tr:first-child th{border-bottom:var(--border)}
+tr:first-child th{border-bottom:var(--b)}
 th{font-weight:700}
 td:first-child,th:first-child{text-align:left;padding-left:0}
-td.hl{background:var(--hover);font-weight:700}
-.recall{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,15rem),1fr));gap:.75rem}
-.recall button{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;min-height:8rem;padding:1rem 1.1rem;text-align:left;border:var(--border);background:transparent}
-.recall button:hover{background:var(--hover)}
+td.hl{background:var(--yellow-tint);font-weight:700}
+.recall{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,14rem),1fr));gap:.9rem}
+.recall button{display:flex;flex-direction:column;gap:.4rem;align-items:flex-start;min-height:7.5rem;padding:1rem 1.1rem;text-align:left;border:var(--b);border-radius:var(--r-btn);box-shadow:var(--lift);background:var(--surface);transition:transform 90ms ease,box-shadow 90ms ease}
+.recall button:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
 .recall .h{font-size:.75em;font-weight:800;color:var(--ink-2)}
 .recall .fc{font-size:1.1em;font-weight:800;line-height:1.35}
-.recall button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.recall button[aria-pressed="true"] .h{color:var(--line)}
-.pager{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;padding-top:1.25rem;border-top:var(--border)}
-@media (max-width:640px){.pager{position:sticky;bottom:0;z-index:4;background:var(--paper);padding:.75rem 0 1rem}.pager .btn-p{flex:1 1 auto}}
-#lrail details>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-end;gap:.5rem;min-height:var(--tap)}
-#lrail details>summary::-webkit-details-marker{display:none}
-#lrail details>summary::after{content:"Show ↓";font-family:var(--mono);font-weight:700;color:var(--ink)}
-#lrail details[open]>summary::after{content:"Hide ↑"}
-#lrail details[open]>summary{margin-bottom:.25rem}
-@media (max-width:640px){.steps .sn{display:none}.steps button{font-size:.85rem}#lview[data-step="2"] .pager{position:static}.two{gap:1.25rem}}
+.recall button[aria-pressed="true"]{background:var(--yellow)}
+.recall button[aria-pressed="true"] .h{color:var(--ink)}
+/* lesson done */
+.done-scr{background:var(--ink);color:#fff;border-radius:24px;border:var(--b);box-shadow:0 6px 0 var(--yellow);padding:clamp(1.5rem,4vw,3rem);display:flex;flex-direction:column;gap:1.5rem}
+.done-scr p{color:#E4DED0;margin:0}
+.done-top{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center}
+.done-pads{display:flex;flex-direction:column;gap:.35rem}
+.done-pads i{display:block;width:3.2rem;height:1.6rem;border-radius:8px;border:2.5px solid #fff;background:var(--blue)}
+.done-scr .big{font-size:clamp(3rem,10vw,5rem);font-weight:800;line-height:1}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));gap:1rem}
+.tile{border:var(--b);border-radius:18px;box-shadow:var(--lift);padding:.9rem 1.1rem;background:var(--surface);color:var(--ink);display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.tile .l{font-size:.85rem;font-weight:700;color:var(--ink-2)}
+.tile .v{font-family:var(--mono);font-size:2rem;font-weight:700;line-height:1.1;overflow-wrap:anywhere}
+.tile.y{background:var(--yellow)} .tile.b{background:var(--blue);color:#fff} .tile.b .l{color:#fff}
+.done-scr .tile{box-shadow:0 4px 0 var(--yellow)}
+.mini{display:grid;grid-template-columns:repeat(8,minmax(0,1.6rem));grid-auto-flow:column;grid-template-rows:repeat(4,auto);gap:4px}
+.mini i{display:block;height:1rem;border-radius:4px;border:2px solid #fff;background:transparent}
+.mini i.later{border-style:dashed;border-color:#77727F}
+.done-scr .btn-y{min-height:52px}
 /* tools */
-.tool-sec{display:flex;flex-direction:column;gap:1.25rem;padding-bottom:2.5rem;border-bottom:var(--border);scroll-margin-top:1rem}
+.tools{display:flex;flex-wrap:wrap;gap:2rem;align-items:flex-start}
+.tnav{flex:1 1 15rem;min-width:0;padding:.75rem;display:flex;flex-direction:column;gap:.3rem}
+.tnav button{display:flex;align-items:center;width:100%;min-height:var(--tap);padding:.4rem .75rem;border:0;border-radius:var(--r-sm);background:transparent;text-align:left;font-weight:700}
+.tnav button:hover{background:var(--teal-tint)}
+.tnav button[aria-current="true"]{background:var(--teal)}
+.tnav .note{margin:.5rem 0 0;padding:.8rem .9rem;background:var(--orange-tint);border-radius:12px;font-size:.92rem}
+.tmain{flex:999 1 36rem;min-width:0;display:flex;flex-direction:column;gap:2rem}
+.tool-sec{padding:clamp(1.25rem,3vw,2rem);display:flex;flex-direction:column;gap:1.25rem;scroll-margin-top:1rem}
 .tool-sec>p{margin:0}
-.inrow2{display:flex;flex-wrap:wrap;gap:1.5rem}
-.inbox{flex:1 1 18rem;min-width:0;display:flex;flex-direction:column;gap:.6rem;padding:1.25rem;border:var(--border)}
-.inbox label{font-weight:800}
+.inrow2{display:flex;flex-wrap:wrap;gap:1.25rem}
+.inbox{flex:1 1 17rem;min-width:0;display:flex;flex-direction:column;gap:.6rem;padding:1.1rem;border:var(--b);border-radius:18px;background:var(--paper)}
+.inbox h3{margin:0 0 .25rem}
 .inrow{display:flex;flex-wrap:wrap;gap:.5rem}
 label{display:block;font-weight:800;font-size:.95rem;margin:0 0 .25rem}
-input[type=number],input[type=text],select{font:inherit;min-height:52px;padding:0 .9rem;border:var(--border);background:#fff;color:var(--ink);width:100%;max-width:100%}
-input[type=number],input[type=text]{font-family:var(--mono);font-size:1.375rem;font-weight:700}
-.inrow input{flex:1 1 7rem;min-width:0;width:auto}
-.inrow select{flex:1 1 11rem;min-width:0;width:auto}
+input[type=number],input[type=text],select{font:inherit;min-height:52px;padding:0 .9rem;border:var(--b);border-radius:12px;background:var(--paper);color:var(--ink);width:100%;max-width:100%}
+input[type=number],input[type=text]{font-family:var(--mono);font-size:1.3rem;font-weight:700;letter-spacing:0}
+.inrow input{flex:1 1 7rem;min-width:0;width:auto;height:3.4rem;font-size:1.6rem}
+.inrow select{flex:1 1 11rem;min-width:0;width:auto;height:3.4rem;background:var(--surface)}
 .readout{font-family:var(--mono);font-size:.95rem;color:var(--ink-2);margin:0}
-.cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));border-top:var(--border);border-left:var(--row)}
-.cells>div{padding:1rem 1.1rem 1.25rem;border-right:var(--row);border-bottom:var(--row);display:flex;flex-direction:column;gap:.3rem;min-width:0}
-.cells .l{font-size:.9rem;color:var(--ink-2);margin:0}
-.cells .v{font-family:var(--mono);font-size:1.9rem;font-weight:700;line-height:1.1;margin:0;overflow-wrap:anywhere}
-.cells .v.cue{color:var(--cue)}
+.cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:1rem}
+.cells>div{border:var(--b);border-radius:18px;box-shadow:var(--lift);padding:.9rem 1rem 1rem;background:var(--surface);display:flex;flex-direction:column;gap:.25rem;min-width:0}
+.cells>div.bl{background:var(--blue);color:#fff}.cells>div.bl .l,.cells>div.bl .s{color:#fff}
+.cells>div.ye{background:var(--yellow)}
+.cells .l{font-size:.85rem;font-weight:700;color:var(--ink-2);margin:0}
+.cells .v{font-family:var(--mono);font-size:1.85rem;font-weight:700;line-height:1.1;margin:0;overflow-wrap:anywhere}
 .cells .s{font-family:var(--mono);font-size:.85rem;color:var(--ink-2);margin:0}
-.how{display:flex;flex-direction:column;gap:.75rem;padding:1.25rem 1.5rem;border:2px solid var(--blue)}
-.how .lab{font-size:.9rem;font-weight:800;color:var(--blue);margin:0}
+.how{display:flex;flex-direction:column;gap:.75rem;padding:1.1rem 1.4rem;border:var(--b);border-radius:18px;background:var(--blue-tint)}
+.how .lab{color:var(--ink)}
 .how ol{margin:0;padding-left:1.5rem;display:flex;flex-direction:column;gap:.4rem;font-family:var(--mono);font-size:1rem;overflow-wrap:anywhere}
-.alert{padding:1.25rem 1.5rem;background:var(--cue-tint)}
+.alert{padding:1.1rem 1.4rem;background:var(--orange-tint);border:var(--b);border-radius:18px}
 .alert p{margin:0}
-.alert b{color:var(--cue-text)}
-.out{display:flex;flex-direction:column;border-top:var(--border)}
-.out div{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 0;border-bottom:var(--row)}
+.out{display:flex;flex-direction:column;border-top:var(--row)}
+.out div{display:flex;justify-content:space-between;gap:1rem;padding:.45rem 0;border-bottom:var(--row)}
 .out span:last-child{font-family:var(--mono);font-weight:700;white-space:nowrap}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.5rem}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:1.25rem}
 .grid2>*{min-width:0}
-.fcard{border:var(--border);padding:1rem 1.1rem}
-.fcard h3{font-size:1.05rem;margin-bottom:.4rem}
+.fcard{border:var(--b);border-radius:18px;padding:1rem 1.1rem;background:var(--surface)}
+.fcard h3{font-size:1.02rem;margin:.5rem 0 .4rem}
 .fcard .trig{margin:0}
-.f{font-family:var(--mono);font-weight:700;display:block;margin:.4rem 0;overflow-x:auto;white-space:nowrap}
+.f{font-family:var(--mono);font-weight:700;display:block;margin:.4rem 0;overflow-x:auto;white-space:nowrap;background:var(--blue-tint);border-radius:8px;padding:.2rem .5rem}
 /* ---------- PORT RUSH (deliberate single look: night port terminal / departure board) ---------- */
 :root{--g-bg:var(--paper);--g-panel:var(--hover);--g-line:var(--line-2);--g-ink:var(--ink);--g-dim:var(--ink-2);--g-amber:var(--cue);--g-red:var(--cue);--g-green:var(--blue);--g-cyan:var(--blue);--f-display:var(--font);--f-body:var(--font);--f-mono:var(--mono)}
 #game{background:var(--g-bg);color:var(--g-ink);border-radius:14px;margin-top:16px;padding:18px clamp(14px,3vw,26px) 24px;font-family:var(--f-body)}
@@ -342,144 +349,169 @@ button.d-play:disabled{opacity:.5;cursor:default}
 .yt-stage.tap .yt-black{opacity:0;pointer-events:none}
 .yt-stage.tap .yt-tap{display:flex}
 .d-skip{background:transparent;color:var(--g-dim);border:1px solid var(--g-line);font-size:.8rem;padding:4px 10px;margin-left:6px}
-/* ---------- PRACTICE: 5-question rounds, math / concepts / combo, hints + "I'm stuck" help ---------- */
-.pq-head{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+/* ---------- PRACTICE: 5-question rounds, 2×2 answer pads, "How sure were you?", hints + "I'm stuck" ---------- */
+.pq-head{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.25rem}
 .pq-head p{margin:0}
-.mbar{height:.5rem;background:var(--line)}
+.mbar{height:.7rem;background:var(--surface);border:2px solid var(--ink);border-radius:6px;overflow:hidden}
 .mbar i{display:block;height:100%;background:var(--blue);width:0}
 .pq{display:flex;flex-direction:column;gap:1.1rem}
 .pq-top{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap}
-.pq-dots{display:flex;gap:4px;flex-wrap:wrap}
-.pq-dots i{display:block;width:.9rem;height:.9rem;border:2px solid #9A958A}
-.pq-dots i.cur{border:3px solid var(--ink)}
-.pq-dots i.ok{background:var(--blue);border-color:var(--blue)}
-.pq-dots i.no{background:var(--cue);border-color:var(--cue)}
-.pq-dots i.help{background:var(--ink-2);border-color:var(--ink-2)}
-.pq-count{font-family:var(--mono);font-size:.85rem;color:var(--ink-2);display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
-.pq-clock{color:var(--ink)} .pq-clock.low{color:var(--cue)}
-.pq-tags{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
-.chip{font-family:var(--mono);font-size:.8rem;font-weight:700;border:1.5px solid var(--ink);padding:.1rem .45rem}
-.pq-q{font-size:1.25em;font-weight:800;line-height:1.45;max-width:42rem;margin:0}
+.pq-dots{display:flex;gap:5px;flex-wrap:wrap}
+.pq-dots i{display:block;width:1.1rem;height:1.1rem;border-radius:5px;border:2px solid var(--ink);background:var(--surface)}
+.pq-dots i.cur{background:var(--yellow)}
+.pq-dots i.ok{background:var(--blue)}
+.pq-dots i.no{background:var(--orange)}
+.pq-dots i.help{background:var(--line)}
+.pq-count{font-family:var(--mono);font-size:.85rem;color:var(--ink-2);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;letter-spacing:0}
+.pq-clock{color:var(--ink)} .pq-clock.low{color:var(--ink);background:var(--orange);border-radius:6px;padding:0 .3rem}
+.pq-tags{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;font-family:var(--mono);font-size:.78rem;font-weight:700;border:2px solid var(--ink);border-radius:8px;padding:.05rem .5rem;background:var(--surface);letter-spacing:0}
+.chip.xp{background:var(--yellow)}
+.pq-q{font-size:1.45em;font-weight:700;line-height:1.45;max-width:46rem;margin:0}
+@media (max-width:640px){.pq-q{font-size:1.2em}}
 .pq-tbl summary{cursor:pointer;font-weight:800;font-size:.9rem;min-height:var(--tap);display:flex;align-items:center}
 .pq-tools{display:flex;gap:.5rem;flex-wrap:wrap}
-.pq-hintbox{border:var(--border);padding:1rem 1.25rem;max-width:42rem}
-.pq-hintbox.sol{border-color:var(--blue)}
-.pq-hintbox .lab{font-weight:800;margin:0 0 .35rem}
-.pq-hintbox.sol .lab{color:var(--blue)}
+.pq-hintbox{border:var(--b);border-radius:18px;padding:1rem 1.25rem;background:var(--yellow-tint);max-width:46rem}
+.pq-hintbox.sol{background:var(--blue-tint)}
+.pq-hintbox .lab{color:var(--ink);margin:0 0 .35rem}
 .pq-hintbox ol{margin:0;padding-left:1.4rem;display:flex;flex-direction:column;gap:.35rem}
 .pq-hintbox p{margin:.5rem 0 0}
-.pq-opts{display:flex;flex-direction:column;gap:.6rem}
-.opt{display:flex;align-items:center;gap:1rem;width:100%;min-height:3.5rem;padding:.6rem 1rem;border:var(--border);background:transparent;text-align:left;font-size:1em;line-height:1.4}
-.opt:hover{background:var(--hover)}
-.opt .key{display:inline-flex;align-items:center;justify-content:center;flex:0 0 2rem;width:2rem;height:2rem;border:2px solid currentColor;font-family:var(--mono);font-size:.85em;font-weight:700}
-.opt .ot{flex:1 1 auto;min-width:0}
-.opt .tg{font-size:.8em;font-weight:800;white-space:nowrap}
-.opt:disabled{cursor:default}
-.opt.correct,.opt.correct:hover{background:var(--blue);border-color:var(--blue);color:#fff}
-.opt.pick,.opt.pick:hover{background:var(--cue);border-color:var(--cue);color:#fff}
-.opt.dim,.opt.dim:hover{background:transparent;border-color:var(--line-2);color:var(--ink-2)}
-.fbk{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem;max-width:42rem}
-.fbk.ok{background:var(--blue-tint)} .fbk.no{background:var(--cue-tint)} .fbk.help{background:var(--hover)}
-.fbk .head{font-weight:800;margin:0}
-.fbk.no .head{color:var(--cue-text)}
+.pq-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.opt{display:flex;align-items:center;gap:.75rem;width:100%;min-height:4.2rem;padding:.6rem .9rem;border:var(--b);border-radius:var(--r-btn);box-shadow:var(--lift);background:var(--surface);text-align:left;font-weight:700;line-height:1.35;min-width:0;transition:transform 90ms ease,box-shadow 90ms ease}
+.opt:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.opt .key{display:inline-flex;align-items:center;justify-content:center;flex:0 0 2rem;width:2rem;height:2rem;border:2px solid currentColor;border-radius:8px;font-family:var(--mono);font-size:.85em;font-weight:700}
+.opt .ot{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.opt .tg{font-size:.78em;font-weight:800;white-space:nowrap;align-self:flex-start}
+.opt:disabled{cursor:default;transform:none}
+.opt.correct,.opt.correct:hover{background:var(--blue);color:#fff;transform:none}
+.opt.pick,.opt.pick:hover{background:var(--orange);color:var(--ink);transform:none}
+.opt.dim,.opt.dim:hover{background:var(--paper);color:var(--ink-2);border-color:var(--dim);box-shadow:0 4px 0 var(--dim);transform:none}
+@media (max-width:640px){.pq-opts{gap:.6rem}.opt{flex-direction:column;align-items:flex-start;gap:.35rem;padding:.55rem .65rem;font-size:.92em}.opt .tg{align-self:flex-start}}
+.pq-fb{display:flex;flex-direction:column;gap:1rem}
+.pq-fb:empty{display:none}
+.fbk{padding:1.1rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;border:var(--b);border-radius:18px;max-width:46rem}
+.fbk.ok{background:var(--blue-tint)} .fbk.no{background:var(--orange-tint)} .fbk.help{background:var(--yellow-tint)}
+.fbk .head{font-weight:800;margin:0;font-size:1.1em}
 .fbk .sub{font-size:.85em;font-weight:800;color:var(--ink-2);margin:.25rem 0 0}
 .fbk ol{margin:0;padding-left:1.4rem;display:flex;flex-direction:column;gap:.35rem}
-.trap{background:var(--cue-tint);padding:.9rem 1.1rem;max-width:42rem;margin:0}
-.trap .lead{color:var(--cue-text);font-weight:800}
-.hook{max-width:42rem;margin:0;padding:.9rem 1.1rem;border:2px solid var(--blue)}
-.hook .lead{color:var(--blue);font-weight:800}
+.trap{background:var(--orange-tint);border:var(--b);border-radius:14px;padding:.8rem 1.1rem;max-width:46rem;margin:0}
+.trap .lead,.hook .lead{font-weight:800}
+.hook{max-width:46rem;margin:0;padding:.8rem 1.1rem;border:var(--b);border-radius:14px;background:var(--surface)}
+.conf{display:flex;flex-direction:column;gap:.5rem;max-width:46rem}
+.conf .segc button[aria-pressed="true"]{background:var(--yellow);color:var(--ink)}
+.conf .saved{margin:0;font-weight:700}
 .pq-actions{display:flex;gap:.5rem;flex-wrap:wrap}
 .pq-next{align-self:flex-start}
-@media (max-width:640px){.pq-next{align-self:stretch}}
+.fb-sheet-x{display:none}
+@media (max-width:640px){
+ .pq-fb:not(:empty){position:fixed;left:0;right:0;bottom:0;z-index:30;max-height:74vh;overflow:auto;background:var(--paper);border-top:var(--b);border-radius:22px 22px 0 0;padding:1rem 1rem 1.25rem;box-shadow:0 -6px 0 var(--ink);font-size:var(--read)}
+ .pq-next{align-self:stretch}
+ .fb-sheet-x{display:inline-flex;align-self:flex-end}
+ .pq-fb.mini{max-height:none;overflow:visible}
+ .pq-fb.mini>*:not(.fb-sheet-x):not(.pq-next){display:none}
+}
 .pq-sum{align-items:flex-start}
 .pq-sum p{margin:0}
 .pq-big{font-family:var(--mono);font-size:3.5rem;font-weight:700;line-height:1}
-.pq-sum .lab{font-size:.9rem;font-weight:800;color:var(--ink-2);margin:.5rem 0 0}
 .pq-revs{display:flex;gap:.5rem;flex-wrap:wrap}
 .pq-btns{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
-.ico{width:18px;height:18px;flex:0 0 auto}
 /* acronyms */
 dl.abbr{margin:0;display:flex;flex-direction:column}
-dl.abbr>div{display:grid;grid-template-columns:minmax(4.5rem,auto) minmax(0,1fr);gap:.25rem 1rem;padding:.55rem 0;border-bottom:var(--row)}
-dl.abbr dt{font-weight:700;color:var(--cue);overflow-wrap:anywhere}
+dl.abbr>div{display:grid;grid-template-columns:minmax(4.5rem,32%) minmax(0,1fr);gap:.25rem 1rem;padding:.55rem 0;border-bottom:var(--row)}
+@media (max-width:640px){dl.abbr>div{grid-template-columns:minmax(0,1fr);gap:.1rem}}
+dl.abbr dt{font-weight:700;color:var(--blue);overflow-wrap:anywhere}
 dl.abbr dd{margin:0;display:flex;flex-direction:column}
 dl.abbr dd span{color:var(--ink-2);font-size:.92em}
-.abbr-box{border:var(--border);padding:.25rem 1.1rem .75rem;margin-bottom:1.5rem}
-.abbr-box summary{cursor:pointer;font-weight:800;min-height:var(--tap);display:flex;align-items:center;gap:.4rem}
+.lcard.dark dl.abbr dt{color:var(--yellow)} .lcard.dark dl.abbr dd span{color:#E4DED0} .lcard.dark dl.abbr>div{border-bottom-color:#3A3845}
 .fcard dl.abbr{font-size:.95rem}
 /* quizzes page */
-.hub-sec{display:flex;flex-direction:column;gap:.75rem;padding:1.5rem 0;border-top:var(--border)}
+.hub{display:flex;flex-direction:column;gap:1.75rem}
+.hub-sec{padding:clamp(1.1rem,3vw,1.75rem);display:flex;flex-direction:column;gap:.8rem}
 .hub-sec p{margin:0}
 .hub-list{list-style:none;margin:0;padding:0}
-.hub-row{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;padding:.8rem 0;border-bottom:var(--row)}
-.hub-row .num{width:2.25rem;font-size:1.3rem;font-weight:700;color:var(--cue)}
-.hub-row .tt{flex:999 1 14rem;min-width:0;display:flex;flex-direction:column}
-.hub-btns{display:flex;flex-wrap:wrap;gap:.4rem}
-/* shared bits */
-.lab{font-size:.9rem;font-weight:800;color:var(--ink-2);margin:0}
-.pq-fb{display:flex;flex-direction:column;gap:1rem}
-.pq-fb:empty{display:none}
-.upnext .lab{color:var(--cue-on-dark)}
-/* "I'm stuck" help sheet */
-#help{position:fixed;inset:0;z-index:60;background:rgba(22,22,26,.55);display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.hub-row{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;padding:.8rem 0;border-bottom:var(--row)}
+.hub-row:last-child{border-bottom:0}
+.hub-row .num{display:inline-flex;align-items:center;justify-content:center;width:2.6rem;height:2.6rem;border:var(--b);border-radius:12px;font-weight:700;font-size:1rem}
+.hub-row .tt{flex:999 1 13rem;min-width:0;display:flex;flex-direction:column}
+.hub-btns{display:flex;flex-wrap:wrap;gap:.45rem}
+/* "I'm stuck" sheet + reading panel */
+#help{position:fixed;inset:0;z-index:60;background:rgba(27,26,34,.55);display:flex;align-items:flex-end;justify-content:center;padding:12px}
 @media (min-width:700px){#help{align-items:center}}
-.help-card{background:var(--paper);color:var(--ink);width:min(40rem,100%);max-height:calc(100vh - 24px);overflow:auto;padding:1.25rem 1.5rem 1.5rem;border:var(--border)}
+.help-card{background:var(--surface);color:var(--ink);width:min(42rem,100%);max-height:calc(100vh - 24px);overflow:auto;padding:1.25rem 1.5rem 1.5rem;border:var(--b);border-radius:var(--r-card);box-shadow:var(--lift-card)}
 .help-top{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
-.help-top .lab{font-weight:800;color:var(--cue);margin:0}
-.help-card h3{font-size:1.6rem;margin:.75rem 0 0}
+.help-top .lab{color:var(--ink);background:var(--yellow);border:2px solid var(--ink);border-radius:8px;padding:.1rem .5rem}
+.help-card h3{font-size:1.55rem;margin:.75rem 0 0}
 .help-sec{margin-top:1.1rem}
-.help-sec .lab{font-size:.9rem;font-weight:800;color:var(--ink-2);margin:0 0 .3rem}
+.help-sec .lab{margin:0 0 .3rem}
 .help-sec ul,.help-sec ol{margin:0;padding-left:1.4rem;display:flex;flex-direction:column;gap:.35rem}
 .help-sec p{margin:0}
-.help-fest{background:var(--hover);padding:1rem 1.1rem}
-.help-ex{border:2px solid var(--blue);padding:1rem 1.1rem}
-.help-ex .lab{color:var(--blue)}
-.help-f{font-family:var(--mono);font-weight:800;font-size:1.15em;overflow-wrap:anywhere}
-.help-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.5rem}
+.help-fest{background:var(--yellow-tint);border:var(--b);border-radius:16px;padding:1rem 1.1rem}
+.help-ex{background:var(--blue-tint);border:var(--b);border-radius:16px;padding:1rem 1.1rem}
+.help-f{font-family:var(--mono);font-weight:700;font-size:1.15em;overflow-wrap:anywhere}
+.help-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.5rem}
 /* pop-up nudge when stuck */
-#nudge{position:fixed;left:50%;transform:translateX(-50%);bottom:max(1rem,env(safe-area-inset-bottom,0px));z-index:45;width:min(28rem,calc(100vw - 24px));background:var(--paper);border:var(--border);padding:1rem 1.1rem}
+#nudge{position:fixed;left:50%;transform:translateX(-50%);bottom:max(1rem,env(safe-area-inset-bottom,0px));z-index:45;width:min(28rem,calc(100vw - 24px));background:var(--surface);border:var(--b);border-radius:var(--r-card);box-shadow:0 6px 0 var(--yellow);padding:1rem 1.1rem}
 #nudge .head{font-weight:800;margin:0 0 .25rem}
 #nudge p{margin:0 0 .75rem}
 #nudge .pq-btns{gap:.5rem}
-/* ---------- games: same screens, new tokens (paper, ink, cue red, blue, square corners) ---------- */
-#game,#drop{border:var(--border);background:var(--paper)!important;color:var(--ink)!important}
-.g-board,.g-hud div,.g-modes button,.g-stats div,.d-list{border:var(--border)!important}
-.g-board div:first-child{background:var(--ink)!important;color:var(--paper)!important}
-.g-modes button:hover,.g-modes button:focus-visible{background:var(--hover)}
-.g-opts button{border:var(--border)!important;background:transparent!important;color:var(--ink)!important}
-.g-opts button:hover:not(:disabled){background:var(--hover)!important}
-.g-opts button.right{background:var(--blue)!important;border-color:var(--blue)!important;color:#fff!important}
-.g-opts button.wrong{background:var(--cue)!important;border-color:var(--cue)!important;color:#fff!important}
-.g-opts button.right kbd,.g-opts button.wrong kbd{color:#fff;border-color:#fff}
-.g-report{border:2px solid var(--blue)!important;background:var(--blue-tint)!important}
-.g-report.bad{border-color:var(--cue)!important;background:var(--cue-tint)!important}
-.g-event{border:2px solid var(--cue)!important;background:var(--cue-tint)!important}
-.g-next{color:#fff!important}
-.d-play{color:#fff!important}
-.d-play.used{background:transparent!important;color:var(--blue)!important;border:2px solid var(--blue)!important}
-.g-ghost,.d-skip,.db-x{border:var(--border)!important;color:var(--ink)!important;background:transparent!important;min-height:var(--tap)}
-.g-ghost:hover,.d-skip:hover,.db-x:hover{background:var(--ink)!important;color:var(--paper)!important}
-#db{background:var(--paper)!important;color:var(--ink)!important;border:var(--border)!important}
-.db-clock{color:var(--ink)!important} .db-clock.low{color:var(--cue)!important}
+/* ---------- games keep their screens, with the new tokens + pads ---------- */
+#game,#drop{background:var(--surface)!important;color:var(--ink)!important;border:var(--b);border-radius:var(--r-card)!important;box-shadow:var(--lift-card);font-family:var(--font)!important}
+#game h2,#drop h2,.g-title{font-family:var(--font)!important;font-weight:800}
+.g-title{color:var(--ink)!important;background:var(--yellow);display:inline-block;padding:.1em .3em;border:var(--b);border-radius:14px;letter-spacing:.06em!important}
+.g-board,.g-hud div,.g-stats div,.d-list{border:var(--b)!important;border-radius:14px!important;background:var(--surface)!important}
+.g-board div:first-child{background:var(--ink)!important;color:#fff!important}
+.g-board b{color:var(--ink)!important;font-weight:800!important}
+.g-modes button,.g-weak button{border:var(--b)!important;border-radius:var(--r-btn)!important;box-shadow:var(--lift)!important;background:var(--surface)!important;color:var(--ink)!important;transition:transform 90ms ease,box-shadow 90ms ease}
+.g-modes button:hover,.g-weak button:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)!important}
+.g-modes b{color:var(--ink)!important}
+.g-modes span{color:var(--ink-2)!important}
+.g-opts button{border:var(--b)!important;border-radius:var(--r-btn)!important;box-shadow:var(--lift)!important;background:var(--surface)!important;color:var(--ink)!important;font-weight:700;transition:transform 90ms ease,box-shadow 90ms ease}
+.g-opts button:hover:not(:disabled){transform:translateY(-2px)}
+.g-opts button kbd{border-radius:6px}
+.g-opts button.right{background:var(--blue)!important;color:#fff!important}
+.g-opts button.wrong{background:var(--orange)!important;color:var(--ink)!important}
+.g-opts button.right kbd{color:#fff;border-color:#fff}
+.g-report{border:var(--b)!important;border-radius:16px!important;background:var(--blue-tint)!important;color:var(--ink)}
+.g-report.bad{background:var(--orange-tint)!important}
+.g-event{border:var(--b)!important;border-radius:14px!important;background:var(--yellow-tint)!important}
+.g-event b{color:var(--ink)!important}
+.g-pop{color:var(--blue)!important;font-weight:800}
+#g-cash{color:var(--blue)!important}#g-streak{color:var(--ink)!important}
+.g-box{border-radius:3px}
+.g-timer{border:2px solid var(--ink);border-radius:6px;height:10px!important}
+.g-timer i{background:var(--yellow)!important}
+.g-timer.low i{background:var(--orange)!important}
+.g-next,.d-play{border:var(--b)!important;border-radius:var(--r-btn)!important;box-shadow:var(--lift)!important;background:var(--blue)!important;color:#fff!important;transition:transform 90ms ease,box-shadow 90ms ease}
+.g-next:hover,.d-play:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)!important}
+.g-next:active,.d-play:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)!important}
+.d-play.used{background:var(--surface)!important;color:var(--ink)!important}
+.g-ghost,.d-skip,.db-x{border:var(--b)!important;border-radius:14px!important;box-shadow:var(--lift)!important;color:var(--ink)!important;background:var(--surface)!important;min-height:var(--tap)}
+.g-tag{color:var(--ink-2)!important}
+.g-rank{color:var(--ink)!important;font-family:var(--font)!important;font-weight:800}
+#db{background:var(--surface)!important;color:var(--ink)!important;border:var(--b)!important;border-radius:var(--r-card)!important;box-shadow:0 6px 0 var(--yellow)!important}
+.db-clock{color:var(--ink)!important} .db-clock.low{background:var(--orange);border-radius:8px;padding:0 .3rem}
+.db-bar{border:2px solid var(--ink);border-radius:6px;height:10px!important}
+.db-bar i{background:var(--yellow)!important}
+.yt-stage{border:var(--b)!important;border-radius:16px!important}
 .yt-top,.yt-logo{background:#000!important}
-.yt-count{color:var(--cue-on-dark)!important} .yt-msg{color:#D8D3C7!important} .eq i{background:var(--cue-on-dark)!important}
-.yt-tap span{background:var(--cue)!important;color:#fff!important}
+.yt-count{color:var(--yellow)!important} .yt-msg{color:#E4DED0!important} .eq i{background:var(--yellow)!important}
+.yt-tap span{background:var(--yellow)!important;color:var(--ink)!important}
+@media (prefers-reduced-motion:reduce){.g-modes button,.g-opts button,.g-next,.d-play{transition:none!important;transform:none!important}}
 </style>
 
 <header class="top">
   <div class="top-in">
-    <div class="brand"><span class="wm">SCM 300</span><span class="m">Exam 2</span></div>
+    <div class="brand"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="wm">SCM 300</span><span class="ex">EXAM 2</span></div>
     <nav id="tabs" aria-label="Main">
-      <button data-t="plan">Plan</button>
+      <button data-t="plan">Your set</button>
       <button data-t="lesson">Lessons</button>
       <button data-t="final">Quizzes</button>
       <button data-t="tools">Tools</button>
-      <button data-t="game">Port Rush</button>
-      <button data-t="drop">Name That Drop</button>
     </nav>
     <div class="top-tools">
-      <button class="btn-s" id="sprint" aria-label="Start a 25 minute focus sprint"><svg class="ico" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg><span class="m">25:00</span></button>
-      <button class="btn-s" id="db-chip" title="Start a drop break now">Drop break <span class="m" id="db-in"></span></button>
+      <button class="pad" id="sprint" aria-label="Start a 25 minute focus sprint"><svg class="ico" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg><span class="m">25:00</span></button>
+      <button class="pad" id="db-chip" title="Start a drop break now">Drop break <span class="m" id="db-in"></span></button>
     </div>
   </div>
 </header>
@@ -616,119 +648,98 @@ dl.abbr dd span{color:var(--ink-2);font-size:.92em}
   </div>
 </section>
 
-<!-- PLAN -->
+<!-- YOUR SET -->
 <section id="plan" class="panel">
-  <div class="hero">
-    <div class="hero-l">
+  <div class="home">
+    <div class="home-l">
       <p class="mute">Wed Nov 4 · 8:30 AM · 40 questions · 65 min · 200 pts · formula sheet given</p>
-      <h1 class="display">Exam 2 in<br><span class="m" id="clock">--</span></h1>
-      <p class="lead">Modules 5–8 only. Eight lessons, about three hours with breaks. One step at a time: <b>Learn</b>, <b>Example</b>, <b>Try it</b>, <b>Recall</b>.</p>
+      <div class="count" id="clock" role="timer">--</div>
+      <p class="lead"><b>until Exam 2.</b> You've got this.</p>
+      <div class="card upnext" id="upnext"></div>
     </div>
-    <div class="upnext" id="upnext"></div>
+    <div class="home-r">
+      <div class="card gridcard">
+        <div class="gc-head">
+          <div><h2>Your set</h2><p class="mute small" id="progtext" style="margin:0"></p></div>
+          <div class="segc" role="group" aria-label="How much time do you have?" id="planpick"></div>
+        </div>
+        <div class="padgrid" id="padgrid"></div>
+        <div class="gc-sel" id="gcsel"></div>
+      </div>
+    </div>
   </div>
 
-  <div class="split">
-    <div class="split-main">
-      <div class="sl-head">
-        <div><h2>Your setlist</h2><p class="mute">How much time do you have? Pick one. Lessons not in your plan wait at the end.</p></div>
-        <div class="segc" role="group" aria-label="Study plan" id="planpick"></div>
-      </div>
-      <div class="timeline" id="timeline" role="img"></div>
-      <p class="m mute small" id="progtext" style="margin:0"></p>
-      <ol class="setlist" id="planlist"></ol>
-    </div>
-    <aside class="split-side">
-      <div class="side-box cuebar">
-        <h2>Four traps</h2>
-        <ol>
-          <li><b>Units.</b> λ and μ in the same unit. Answers usually want minutes.</li>
-          <li><b>Rounding.</b> Don't round mid-problem. A few units off? Pick the closest.</li>
-          <li><b>Balance sheets.</b> Only the two CURRENT rows.</li>
-          <li><b>Currency.</b> Check which way the rate goes.</li>
-        </ol>
-      </div>
-      <div class="side-box">
-        <h2>Built for your brain</h2>
-        <ul>
-          <li><b>Quizzes page:</b> every lesson's Math quiz and Concept quiz, your missed + guessed pile, and the final quiz.</li>
-          <li><b>5 questions at a time.</b> Pick Math, Concepts or Combo. Every answer explains itself, step by step.</li>
-          <li><b>Hint</b> is a nudge. <b>I'm stuck</b> explains the idea in plain English, plus a festival version.</li>
-          <li><b>Stuck on a question?</b> Help pops up on its own. <b>2 misses in a row?</b> You get a quick refresher.</li>
-          <li><b>Read aloud</b> reads the question and the answers out loud.</li>
-          <li>Misses come back in later rounds until you get them on your own.</li>
-        </ul>
-        <div class="row2">
-          <div><label for="set-nudge">Help pops up after</label><select id="set-nudge"><option value="45">45 seconds</option><option value="60">60 seconds</option><option value="90">90 seconds</option><option value="0">Never (off)</option></select></div>
-          <div><label for="set-rate">Read-aloud speed</label><select id="set-rate"><option value="0.8">Slow</option><option value="0.95">Normal</option><option value="1.1">Fast</option></select></div>
-        </div>
-        <p class="mute small">Keys: <kbd>1–4</kbd> answer · <kbd>H</kbd> hint · <kbd>S</kbd> stuck · <kbd>R</kbd> read · <kbd>Enter</kbd> next · <kbd>←</kbd> <kbd>→</kbd> steps</p>
-      </div>
-      <div class="side-box">
-        <h2>Tools</h2>
-        <div>
-          <button class="lnk" data-tool="t-queue"><span>Queue calculator</span><span aria-hidden="true">→</span></button>
-          <button class="lnk" data-tool="t-table"><span>Multi-server table reader</span><span aria-hidden="true">→</span></button>
-          <button class="lnk" data-tool="t-fin"><span>Finance calculator</span><span aria-hidden="true">→</span></button>
-          <button class="lnk" data-tool="t-ops"><span>Shrinkage · reliability · currency</span><span aria-hidden="true">→</span></button>
-          <button class="lnk" data-tool="t-form"><span>All formulas</span><span aria-hidden="true">→</span></button>
-          <button class="lnk" data-tool="t-abbr"><span>All acronyms</span><span aria-hidden="true">→</span></button>
-        </div>
-      </div>
-      <div class="dark">
-        <h2>Breaks</h2>
-        <p>A drop break pops up every 10 minutes or every 10 questions. Or take one now.</p>
-        <button class="btn-s" data-goto="game"><span>Port Rush</span><span class="m">quiz game</span></button>
-        <button class="btn-s" data-goto="drop"><span>Name That Drop</span><span class="m">EDM clips</span></button>
-      </div>
-    </aside>
+  <div class="trio">
+    <div class="card"><div class="band or">4 traps</div><div class="inner"><ol>
+      <li><b>Units.</b> λ and μ in the same unit. Answers usually want minutes.</li>
+      <li><b>Rounding.</b> Don't round mid-problem. A few units off? Pick the closest.</li>
+      <li><b>Balance sheets.</b> Only the two CURRENT rows.</li>
+      <li><b>Currency.</b> Check which way the rate goes.</li></ol></div></div>
+    <div class="card"><div class="band te">Tools</div><div class="inner" style="gap:0">
+      <button class="lnk" data-tool="t-queue"><span>Queue calculator</span><span aria-hidden="true">→</span></button>
+      <button class="lnk" data-tool="t-table"><span>Multi-server table reader</span><span aria-hidden="true">→</span></button>
+      <button class="lnk" data-tool="t-fin"><span>Finance calculator</span><span aria-hidden="true">→</span></button>
+      <button class="lnk" data-tool="t-ops"><span>Shrinkage · reliability · currency</span><span aria-hidden="true">→</span></button>
+      <button class="lnk" data-tool="t-form"><span>All formulas</span><span aria-hidden="true">→</span></button>
+      <button class="lnk" data-tool="t-abbr"><span>All acronyms</span><span aria-hidden="true">→</span></button></div></div>
+    <div class="card dbcard"><div class="inner">
+      <h2 style="color:#fff">Drop break</h2>
+      <p id="dbnote">A drop break pops up every 10 minutes or 10 questions.</p>
+      <button class="btn-s" data-goto="game"><span>Port Rush</span><span class="m">quiz game</span></button>
+      <button class="btn-s" data-goto="drop"><span>Name That Drop</span><span class="m">EDM clips</span></button></div></div>
   </div>
 
   <div class="know">
-    <section>
-      <h2>No overlap with Exam 1</h2>
-      <p>The syllabus says Exam 2 = <b>Modules 5–8 only</b> (Exam 1 was 1–4). Everything here is 5–8. Lessons 1–7 use the prof's own problem-set numbers, which you've seen. <b>Lesson 8 uses new numbers</b> so you can test yourself on problems you haven't memorized.</p>
-    </section>
-    <section>
-      <h2>Know your prof</h2>
+    <div class="card"><div class="band ye">Built for your brain</div><div class="inner">
+      <ul>
+        <li><b>Quizzes page:</b> every lesson's Math quiz and Concept quiz, your missed + guessed pile, and the final quiz.</li>
+        <li><b>5 questions at a time.</b> Every answer explains itself, step by step.</li>
+        <li><b>How sure were you?</b> Guessed or missed questions come back in Recall and the quizzes.</li>
+        <li><b>Hint</b> is a nudge. <b>I'm stuck</b> explains the idea in plain English, plus a festival version.</li>
+        <li><b>Stuck on a question?</b> Help pops up on its own. <b>2 misses in a row?</b> You get a quick refresher.</li>
+        <li><b>Aa · Reading</b> sets text size, letter spacing and page tint. <b>Read aloud</b> reads it to you.</li>
+      </ul>
+      <div class="row2">
+        <div><label for="set-nudge">Help pops up after</label><select id="set-nudge"><option value="45">45 seconds</option><option value="60">60 seconds</option><option value="90">90 seconds</option><option value="0">Never (off)</option></select></div>
+        <div><label for="set-rate">Read-aloud speed</label><select id="set-rate"><option value="0.8">Slow</option><option value="0.95">Normal</option><option value="1.1">Fast</option></select></div>
+      </div>
+      <p class="mute small">Keys: <kbd>1–4</kbd> answer · <kbd>Enter</kbd> next · <kbd>←</kbd> <kbd>→</kbd> steps · <kbd>H</kbd> hint · <kbd>S</kbd> stuck · <kbd>R</kbd> read</p></div></div>
+    <div class="card"><div class="band bl">Know your prof</div><div class="inner">
       <p><b>Hitendra Chaturvedi</b>, Professor of Practice. He founded <b>GreenDust</b> (a reverse-logistics startup) and wrote the 5 Rs framework himself. <b>Reverse logistics is his specialty</b>, so don't skip Lesson 6.</p>
       <p>His recurring talking points: COVID as "one small pebble in the pond" that created a <b>ripple effect</b> (= bullwhip). On 2025 tariffs he said <b>Walmart, Target and Amazon</b> would feel it first and ship arrivals at LA/Long Beach were down ~35%.</p>
-      <p>The syllabus says exams test lecture content and are built around the study guide. His slides literally list "Possible Questions". Those are all covered in the lessons.</p>
-    </section>
-    <section>
-      <h2>Heads up</h2>
+      <p>The syllabus says exams test lecture content and are built around the study guide. His slides literally list "Possible Questions". Those are all covered in the lessons.</p></div></div>
+    <div class="card"><div class="band te">No overlap with Exam 1</div><div class="inner">
+      <p>The syllabus says Exam 2 = <b>Modules 5–8 only</b> (Exam 1 was 1–4). Everything here is 5–8. Lessons 1–7 use the prof's own problem-set numbers, which you've seen. <b>Lesson 8 uses new numbers</b> so you can test yourself on problems you haven't memorized.</p></div></div>
+    <div class="card"><div class="band or">Heads up</div><div class="inner">
       <p><b>Exam rules (syllabus):</b> closed book, closed notes, <b>standard calculator (TI-84 or similar)</b>, in person, bring your ASU ID and a laptop with LockDown Browser. "Unauthorized notes or devices" = cheating, and the penalty is an <b>XE</b>. <b>Don't bring stored notes or programs on your calculator.</b></p>
       <p><b>Textbook is optional.</b> The syllabus says exam content comes from <b>lectures</b> and is built around the study guide. That's what this tool covers.</p>
       <p><b>You get the formula sheet</b> on the exam. Learn <b>when</b> to use each formula, not the formula itself.</p>
       <p><b>Units.</b> Match λ and μ (both per hour or both per minute). Answers usually want <b>minutes</b>.</p>
       <p><b>Don't round averages</b> mid-problem (the prof's key says this too).</p>
       <p><b>Lecture sources in here:</b> all text from Lectures 10–14 (Waiting Lines, Push-Pull, Global SCM, Reverse Logistics, Finance for SCM), plus the picture-only slides (Gymshark CCC, Boeing income statement, inventory turns, 5 Rs funnel, ILWU pay).</p>
-      <p><b>Not in here yet:</b> the Nov 1 practice-lab Zoom recording (needs the passcode from the announcement) and the Sustainable SC lecture (its Canvas page is empty). Watch at 2x if you have time.</p>
-    </section>
+      <p><b>Not in here yet:</b> the Nov 1 practice-lab Zoom recording (needs the passcode from the announcement) and the Sustainable SC lecture (its Canvas page is empty). Watch at 2x if you have time.</p></div></div>
   </div>
 </section>
 
 <!-- LESSON -->
 <section id="lesson" class="panel" hidden>
-  <div class="two">
-    <nav class="rail" id="lrail" aria-label="Lessons"></nav>
-    <div class="main" id="lview"></div>
-  </div>
+  <div class="lcol" id="lview"></div>
 </section>
 
-<!-- FINAL -->
+<!-- QUIZZES -->
 <section id="final" class="panel" hidden>
-  <div class="main" style="margin:0 auto">
+  <div class="lcol">
     <div class="lhead"><div><p class="mute">Every lesson · Math, Concepts or Combo</p><h1>Quizzes</h1></div><div class="rc" data-rc="1"></div></div>
-    <div id="qhub"></div>
-    <div id="fq-root" class="content"></div>
+    <div id="qhub" class="hub"></div>
+    <div id="fq-root" class="card lcard content" hidden></div>
   </div>
 </section>
 
 <!-- TOOLS -->
 <section id="tools" class="panel" hidden>
-  <div class="two">
-    <nav class="rail" id="trail" aria-label="Tools">
-      <p class="rail-h">Tools</p>
+  <div class="tools">
+    <nav class="card tnav" id="trail" aria-label="Tools">
+      <p class="lab" style="padding:.25rem .75rem">Tools</p>
       <button data-tool="t-queue" aria-current="true"><span class="t">Queue calculator</span></button>
       <button data-tool="t-table"><span class="t">Multi-server table reader</span></button>
       <button data-tool="t-fin"><span class="t">Finance calculator</span></button>
@@ -737,8 +748,8 @@ dl.abbr dd span{color:var(--ink-2);font-size:.92em}
       <button data-tool="t-abbr"><span class="t">All acronyms</span></button>
       <p class="note"><b>Exam day:</b> these are for studying. On the exam it's your TI-84 and the formula sheet.</p>
     </nav>
-    <div class="main" style="max-width:none;gap:2.5rem">
-      <section class="tool-sec" id="t-queue">
+    <div class="tmain">
+      <section class="card tool-sec" id="t-queue">
         <div><p class="mute" style="margin:0 0 .4rem">Module 5 · single server</p><h1>Queue calculator</h1></div>
         <p>Type the numbers the question gives you, in the units it uses. The calculator converts them and shows each step.</p>
         <div class="inrow2">
@@ -753,7 +764,7 @@ dl.abbr dd span{color:var(--ink-2);font-size:.92em}
         <div id="qsteps"></div>
       </section>
 
-      <section class="tool-sec" id="t-table">
+      <section class="card tool-sec" id="t-table">
         <h2>Multi-server table reader</h2>
         <p>With <b>s</b> servers, <b>k in line = k + s in system</b>. Paste the P column from the exam table.</p>
         <div class="grid2">
@@ -776,7 +787,7 @@ dl.abbr dd span{color:var(--ink-2);font-size:.92em}
         <div class="out" id="tout"></div>
       </section>
 
-      <section class="tool-sec" id="t-fin">
+      <section class="card tool-sec" id="t-fin">
         <h2>Finance calculator</h2>
         <div class="grid2">
           <div><label for="ca">Current assets</label><input id="ca" type="number" value="147.96" step="any"></div>
@@ -791,7 +802,7 @@ dl.abbr dd span{color:var(--ink-2);font-size:.92em}
         <div class="out" id="fout"></div>
       </section>
 
-      <section class="tool-sec" id="t-ops">
+      <section class="card tool-sec" id="t-ops">
         <h2>Shrinkage · reliability · currency</h2>
         <div class="grid2">
           <div class="inbox">
@@ -819,11 +830,11 @@ dl.abbr dd span{color:var(--ink-2);font-size:.92em}
         </div>
       </section>
 
-      <section class="tool-sec" id="t-form">
+      <section class="card tool-sec" id="t-form">
         <h2>All formulas</h2>
         <div class="grid2" id="formlist"></div>
       </section>
-      <section class="tool-sec" id="t-abbr" style="border-bottom:0">
+      <section class="card tool-sec" id="t-abbr" style="border-bottom:0">
         <h2>All acronyms + symbols</h2>
         <div id="abbrlist" class="grid2"></div>
       </section>
@@ -1097,20 +1108,25 @@ const L=[
 const SECS=['Learn','Example','Try it','Recall'];
 
 /* ================= STATE ================= */
-const prog=store.get('prog2',{});           // {"l1-0":true,...}
-let cur=store.get('cur',{l:0,s:0});
+const prog=store.get('prog2',{});           // {"l1-0":true,...}  one pad per lesson step
+let cur=store.get('cur',{l:0,s:0,c:0});if(cur.c==null)cur.c=0;
 const totalSecs=L.length*SECS.length;
-// study plans (from the old "Short on time?" triage): 1 hour = L2, L7, L4 · 2 hours = add L1, L3, L5 · full = all 8
-const PLANS={h1:{label:'1 hour',ls:[2,7,4]},h2:{label:'2 hours',ls:[1,2,3,4,5,7]},full:{label:'Full run',ls:[1,2,3,4,5,6,7,8]}};
+// plans: 1 hr = L2, L7, L4 · 2 hr = L1, L2, L3, L4, L5, L7 · Full = all 8
+const PLANS={h1:{label:'1 hr',ls:[2,7,4]},h2:{label:'2 hr',ls:[1,2,3,4,5,7]},full:{label:'Full',ls:[1,2,3,4,5,6,7,8]}};
 const planKey=()=>{const k=store.get('plan','h2');return PLANS[k]?k:'h2'};
 const inPlan=i=>PLANS[planKey()].ls.includes(i+1);
 const planOrder=()=>{const ls=PLANS[planKey()].ls.map(n=>n-1);return ls.concat(L.map((_,i)=>i).filter(i=>!ls.includes(i)))};
 const doneSecs=l=>SECS.filter((_,s)=>prog[l.id+'-'+s]).length;
 const nextSec=l=>{for(let s=0;s<4;s++)if(!prog[l.id+'-'+s])return s;return 4};
-const cellsOf=l=>{const d=doneSecs(l),nx=nextSec(l);return [0,1,2,3].map(s=>prog[l.id+'-'+s]?'done':s===nx&&d>0?'now':'')};
 const pad2=n=>String(n).padStart(2,'0');
+// module colors: M5 blue · M6 orange · M7 teal · M8 yellow · Bonus ink
+const modColor=l=>l.tag?'var(--ink)':{5:'var(--blue)',6:'var(--orange)',7:'var(--teal)',8:'var(--yellow)'}[l.m];
+const modClass=l=>l.tag?'mb':'m'+l.m;
+const modOnDark=l=>l.tag||l.m===5;
 function updProg(){renderPlan()}
 function mark(li,si){prog[L[li].id+'-'+si]=true;store.set('prog2',prog);updProg()}
+const XP=store.get('xp',{t:0,l:{}});
+function addXP(lid,n){XP.t+=n;XP.l[lid]=(XP.l[lid]||0)+n;store.set('xp',XP)}
 
 /* ================= TABS + shared clicks ================= */
 const tabs=[...document.querySelectorAll('#tabs button')];
@@ -1124,97 +1140,144 @@ document.addEventListener('click',e=>{
  if(t){if($('#tools').hidden)show('tools');
   document.querySelectorAll('#trail [data-tool]').forEach(b=>{if(b.dataset.tool===t.dataset.tool)b.setAttribute('aria-current','true');else b.removeAttribute('aria-current')});
   const sec=document.getElementById(t.dataset.tool);if(sec)sec.scrollIntoView({block:'start'});return}
- const z=e.target.closest('[data-size],[data-tint]');
- if(z){if(z.dataset.size!=null)store.set('tsize',+z.dataset.size);else store.set('tint',z.dataset.tint);applyReading()}
+ if(e.target.closest('[data-reading]'))openReading();
 });
 
-/* ================= READING CONTROLS: text size A / A+ / A++, page tint, focus ================= */
-const TINTS=[['#F6F4EE','Paper'],['#EAF0F6','Blue tint'],['#EDF2E8','Green tint'],['#FBF1D9','Cream']];
-const tsize=()=>{const v=store.get('tsize',null);return v==null?(store.get('big',false)?1:0):+v};
-function rcHTML(lesson){const ts=tsize(),tint=store.get('tint','#F6F4EE'),fo=!!store.get('focus',false);
- return `<div class="segc" role="group" aria-label="Text size">${['A','A+','A++'].map((x,i)=>`<button data-size="${i}" aria-pressed="${ts===i}" style="font-size:${[.85,1.05,1.25][i]}rem">${x}</button>`).join('')}</div>
- <div class="tints" role="group" aria-label="Page tint">${TINTS.map(([c,n])=>`<button data-tint="${c}" aria-label="${n}" aria-pressed="${tint===c}" style="background:${c}"></button>`).join('')}</div>
- ${lesson?`<button class="btn-s" id="abbrbtn">Acronyms</button><button class="btn-s" id="readstep">${SPK}<span class="lbl">Read aloud</span></button><button class="btn-s" id="focusbtn" aria-pressed="${fo}">${fo?'Show setlist':'Focus'}</button>`:''}`}
-function applyReading(){const ts=tsize(),tint=store.get('tint','#F6F4EE');
- document.body.classList.toggle('ts1',ts===1);document.body.classList.toggle('ts2',ts===2);document.body.classList.toggle('focus',!!store.get('focus',false));
- document.documentElement.style.setProperty('--paper',tint);
- document.querySelectorAll('[data-size]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.size===ts));
- document.querySelectorAll('[data-tint]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tint===tint))}
+/* ================= READING PANEL ("Aa · Reading"): text size, letter spacing, page tint ================= */
+const TINTS=[['#F8F4EA','Warm paper'],['#EAF0F6','Blue tint'],['#F3EEDC','Cream'],['#FFFFFF','White']];
+const tsize=()=>{const v=store.get('tsize',null);return v==null?(store.get('big',false)?1:0):Math.min(2,+v)};
+const lspace=()=>{const v=store.get('lsp',null);return v==null?1:+v};
+const tintNow=()=>{const t=store.get('tint','#F8F4EA');return TINTS.some(x=>x[0]===t)?t:'#F8F4EA'};
+function rcHTML(lesson){return `${lesson?`<button class="pad btn-sm" id="abbrbtn">Acronyms</button><button class="pad btn-sm" id="readstep">${SPK}<span class="lbl">Read aloud</span></button>`:''}<button class="pad btn-sm" data-reading="1">Aa · Reading</button>`}
+function applyReading(){const ts=tsize(),ls=lspace();
+ document.body.classList.toggle('ts1',ts===1);document.body.classList.toggle('ts2',ts===2);
+ document.body.classList.toggle('ls0',ls===0);document.body.classList.toggle('ls2',ls===2);
+ document.documentElement.style.setProperty('--paper',tintNow())}
+function openReading(){
+ hideNudge();stopSpeak();helpBack=document.activeElement;
+ const seg=(name,key,labels,val)=>`<div class="help-sec"><p class="lab">${name}</p><div class="segc" role="group" aria-label="${name}">${labels.map((x,i)=>`<button data-${key}="${i}" aria-pressed="${val===i}">${x}</button>`).join('')}</div></div>`;
+ const draw=focusSel=>{
+  $('#help-body').innerHTML=`<h3 id="help-t">Reading</h3>
+   ${seg('Text size','rs',['S','M','L'],tsize())}
+   ${seg('Letter spacing','rl',['Normal','Wide','Extra'],lspace())}
+   <div class="help-sec"><p class="lab">Page tint</p><div class="tints" role="group" aria-label="Page tint">${TINTS.map(([c,n])=>`<button data-rt="${c}" aria-label="${n}" aria-pressed="${tintNow()===c}" style="background:${c}"></button>`).join('')}</div></div>
+   <div class="help-sec"><p class="lab">Preview</p><p class="content" style="margin:0;background:var(--paper);border:var(--b);border-radius:14px;padding:.8rem 1rem"><b>ρ = λ ÷ μ</b> is the % of time the server is busy.</p></div>
+   <div class="help-actions"><button class="btn-p" data-h="back">Done</button></div>`;
+  const H=$('#help-body');
+  H.querySelectorAll('[data-rs]').forEach(b=>b.onclick=()=>{store.set('tsize',+b.dataset.rs);applyReading();draw(`[data-rs="${b.dataset.rs}"]`)});
+  H.querySelectorAll('[data-rl]').forEach(b=>b.onclick=()=>{store.set('lsp',+b.dataset.rl);applyReading();draw(`[data-rl="${b.dataset.rl}"]`)});
+  H.querySelectorAll('[data-rt]').forEach(b=>b.onclick=()=>{store.set('tint',b.dataset.rt);applyReading();draw(`[data-rt="${b.dataset.rt}"]`)});
+  H.querySelector('[data-h="back"]').onclick=closeHelp;
+  (H.querySelector(focusSel||'[data-h="back"]')||H.querySelector('[data-h="back"]')).focus({preventScroll:true});
+ };
+ draw();$('#help').hidden=false;
+}
 
-/* ================= PLAN: countdown, up next, setlist ================= */
+/* ================= YOUR SET: countdown, up next, 8 × 4 pad grid ================= */
+let PSEL=null;
+function upNext(){const nx=planOrder().find(i=>inPlan(i)&&doneSecs(L[i])<4);return nx==null?null:{l:nx,s:nextSec(L[nx])}}
+function nextLessonIdx(){const o=planOrder(),p=o.indexOf(cur.l);const after=o.slice(p+1).concat(o.slice(0,p));return after.find(i=>doneSecs(L[i])<4&&inPlan(i))??after.find(i=>doneSecs(L[i])<4)??null}
 function renderPlan(){
- const pk=planKey(),order=planOrder();
+ const pk=planKey(),un=upNext();
  $('#planpick').innerHTML=Object.entries(PLANS).map(([k,v])=>`<button data-plan="${k}" aria-pressed="${k===pk}">${v.label}</button>`).join('');
- $('#planpick').querySelectorAll('button').forEach(b=>b.onclick=()=>{store.set('plan',b.dataset.plan);renderPlan();renderRail()});
- const all=L.reduce((a,l)=>a+doneSecs(l),0),mins=PLANS[pk].ls.reduce((a,n)=>a+L[n-1].mins,0);
- $('#timeline').innerHTML=order.map(i=>`<div class="blk${inPlan(i)?'':' later'}" style="flex:${L[i].mins} 1 0">${cellsOf(L[i]).map(c=>`<i class="${c}"></i>`).join('')}</div>`).join('');
- $('#timeline').setAttribute('aria-label',`Setlist timeline. Each block is a lesson sized by minutes. ${all} of ${totalSecs} steps done.`);
- $('#progtext').textContent=`${all} of ${totalSecs} steps done · this plan: ${PLANS[pk].ls.length} lessons, ${mins} min`;
- $('#planlist').innerHTML=order.map(i=>{const l=L[i],d=doneSecs(l),qs=stats(poolFor([l.id],'x'));
-  const st=d===4?['Done','']:d>0?[`Step ${nextSec(l)+1} of 4`,'now']:inPlan(i)?['Not started','']:['Later','later'];
-  return `<li><button class="setrow" data-l="${i}"><span class="m num">${pad2(i+1)}</span><span class="tt"><b>${l.title}</b><span>${l.why}</span></span><span class="meta"><span class="modtag">${l.tag?'Bonus':'M'+l.m}</span><span class="m small">${l.mins} min</span><span class="m small" title="Questions mastered">${qs.ok}/${qs.n} Qs</span><span class="pips" aria-hidden="true">${cellsOf(l).map(c=>`<i class="${c}"></i>`).join('')}</span><span class="status ${st[1]}">${st[0]}</span></span></button></li>`}).join('');
- $('#planlist').querySelectorAll('.setrow').forEach(b=>b.onclick=()=>{const i=+b.dataset.l;cur={l:i,s:nextSec(L[i])%4};renderLesson();show('lesson')});
- const nx=order.find(i=>inPlan(i)&&doneSecs(L[i])<4),un=$('#upnext');
- if(nx==null){un.innerHTML=`<p class="lab">Up next</p><h2>Final quiz</h2><p>Every lesson in this plan is done. Now mix them all.</p><button class="btn-p" id="un-go"><span>Start the final quiz</span><span aria-hidden="true">→</span></button>`;$('#un-go').onclick=()=>show('final');return}
- const l=L[nx],ns=nextSec(l),d=doneSecs(l);
- un.innerHTML=`<p class="lab">Up next</p><h2>Lesson ${nx+1}<br>${l.title}</h2><p>${l.mins} min · ${d?`you're on step ${ns+1} of 4`:'not started yet'}</p>
-  <ol class="ministeps" aria-label="Steps">${SECS.map((x,s)=>{const c=prog[l.id+'-'+s]?'done':s===ns?'now':'';return `<li class="${c}"><i></i>${x}${c==='done'?' ✓':''}</li>`}).join('')}</ol>
-  <button class="btn-p" id="un-go"><span>${d?'Keep going':'Start'}</span><span aria-hidden="true">→</span></button>
-  <p class="small"><kbd>Enter</kbd> next step · <kbd>1–4</kbd> answer</p>`;
- $('#un-go').onclick=()=>{cur={l:nx,s:ns};renderLesson();show('lesson')};
+ $('#planpick').querySelectorAll('button').forEach(b=>b.onclick=()=>{store.set('plan',b.dataset.plan);renderPlan()});
+ const lit=L.reduce((a,l)=>a+doneSecs(l),0),mins=PLANS[pk].ls.reduce((a,n)=>a+L[n-1].mins,0);
+ $('#progtext').textContent=`${lit} of ${totalSecs} pads lit · this plan: ${PLANS[pk].ls.length} lessons, ${mins} min`;
+ let g='<div class="corner"></div>'+SECS.map(x=>`<div class="rowh">${x}</div>`).join('');
+ L.forEach((l,i)=>{g+=`<div class="colh"><i style="background:${modColor(l)}"></i><span>${pad2(i+1)}</span></div>`;
+  SECS.forEach((x,s)=>{const done=!!prog[l.id+'-'+s],here=!!un&&un.l===i&&un.s===s,later=!inPlan(i)&&!done,sel=!!PSEL&&PSEL.l===i&&PSEL.s===s;
+   g+=`<button class="cell${done?' done':here?' here':later?' later':''}${sel?' sel':''}" data-cl="${i}" data-cs="${s}"${done?` style="background:${modColor(l)}"`:''} aria-label="Lesson ${i+1}, ${l.title}, ${x}: ${done?'done':here?'you are here':later?'later':'to do'}"></button>`})});
+ $('#padgrid').innerHTML=g;
+ $('#padgrid').querySelectorAll('.cell').forEach(c=>c.onclick=()=>{PSEL={l:+c.dataset.cl,s:+c.dataset.cs};renderPlan();const n=document.querySelector(`#padgrid [data-cl="${PSEL.l}"][data-cs="${PSEL.s}"]`);n&&n.focus({preventScroll:true})});
+ const sl=PSEL||un;
+ $('#gcsel').innerHTML=sl?`<p><span class="m">${pad2(sl.l+1)}</span> · ${L[sl.l].title} · ${SECS[sl.s]}</p><button class="btn-s" id="gc-go">Jump in →</button>`:'<p>Every lesson in this plan is done.</p>';
+ if($('#gc-go'))$('#gc-go').onclick=()=>{cur={l:sl.l,s:sl.s,c:0};PSEL=null;renderLesson();show('lesson')};
+ const U=$('#upnext');
+ if(!un){U.innerHTML=`<p class="lab">Up next</p><h2>Every lesson in this plan is done</h2><p class="mute">Mix them all in the final quiz.</p><button class="btn-p" id="un-go"><span>Final quiz</span><span>→ <kbd>ENTER</kbd></span></button>`;$('#un-go').onclick=()=>show('final');return}
+ const l=L[un.l];
+ U.innerHTML=`<p class="lab">Up next</p><span class="tag ${modClass(l)}" style="align-self:flex-start">${l.tag?'Bonus':'Module '+l.m}</span><h2>${l.title}</h2>
+  <p class="mute">Lesson ${un.l+1} · step ${un.s+1} of 4 · ${SECS[un.s]} · about ${Math.max(3,Math.round(l.mins/4))} min</p>
+  <div class="stepbar" aria-hidden="true">${SECS.map((x,s)=>`<i class="${prog[l.id+'-'+s]?'done':s===un.s?'now':''}"></i>`).join('')}</div>
+  <button class="btn-p" id="un-go"><span>Continue</span><span>→ <kbd>ENTER</kbd></span></button>`;
+ $('#un-go').onclick=()=>{cur={l:un.l,s:un.s,c:0};renderLesson();show('lesson')};
 }
 
-/* ================= LESSON: setlist rail + 4 steps ================= */
-// the one point per lesson that gets the dark block, and rows that are pure formulas
-const KEYPT={l1:1,l2:3,l3:5,l4:0,l5:0,l6:3,l7:3,l8:3},KEYLAB={},FXROW={l1:[4]};
-function renderRail(){
- const order=planOrder();
- $('#lrail').innerHTML=`<details ${window.innerWidth>640?'open':''}><summary class="rail-h">Setlist · ${PLANS[planKey()].label}</summary>`+order.map(i=>{const l=L[i],d=doneSecs(l)===4;
-  return `<button data-l="${i}" ${i===cur.l?'aria-current="page"':''}><span class="n${d?' ok':''}">${d?'✓':pad2(i+1)}</span><span class="t">${l.title}${inPlan(i)?'':' <span class="mn">· later</span>'}</span><span class="mn">${l.mins}m</span></button>`}).join('')+'</details>';
- $('#lrail').querySelectorAll('button').forEach(b=>b.onclick=()=>{cur={l:+b.dataset.l,s:0};renderLesson();window.scrollTo(0,0)});
-}
+/* ================= LESSON: 4 step pads, one big card. Learn = one chunk at a time. ================= */
+// the one key idea per lesson (dark card), and learn points that are pure formulas
+const KEYPT={l1:1,l2:3,l3:5,l4:0,l5:0,l6:3,l7:3,l8:3},FXROW={l1:[4]};
+function learnCards(l){const c=[];if((ABBR[l.id]||[]).length)c.push({ab:true});l.learn.forEach((x,i)=>c.push({i,x}));return c}
+function pillify(root){root.querySelectorAll('.lc-text b').forEach(b=>{const t=b.textContent;if(/[=÷×]/.test(t)&&/[0-9λμρ()]|P\d|[A-Z]{2,}/.test(t))b.classList.add('pill')})}
 function stepText(){
  const l=L[cur.l],s=cur.s;
- if(s===0)return l.title+'. '+l.learn.map(sayable).join('. ');
- if(s===1)return sayable($('#sbody').innerHTML.replace(/<table[\s\S]*?<\/table>/g,' (table on screen) '));
- if(s===2){const r=activeRound();if(r&&r.view==='q')return r.questionText();if(r&&r.view==='a')return r.explainText();return sayable($('#lp-root').innerText||'')}
- return 'Say the answer out loud first. Then flip the card. '+l.cards.map(c=>sayable(c[0])).join('. ');
+ if(s===0){const c=learnCards(l)[cur.c];return c.ab?'Acronyms first. '+(ABBR[l.id]||[]).map(([t,a,d])=>`${sayable(t)}. ${sayable(a)}.`).join(' '):sayable(c.x)}
+ if(s===1)return sayable($('#sbody').innerHTML.replace(/<table[\s\S]*?<\/table>/g,' (table on screen) ').replace(/<div class="lfoot"[\s\S]*$/,''));
+ if(s===2){const r=activeRound();if(r&&r.view==='q')return r.questionText();if(r&&r.view==='a')return r.explainText();return ''}
+ if(s===3)return 'Say it out loud first. Then flip the pad. '+l.cards.map(c=>sayable(c[0])).join('. ');
+ return 'Cleared. '+l.title;
 }
 function renderLesson(){
- store.set('cur',cur);stopSpeak();
- const l=L[cur.l],s=cur.s,last=cur.l===L.length-1&&s===3;
- renderRail();$('#lview').dataset.step=s;
- let body='';
+ store.set('cur',cur);stopSpeak();hideNudge();
+ const l=L[cur.l],s=cur.s;
+ if(s===4)return renderDone();
  const AB=ABBR[l.id]||[];
- if(s===0)body=`${AB.length?`<details class="abbr-box" open><summary>Acronyms + symbols in this lesson <span class="m">(${AB.length})</span></summary>${abbrRows(AB)}</details>`:''}<div>${l.learn.map((x,i)=>{const key=KEYPT[l.id]===i,fx=(FXROW[l.id]||[]).includes(i);return `<div class="lrow${key?' key':''}${fx?' fx':''}"><span class="n">${pad2(i+1)}</span><div class="tx">${key?`<span class="lab">${KEYLAB[l.id]||'Key point'}</span>`:''}${x}</div></div>`}).join('')}</div>`;
- if(s===1)body=l.example;
- if(s===2)body=`<div id="lp-head" class="pq-head"></div><div id="lp-root"></div>`;
- if(s===3)body=`<p class="mute">Say the answer out loud first. Then flip the card.</p><div class="recall">${l.cards.map((c,i)=>`<button data-c="${i}" aria-pressed="false"><span class="h">Tap to flip</span><span class="fc">${c[0]}</span></button>`).join('')}</div>${AB.length?`<h3 style="margin:2rem 0 .75rem">Acronym cards</h3><p class="mute">Say what it stands for, then flip.</p><div class="recall">${AB.map((c,i)=>`<button data-ab="${i}" aria-pressed="false"><span class="h">Tap to flip</span><span class="fc m">${c[0]}</span></button>`).join('')}</div>`:''}`;
- const prevLab=s>0?SECS[s-1]:cur.l>0?`Lesson ${cur.l}`:'';
- const nextLab=last?'Final quiz':s===3?`Lesson ${cur.l+2}`:SECS[s+1];
- $('#lview').innerHTML=`<div class="lhead"><div><p class="mute">Lesson ${cur.l+1} of ${L.length} · ${l.tag?l.tag:'Module '+l.m} · ${l.mins} min</p><h1>${l.title}</h1></div><div class="rc" role="group" aria-label="Reading controls">${rcHTML(true)}</div></div>
-  <ol class="steps" aria-label="Lesson steps">${SECS.map((x,i)=>`<li><button data-s="${i}" ${i===s?'aria-current="step"':''} class="${prog[l.id+'-'+i]?'done':''}"><i></i><span><span class="sn">${pad2(i+1)}</span>${x}</span></button></li>`).join('')}</ol>
-  <section class="content" id="sbody">${body}</section>
-  <div class="pager">${prevLab?`<button class="btn-s" id="prev">← ${prevLab}</button>`:'<span></span>'}<button class="btn-p" id="next">${nextLab} →</button></div>`;
- document.querySelectorAll('#lview .steps button').forEach(b=>b.onclick=()=>{cur.s=+b.dataset.s;renderLesson()});
+ let body='',dark=false,foot='';
+ if(s===0){const cards=learnCards(l);cur.c=Math.min(Math.max(0,cur.c||0),cards.length-1);const c=cards[cur.c],n=cards.length,last=cur.c===n-1;
+  dark=!c.ab&&KEYPT[l.id]===c.i;
+  body=`<div class="learn-prog" aria-hidden="true">${cards.map((_,k)=>`<i class="${k<cur.c?'done':k===cur.c?'now':''}"></i>`).join('')}</div><p class="lab">Card ${cur.c+1} of ${n}</p>`+
+   (c.ab?`<div class="lc"><div class="lc-num">AB</div><p class="lc-text" style="margin:0"><b>Acronyms first.</b> You'll see these in this lesson.</p>${abbrRows(AB)}</div>`
+   :`<div class="lc${(FXROW[l.id]||[]).includes(c.i)?' fx':''}"><div class="lc-num">${pad2(c.i+1)}</div>${dark?'<span class="lc-key" style="align-self:flex-start">The key idea</span>':''}<p class="lc-text" style="margin:0">${c.x}</p></div>`);
+  foot=`<button class="btn-s" id="lc-back">← Back</button><button class="btn-p" id="lc-next">${last?'On to Example →':'Got it →'}</button>`}
+ if(s===1){body=l.example;foot=`<button class="btn-s" id="lc-back">← Learn</button><button class="btn-p" id="lc-next">On to Try it →</button>`}
+ if(s===2){body=`<div id="lp-head" class="pq-head"></div><div id="lp-root"></div>`;foot=`<button class="btn-s" id="lc-back">← Example</button><button class="btn-s" id="lc-next">On to Recall →</button>`}
+ if(s===3){const rev=reviewPool().filter(q=>q.lid===l.id);
+  body=`<p class="lc-text" style="font-size:1.2em;margin:0"><b>Say it out loud first. Then flip the pad.</b></p>
+   <div class="recall">${l.cards.map((c,i)=>`<button data-c="${i}" aria-pressed="false"><span class="h">Tap to flip</span><span class="fc">${c[0]}</span></button>`).join('')}</div>
+   ${AB.length?`<h3>Acronym pads</h3><div class="recall">${AB.map((c,i)=>`<button data-ab="${i}" aria-pressed="false"><span class="h">Tap to flip</span><span class="fc m">${c[0]}</span></button>`).join('')}</div>`:''}
+   <h3>Coming back</h3><p class="mute" style="margin:0">${rev.length?`${rev.length} question${rev.length>1?'s':''} you missed or guessed in this lesson.`:'Nothing to redo. Questions you miss or guess land here.'}</p>
+   ${rev.length?`<button class="btn-s" id="rc-go" style="align-self:flex-start">Redo them →</button><div id="rc-root"></div>`:''}`;
+  foot=`<button class="btn-s" id="lc-back">← Try it</button><button class="btn-p" id="lc-next">Finish lesson →</button>`}
+ $('#lview').innerHTML=`<div class="lhead"><div><button class="pad btn-sm" data-goto="plan" style="margin-bottom:.8rem">← Your set</button><div class="lmeta"><span class="tag ${modClass(l)}">${l.tag?'Bonus':'Module '+l.m}</span><span class="mute">Lesson ${cur.l+1} of ${L.length} · ${l.mins} min</span></div><h1>${l.title}</h1></div><div class="rc" role="group" aria-label="Reading">${rcHTML(true)}</div></div>
+  <ol class="steps" aria-label="Lesson steps">${SECS.map((x,i)=>`<li><button data-s="${i}" ${i===s?'aria-current="step"':''} class="${prog[l.id+'-'+i]&&i!==s?'done':''}"><span class="sn">${pad2(i+1)}</span>${x}</button></li>`).join('')}</ol>
+  <section class="card lcard content${dark?' dark':''}" id="sbody">${body}<div class="lfoot">${foot}</div></section>
+  <p class="keys"><kbd>1–4</kbd> answer · <kbd>ENTER</kbd> next · <kbd>←</kbd> <kbd>→</kbd> steps</p>`;
+ if(s===0)pillify($('#sbody'));
+ document.querySelectorAll('#lview .steps button').forEach(b=>b.onclick=()=>{cur.s=+b.dataset.s;cur.c=0;renderLesson()});
  $('#readstep').onclick=()=>toggleSpeak($('#readstep'),stepText());
  $('#abbrbtn').onclick=()=>openAbbr(l.id);
- $('#focusbtn').onclick=()=>{const on=!store.get('focus',false);store.set('focus',on);applyReading();const b=$('#focusbtn');b.setAttribute('aria-pressed',on);b.textContent=on?'Show setlist':'Focus'};
+ $('#lc-back').onclick=()=>{if(cur.s===0&&cur.c>0){cur.c--;renderLesson()}else lessonPrev()};
+ $('#lc-next').onclick=()=>{if(cur.s===0&&cur.c<learnCards(l).length-1){cur.c++;renderLesson()}else lessonNext()};
  if(s===2)lessonPractice(l);
- if(s===3){document.querySelectorAll('#sbody .recall button[data-c]').forEach(b=>b.onclick=()=>{const c=l.cards[+b.dataset.c],on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.innerHTML=`<span class="h">${on?'Answer':'Tap to flip'}</span><span class="fc">${on?c[1]:c[0]}</span>`});
-  document.querySelectorAll('#sbody .recall button[data-ab]').forEach(b=>b.onclick=()=>{const c=AB[+b.dataset.ab],on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.innerHTML=on?`<span class="h">${c[0]}</span><span class="fc">${c[1]}</span><span class="h">${c[2]}</span>`:`<span class="h">Tap to flip</span><span class="fc m">${c[0]}</span>`})}
- if($('#prev'))$('#prev').onclick=lessonPrev;
- $('#next').onclick=lessonNext;
+ if(s===3){
+  document.querySelectorAll('#sbody .recall button[data-c]').forEach(b=>b.onclick=()=>{const c=l.cards[+b.dataset.c],on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.innerHTML=`<span class="h">${on?'Answer':'Tap to flip'}</span><span class="fc">${on?c[1]:c[0]}</span>`});
+  document.querySelectorAll('#sbody .recall button[data-ab]').forEach(b=>b.onclick=()=>{const c=AB[+b.dataset.ab],on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.innerHTML=on?`<span class="h">${c[0]}</span><span class="fc">${c[1]}</span><span class="h">${c[2]}</span>`:`<span class="h">Tap to flip</span><span class="fc m">${c[0]}</span>`});
+  if($('#rc-go'))$('#rc-go').onclick=()=>{$('#rc-go').hidden=true;const p=reviewPool().filter(q=>q.lid===l.id);new Round($('#rc-root'),{pool:p,n:Math.min(5,p.length),mode:'x',title:'Coming back',again:()=>renderLesson(),done:()=>{}})};
+ }
 }
-function lessonPrev(){if(cur.s>0)cur.s--;else if(cur.l>0){cur.l--;cur.s=3}else return;renderLesson();window.scrollTo(0,0)}
-function lessonNext(){const s=cur.s,last=cur.l===L.length-1&&s===3;mark(cur.l,s);if(last){show('final');return}if(s<3)cur.s++;else{cur.l++;cur.s=0}renderLesson();window.scrollTo(0,0)}
-// ← → move between steps · Enter = next step (Try it has its own Enter)
+function renderDone(){
+ const l=L[cur.l],qs=ALLQ.filter(q=>q.lid===l.id),seen=qs.filter(q=>MAST[q.id]),right=seen.filter(q=>MAST[q.id].last===1).length,rev=reviewPool().filter(q=>q.lid===l.id).length,nx=nextLessonIdx();
+ let mini='';L.forEach((x,i)=>SECS.forEach((_,s)=>{const d=prog[x.id+'-'+s];mini+=`<i class="${d||inPlan(i)?'':'later'}"${d?` style="background:${modColor(x)}"`:''}></i>`}));
+ $('#lview').innerHTML=`<section class="done-scr" aria-labelledby="done-h">
+  <p class="lab" style="color:var(--yellow)">Lesson ${cur.l+1} · ${l.title}</p>
+  <div class="done-top"><div class="done-pads" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="big" id="done-h">Cleared.</div></div>
+  <div class="tiles"><div class="tile"><span class="l">Correct</span><span class="v">${right}/${seen.length}</span></div><div class="tile y"><span class="l">XP</span><span class="v">+${XP.l[l.id]||0}</span></div><div class="tile"><span class="l">Saved for Recall</span><span class="v">${rev}</span></div></div>
+  <div><p class="lab" style="color:#E4DED0;margin-bottom:.5rem">Your set · ${L.reduce((a,x)=>a+doneSecs(x),0)} of ${totalSecs} pads lit</p><div class="mini" aria-hidden="true">${mini}</div></div>
+  <div class="pq-btns"><button class="btn-y" id="dn-break">Drop break</button>${nx!=null?`<button class="btn-s" id="dn-next">Next: ${L[nx].title} →</button>`:'<button class="btn-s" data-goto="final">Final quiz →</button>'}</div>
+ </section>`;
+ $('#dn-break').onclick=()=>show('drop');
+ if($('#dn-next'))$('#dn-next').onclick=()=>{cur={l:nx,s:nextSec(L[nx])%4,c:0};renderLesson();window.scrollTo(0,0)};
+}
+function lessonPrev(){if(cur.s===4)cur.s=3;else if(cur.s>0){cur.s--;cur.c=cur.s===0?99:0}else if(cur.l>0)cur={l:cur.l-1,s:3,c:0};else return;renderLesson();window.scrollTo(0,0)}
+function lessonNext(){if(cur.s===4)return;mark(cur.l,cur.s);cur.s++;cur.c=0;renderLesson();window.scrollTo(0,0)}
+// keys: Enter = the main pad on screen · ← → steps
 document.addEventListener('keydown',e=>{
- if($('#lesson').hidden||!$('#help').hidden||!$('#db').hidden||e.metaKey||e.ctrlKey||e.altKey)return;
+ if(!$('#help').hidden||!$('#db').hidden||e.metaKey||e.ctrlKey||e.altKey)return;
  const tag=(e.target&&e.target.tagName)||'';if(/INPUT|SELECT|TEXTAREA/.test(tag))return;
- if(e.key==='ArrowRight'&&cur.s<3){e.preventDefault();cur.s++;renderLesson()}
- else if(e.key==='ArrowLeft'&&cur.s>0){e.preventDefault();cur.s--;renderLesson()}
- else if(e.key==='Enter'&&cur.s!==2&&!/BUTTON|^A$|SUMMARY/.test(tag)){e.preventDefault();lessonNext()}
+ const onBtn=/BUTTON|^A$|SUMMARY/.test(tag);
+ if(!$('#plan').hidden){if(e.key==='Enter'&&!onBtn&&$('#un-go')){e.preventDefault();$('#un-go').click()}return}
+ if($('#lesson').hidden)return;
+ if(e.key==='ArrowRight'&&cur.s<3){e.preventDefault();cur.s++;cur.c=0;renderLesson()}
+ else if(e.key==='ArrowLeft'&&cur.s>0&&cur.s<4){e.preventDefault();cur.s--;cur.c=0;renderLesson()}
+ else if(e.key==='Enter'&&!onBtn&&!activeRound()){e.preventDefault();if(cur.s===4){const n=$('#dn-next');n?n.click():show('final')}else if(cur.s!==2)$('#lc-next').click()}
 });
 
 /* ================= QUESTION BANK + PRACTICE ENGINE ================= */
@@ -1304,7 +1367,7 @@ class Round{
   const dots=N<=25?`<div class="pq-dots" aria-hidden="true">${this.deck.map((_,k)=>{const r=this.res[k];return `<i class="${r?(r.help&&r.ok?'help':r.ok?'ok':'no'):k===this.i?'cur':''}"></i>`}).join('')}</div>`
    :`<div class="mbar" style="flex:1 1 8rem;margin:0"><i style="width:${100*this.i/N}%"></i></div>`;
   this.root.innerHTML=`<div class="pq">
-   <div class="pq-top">${dots}<span class="pq-count">Question ${this.i+1} of ${N}${this.end?' · <b class="pq-clock">--:--</b> left':''}<button class="btn-s btn-sm" data-act="end">End round</button></span></div>
+   <div class="pq-top">${dots}<span class="pq-count">Question ${this.i+1} of ${N}${this.end?' · <b class="pq-clock">--:--</b> left':''}<span class="chip xp">${XP.t} XP</span><button class="btn-s btn-sm" data-act="end">End round</button></span></div>
    <div class="pq-tags">${this.o.title?`<span class="chip">${this.o.title}</span>`:''}${this.o.tag?`<span class="chip">Lesson ${q.li+1}</span>`:''}<span class="chip">${q.t==='m'?'Math':'Concept'}</span>${tp?`<span class="chip">${tp.n}</span>`:''}</div>
    ${q.tbl&&TABLES[q.tbl]?`<details class="pq-tbl" open><summary>Table (tap to hide)</summary>${TABLES[q.tbl]}</details>`:''}
    <p class="pq-q">${q.q}</p>
@@ -1329,6 +1392,7 @@ class Round{
   if(a==='learn'&&this.o.learn)this.o.learn();
   if(a==='next')this.next();
   if(a==='end')this.summary(false);
+  if(a==='sheet'){const fb=this.root.querySelector('.pq-fb'),on=fb.classList.toggle('mini');btn.textContent=on?'Show the answer ↑':'Hide ↓'}
  }
  questionText(){const q=this.q;return 'Question. '+sayable(q.q)+'. '+this.order.map((ix,k)=>`Option ${k+1}. ${sayable(q.o[ix])}.`).join(' ')}
  hint(){
@@ -1357,25 +1421,39 @@ class Round{
    if(real===q.a){b.classList.add('correct');tg.textContent='Correct'}else if(ix===k){b.classList.add('pick');tg.textContent='Your pick'}else b.classList.add('dim')});
   this.root.querySelectorAll('.pq-tools [data-act="hint"]').forEach(b=>b.disabled=true);
   const last=this.i>=this.deck.length-1;
-  const head=ok?(help?'Right, with help. Here is why:':'Yes. Here is why:'):'Not this time. Here is the fix:';
-  const fb=this.root.querySelector('.pq-fb');
-  fb.innerHTML=`<div class="fbk ${ok?(help?'help':'ok'):'no'}">
-    <p class="head">${head}${ok&&!help&&this.streak>=3?` <span class="m">(${this.streak} in a row)</span>`:''}</p>
+  if(ok&&!help)addXP(q.lid,10);
+  const head=ok?(help?'Right, with help. Here is why:':'Nailed it. +10 XP'):'Not this one. Here is the fix:';
+  const fb=this.root.querySelector('.pq-fb');fb.classList.remove('mini');
+  fb.innerHTML=`<button class="btn-s btn-sm fb-sheet-x" data-act="sheet">Hide ↓</button>
+   <div class="fbk ${ok?(help?'help':'ok'):'no'}">
+    <p class="head">${head}</p>
     ${!ok?`<p style="margin:0">The answer is <b>${q.o[q.a]}</b>.</p>`:''}
     <p class="sub">${q.t==='m'?'Step by step':'Why'}</p>
     <ol>${q.s.map(x=>`<li>${x}</li>`).join('')}</ol>
    </div>
    <p class="trap"><span class="lead">Trap ·</span> ${q.w}</p>
    ${q.m?`<p class="hook"><span class="lead">Remember ·</span> ${q.m}</p>`:''}
+   <div class="conf"><p class="lab">How sure were you?</p><div class="segc" role="group" aria-label="How sure were you?"><button data-cf="sure" aria-pressed="false">Sure</button><button data-cf="kinda" aria-pressed="false">Kinda</button><button data-cf="guess" aria-pressed="false">Guessed</button></div><p class="saved" aria-live="polite">${!ok||help?'Added to Recall so it comes back before the exam.':''}</p></div>
    <div class="pq-actions">${readBtn('readx','Read aloud')}${topicOf(q)?'<button class="btn-s btn-sm" data-act="stuck">Explain the idea</button>':''}${!ok?'<button class="btn-s btn-sm" data-act="similar">Try a similar one</button>':''}${!ok&&this.o.learn?'<button class="btn-s btn-sm" data-act="learn">Reread Learn</button>':''}</div>
-   <button class="btn-p pq-next" data-act="next">${last?'See my score':'Next question'} →</button>`;
+   <button class="btn-i pq-next" data-act="next">${last?'See my score':'Next question'} →</button>`;
+  fb.querySelectorAll('[data-cf]').forEach(b=>b.onclick=()=>this.conf(b.dataset.cf));
   this.wire(fb);
   const dot=this.root.querySelectorAll('.pq-dots i')[this.i];if(dot)dot.className=ok&&help?'help':ok?'ok':'no';
   fb.querySelector('.pq-next').focus({preventScroll:true});
-  const v=fb.querySelector('.fbk');if(v.getBoundingClientRect().top>window.innerHeight*.7)scrollToEl(v,.2);
+  const v=fb.querySelector('.fbk');if(getComputedStyle(fb).position!=='fixed'&&v.getBoundingClientRect().top>window.innerHeight*.7)scrollToEl(v,.2);
   if(this.missRow>=2&&topicOf(q)){this.missRow=0;showNudge('refresh',q,this)}
   this.o.done&&this.o.done();
   window.DBq&&DBq();
+ }
+ conf(v){
+  const q=this.q,r=this.res[this.i];if(!r||this.view!=='a')return;r.conf=v;
+  this.root.querySelectorAll('.conf [data-cf]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cf===v));
+  const m=MAST[q.id];
+  if(r.ok&&!r.help&&m){if(v==='guess'){m.last=2;REV.add(q.id)}else{m.last=1;REV.delete(q.id)}store.set('mast',MAST);saveRev()}
+  const dot=this.root.querySelectorAll('.pq-dots i')[this.i];if(dot&&r.ok&&!r.help)dot.className=v==='guess'?'help':'ok';
+  this.root.querySelector('.conf .saved').textContent=(!r.ok||r.help||v==='guess')?'Added to Recall so it comes back before the exam.':'Locked in. Nice.';
+  const nx=this.root.querySelector('.pq-next');if(nx)nx.focus({preventScroll:true});
+  this.o.done&&this.o.done();
  }
  explainText(){const q=this.q,r=this.res[this.i];return (r&&r.ok?'Correct. ':'The answer is '+sayable(q.o[q.a])+'. ')+'Here is how. '+q.s.map(sayable).join('. ')+'. Trap. '+sayable(q.w)+(q.m?'. Remember. '+sayable(q.m):'')}
  similar(){
@@ -1418,7 +1496,7 @@ class Round{
  }
 }
 // the round you can see right now (lesson Try it or Final quiz)
-function activeRound(){for(const id of ['lp-root','fq-root']){const el=document.getElementById(id);if(el&&el._pq&&!el._pq.dead&&el.offsetParent)return el._pq}return null}
+function activeRound(){for(const id of ['lp-root','rc-root','fq-root']){const el=document.getElementById(id);if(el&&el._pq&&!el._pq.dead&&el.offsetParent)return el._pq}return null}
 // drop breaks never cut in mid-question or during a mock exam
 window.PQbusy=()=>{if(!$('#help').hidden||!$('#nudge').hidden)return true;const r=activeRound();return !!r&&(r.view==='q'||(!!r.end&&r.view!=='sum'))};
 
@@ -1506,7 +1584,7 @@ function finalPicker(){
  $('#fq-pick').innerHTML=`<div class="segc big" role="group" aria-label="Question type">${['m','c','x'].map(m=>`<button data-m="${m}" aria-pressed="${F.m===m}">${TYPES[m]}<small>${st[m].ok}/${st[m].n} mastered</small></button>`).join('')}</div>
   <div class="segc big" role="group" aria-label="Length">${[[10,'Quick 10','about 10 min'],[20,'20 questions','about 25 min'],[40,'Mock exam','40 Qs · 65 min clock']].map(([n,a,b])=>`<button data-n="${n}" aria-pressed="${F.n===n}">${a}<small>${b}</small></button>`).join('')}</div>
   <div class="mbar"><i style="width:${st.x.n?100*st.x.ok/st.x.n:0}%"></i></div><p class="m mute small">${st.x.ok} of ${st.x.n} questions mastered across all 8 lessons</p>
-  <button class="btn-p" id="fq-go" style="align-self:flex-start">Start ${F.n===40?'the mock exam':F.n+' '+TYPES[F.m].toLowerCase()+' questions'} →</button>`;
+  <button class="btn-i" id="fq-go" style="align-self:flex-start">Start ${F.n===40?'the mock exam':F.n+' '+TYPES[F.m].toLowerCase()+' questions'} →</button>`;
  $('#fq-pick').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{store.set('fq',Object.assign(F,{m:b.dataset.m}));finalPicker()});
  $('#fq-pick').querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{store.set('fq',Object.assign(F,{n:+b.dataset.n}));finalPicker()});
  $('#fq-go').onclick=startFinal;
@@ -1576,19 +1654,19 @@ function openAbbr(lid){
 const REV=new Set(store.get('review',[]));   // questions you missed or needed help on (and later: guessed)
 const saveRev=()=>store.set('review',[...REV]);
 const reviewPool=()=>ALLQ.filter(q=>REV.has(q.id));
-function hubBack(){const root=$('#fq-root'),r=root._pq;if(r)r.kill();root._pq=null;root.innerHTML='';$('#qhub').hidden=false;renderHub();window.scrollTo(0,0)}
-function quizRound(o){$('#qhub').hidden=true;new Round($('#fq-root'),Object.assign({final:true,scroll:true,settings:hubBack},o))}
+function hubBack(){const root=$('#fq-root'),r=root._pq;if(r)r.kill();root._pq=null;root.innerHTML='';root.hidden=true;$('#qhub').hidden=false;renderHub();window.scrollTo(0,0)}
+function quizRound(o){$('#qhub').hidden=true;$('#fq-root').hidden=false;new Round($('#fq-root'),Object.assign({final:true,scroll:true,settings:hubBack},o))}
 function startLessonQuiz(lid,mode){const li=L.findIndex(l=>l.id===lid);
  quizRound({pool:poolFor([lid],mode),n:5,mode,tag:false,title:`Lesson ${li+1} · ${TYPES[mode]}`,again:()=>startLessonQuiz(lid,mode),learn:()=>{cur={l:li,s:0};renderLesson();show('lesson')}})}
 function startReview(){const p=reviewPool();quizRound({pool:p,n:Math.min(10,p.length),mode:'x',tag:true,title:'Missed + guessed',again:()=>{const q=reviewPool();if(q.length)startReview();else hubBack()}})}
 function renderHub(){
  const rev=reviewPool();
  $('#qhub').innerHTML=`
-  <section class="hub-sec"><h2>Lesson quizzes</h2><p class="mute">5 questions from one lesson. Pick Math, Concepts or Combo. The number is how many questions it has.</p>
+  <section class="card hub-sec"><h2>Lesson quizzes</h2><p class="mute">5 questions from one lesson. Pick Math, Concepts or Combo. The number is how many questions it has.</p>
    <ol class="hub-list">${L.map((l,i)=>{const st={m:stats(poolFor([l.id],'m')),c:stats(poolFor([l.id],'c')),x:stats(poolFor([l.id],'x'))};
-    return `<li class="hub-row"><span class="m num">${pad2(i+1)}</span><span class="tt"><b>${l.title}</b><span class="mute small">${l.tag?'Bonus':'Module '+l.m} · ${st.x.ok} of ${st.x.n} mastered</span></span><span class="hub-btns">${['m','c','x'].map(m=>`<button class="btn-s btn-sm" data-ql="${l.id}" data-qm="${m}" ${st[m].n?'':'disabled'}>${TYPES[m]} <span class="m">${st[m].n}</span></button>`).join('')}</span></li>`}).join('')}</ol></section>
-  <section class="hub-sec"><h2>Missed + guessed</h2><p class="mute">${rev.length?`${rev.length} question${rev.length>1?'s':''} you missed or needed help on. Clear them before the exam.`:'Nothing here yet. Questions you miss or need help on land here.'}</p>${rev.length?`<button class="btn-s" id="hub-rev" style="align-self:flex-start">Review ${Math.min(10,rev.length)} of them →</button>`:''}</section>
-  <section class="hub-sec"><h2>Final quiz · all lessons</h2><div id="fq-pick" class="pq-head"></div></section>`;
+    return `<li class="hub-row"><span class="m num" style="background:${modColor(l)};color:${modOnDark(l)?'#fff':'var(--ink)'}">${pad2(i+1)}</span><span class="tt"><b>${l.title}</b><span class="mute small">${l.tag?'Bonus':'Module '+l.m} · ${st.x.ok} of ${st.x.n} mastered</span></span><span class="hub-btns">${['m','c','x'].map(m=>`<button class="btn-s btn-sm" data-ql="${l.id}" data-qm="${m}" ${st[m].n?'':'disabled'}>${TYPES[m]} <span class="m">${st[m].n}</span></button>`).join('')}</span></li>`}).join('')}</ol></section>
+  <section class="card hub-sec"><h2>Missed + guessed</h2><p class="mute">${rev.length?`${rev.length} question${rev.length>1?'s':''} you missed or needed help on. Clear them before the exam.`:'Nothing here yet. Questions you miss or need help on land here.'}</p>${rev.length?`<button class="btn-p" id="hub-rev" style="align-self:flex-start">Review ${Math.min(10,rev.length)} of them →</button>`:''}</section>
+  <section class="card hub-sec"><h2>Final quiz · all lessons</h2><div id="fq-pick" class="pq-head"></div></section>`;
  $('#qhub').querySelectorAll('[data-ql]').forEach(b=>b.onclick=()=>startLessonQuiz(b.dataset.ql,b.dataset.qm));
  if($('#hub-rev'))$('#hub-rev').onclick=startReview;
  finalPicker();
@@ -1599,7 +1677,7 @@ const exam=new Date('2026-11-04T08:30:00-07:00');
 function tick(){const ms=exam-new Date();if(ms<=0){$('#clock').textContent='go time';return}const h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4);$('#clock').textContent=`${h}h ${pad2(m)}m`}
 tick();setInterval(tick,30000);
 let sp=null,left=1500;
-const SP_PLAY='<svg class="ico" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>',SP_STOP='<svg class="ico" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="2.5" width="9" height="9" fill="currentColor"/></svg>';
+const SP_PLAY='<svg class="ico" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>',SP_STOP='<svg class="ico" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="2" width="3.2" height="10" fill="currentColor"/><rect x="8.3" y="2" width="3.2" height="10" fill="currentColor"/></svg>';
 const spSet=(icon,txt,label)=>{$('#sprint').innerHTML=icon+`<span class="m">${txt}</span>`;$('#sprint').setAttribute('aria-label',label)};
 $('#sprint').onclick=()=>{if(sp){clearInterval(sp);sp=null;left=1500;spSet(SP_PLAY,'25:00','Start a 25 minute focus sprint');return}
  sp=setInterval(()=>{left--;const m=pad2(Math.floor(left/60)),s=pad2(left%60);spSet(SP_STOP,`${m}:${s}`,`Stop the sprint. ${m} minutes ${s} seconds left`);
@@ -1616,10 +1694,10 @@ function queue(){
  const l=toHr(+$('#lamv').value,$('#lamu').value),m=toHr(+$('#muv').value,$('#muu').value);
  $('#lamr').textContent=Number.isFinite(l)&&l>0?`= ${fx(l,3)} per hour`:'';$('#mur').textContent=Number.isFinite(m)&&m>0?`= ${fx(m,3)} per hour`:'';
  if(!(l>0&&m>0)){$('#qout').innerHTML='<div class="alert" role="alert"><p><b>Enter positive numbers.</b></p></div>';$('#qsteps').innerHTML='';return}
- if(l>=m){$('#qout').innerHTML='<div class="alert" role="alert"><p><b>The line grows forever.</b></p><p>Service μ has to be bigger than arrivals λ. Check the units, or whether the numbers are swapped.</p></div>';$('#qsteps').innerHTML='';return}
+ if(l>=m){$('#qout').innerHTML='<div class="alert" role="alert"><p><b>The line grows forever.</b> Service μ has to be bigger than arrivals λ.</p><p class="mute">Check the units, or whether the numbers are swapped.</p></div>';$('#qsteps').innerHTML='';return}
  const r=l/m,ns=l/(m-l),nl=r*ns,ts=1/(m-l),tl=r*ts;
- const cell=(lab,v,sym,c)=>`<div><p class="l">${lab}</p><p class="v${c?' cue':''}">${v}</p><p class="s">${sym}</p></div>`;
- let h=`<div class="cells">${cell('Server busy',(r*100).toFixed(1)+'%','ρ = '+fx(r,3),1)}${cell('Served right away',((1-r)*100).toFixed(1)+'%','P0 = 1 − ρ')}${cell('People in system',fx(ns,2),'n<sub>s</sub>')}${cell('People in line',fx(nl,2),'n<sub>l</sub>')}${cell('Time in system',fx(ts*60,2)+' min','t<sub>s</sub>')}${cell('Time in line',fx(tl*60,2)+' min','t<sub>l</sub>')}</div>`;
+ const cell=(lab,v,sym,c)=>`<div class="${c||''}"><p class="l">${lab}</p><p class="v">${v}</p><p class="s">${sym}</p></div>`;
+ let h=`<div class="cells">${cell('Server busy',(r*100).toFixed(1)+'%','ρ = '+fx(r,3),'bl')}${cell('Served right away',((1-r)*100).toFixed(1)+'%','P0 = 1 − ρ')}${cell('People in system',fx(ns,2),'n<sub>s</sub>')}${cell('People in line',fx(nl,2),'n<sub>l</sub>')}${cell('Time in system',fx(ts*60,2)+' min','t<sub>s</sub>','ye')}${cell('Time in line',fx(tl*60,2)+' min','t<sub>l</sub>','ye')}</div>`;
  h+='<div class="out" style="margin-top:1.25rem">';for(let n=1;n<=6;n++)h+=`<div><span>P${n}: exactly ${n} in system${n>1?` (${n-1} in line)`:''}</span><span>${pct((1-r)*r**n)}</span></div>`;h+='</div>';
  $('#qout').innerHTML=h;
  $('#qsteps').innerHTML=`<div class="how"><p class="lab">How it got there</p><ol><li>ρ = ${fx(l)} ÷ ${fx(m)} = ${fx(r)}</li><li>n<sub>s</sub> = ${fx(l)} ÷ (${fx(m)} − ${fx(l)}) = ${fx(ns)}</li><li>n<sub>l</sub> = ${fx(r)} × ${fx(ns)} = ${fx(nl)}</li><li>t<sub>s</sub> = 1 ÷ (${fx(m)} − ${fx(l)}) = ${fx(ts)} hr × 60 = ${fx(ts*60)} min</li><li>t<sub>l</sub> = ${fx(r)} × ${fx(ts*60)} = ${fx(tl*60)} min</li></ol></div>`;
@@ -2011,6 +2089,7 @@ function chip(){
  if(cfg.min>0){const s=Math.max(0,Math.ceil((cfg.min*60000-(Date.now()-B.since))/1000));parts.push(`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`)}
  if(cfg.qn>0)parts.push(`${Math.max(0,cfg.qn-B.qs)} Q`);
  $('#db-in').textContent=parts.length?parts.join(' · '):'· tap for one';
+ const dn=document.getElementById('dbnote');if(dn)dn.textContent=parts.length?`Next one pops up in ${parts.join(' or ').replace(/ Q$/,' questions')}. Or take one now.`:'Drop breaks are off. Take one anytime.';
 }
 function tryBreak(){if(due()&&!busy())openBreak()}
 setInterval(()=>{chip();tryBreak()},1000);chip();
