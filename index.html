@@ -1103,7 +1103,7 @@ function makeClip(pre){
    const waited=(Date.now()-t0)/1000;
    if(!C.clockOn){
     const inRange=ct>=C.start-1.5&&ct<C.start+SECS;
-    if(s===1&&inRange){C.clockOn=true;try{C.p.unMute();C.p.setVolume(100)}catch(e){}C.cover(false);C.tap(false);return}
+    if(s===1&&inRange){C.clockOn=true;C.ct0=ct;try{C.p.unMute();C.p.setVolume(100)}catch(e){}C.cover(false);C.tap(false);return}
     if(s===1&&!inRange&&Date.now()-lastSeek>2500){lastSeek=Date.now();try{C.p.seekTo(C.start,true)}catch(e){}}
     if(waited>3.5&&s!==1&&s!==3)C.tap(true);
     else if(waited>4)C.msg(EQ+'<div style="margin-top:6px">AD OR BUFFERING · HANG ON</div>');
@@ -1112,7 +1112,8 @@ function makeClip(pre){
     return;
    }
    if(s===2)C.tap(true);else if(s===1){C.tap(false);C.pw+=0.1}
-   const played=Math.min(SECS,Math.max(0,ct-C.start));
+   // 5 seconds counted from where the sound actually started
+   const played=Math.min(SECS,Math.max(0,ct-C.ct0));
    el('timer').style.width=Math.min(100,100*played/SECS)+'%';el('big').textContent=Math.max(0,Math.ceil(SECS-played));
    if(played>=SECS||C.pw>SECS+3)C.stop();
   },100);
